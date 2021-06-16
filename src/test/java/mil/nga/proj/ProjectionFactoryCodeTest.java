@@ -16,7 +16,6 @@ import org.locationtech.proj4j.proj.LambertConformalConicProjection;
 import org.locationtech.proj4j.units.Units;
 
 import junit.framework.TestCase;
-import mil.nga.sf.GeometryEnvelope;
 
 /**
  * Projection Factory authority code Test
@@ -1056,21 +1055,24 @@ public class ProjectionFactoryCodeTest {
 
 		compare(projection, projection2, compareAuthority, compareCode, delta);
 
-		GeometryEnvelope range = new GeometryEnvelope();
+		double minX;
+		double minY;
+		double maxX;
+		double maxY;
 
 		long transformCode;
 		if (projection.isUnit(Units.METRES)) {
 			transformCode = 4326;
-			range.setMinX(-ProjectionConstants.WGS84_HALF_WORLD_LON_WIDTH);
-			range.setMinY(ProjectionConstants.WEB_MERCATOR_MIN_LAT_RANGE);
-			range.setMaxX(ProjectionConstants.WGS84_HALF_WORLD_LON_WIDTH);
-			range.setMaxY(ProjectionConstants.WEB_MERCATOR_MAX_LAT_RANGE);
+			minX = -ProjectionConstants.WGS84_HALF_WORLD_LON_WIDTH;
+			minY = ProjectionConstants.WEB_MERCATOR_MIN_LAT_RANGE;
+			maxX = ProjectionConstants.WGS84_HALF_WORLD_LON_WIDTH;
+			maxY = ProjectionConstants.WEB_MERCATOR_MAX_LAT_RANGE;
 		} else {
 			transformCode = 3857;
-			range.setMinX(-ProjectionConstants.WGS84_HALF_WORLD_LON_WIDTH);
-			range.setMinY(ProjectionConstants.WEB_MERCATOR_MIN_LAT_RANGE);
-			range.setMaxX(ProjectionConstants.WGS84_HALF_WORLD_LON_WIDTH);
-			range.setMaxY(ProjectionConstants.WEB_MERCATOR_MAX_LAT_RANGE);
+			minX = -ProjectionConstants.WEB_MERCATOR_HALF_WORLD_WIDTH;
+			minY = -ProjectionConstants.WEB_MERCATOR_HALF_WORLD_WIDTH;
+			maxX = ProjectionConstants.WEB_MERCATOR_HALF_WORLD_WIDTH;
+			maxY = ProjectionConstants.WEB_MERCATOR_HALF_WORLD_WIDTH;
 		}
 
 		Projection transformProjection = ProjectionFactory
@@ -1086,34 +1088,34 @@ public class ProjectionFactoryCodeTest {
 		ProjectionTransform transformFrom2 = projection2
 				.getTransformation(transformProjection);
 
-		double xRange = range.getMaxX() - range.getMinX();
-		double yRange = range.getMaxY() - range.getMinY();
-		double midX = range.getMinX() + (xRange / 2.0);
-		double midY = range.getMinY() + (yRange / 2.0);
+		double xRange = maxX - minX;
+		double yRange = maxY - minY;
+		double midX = minX + (xRange / 2.0);
+		double midY = minY + (yRange / 2.0);
 
-		coordinateTest(range.getMinX(), range.getMinY(), delta, transformTo,
-				transformTo2, transformFrom, transformFrom2);
-		coordinateTest(range.getMinX(), range.getMaxY(), delta, transformTo,
-				transformTo2, transformFrom, transformFrom2);
-		coordinateTest(range.getMaxX(), range.getMinY(), delta, transformTo,
-				transformTo2, transformFrom, transformFrom2);
-		coordinateTest(range.getMaxX(), range.getMaxY(), delta, transformTo,
-				transformTo2, transformFrom, transformFrom2);
-		coordinateTest(midX, range.getMinY(), delta, transformTo, transformTo2,
+		coordinateTest(minX, minY, delta, transformTo, transformTo2,
 				transformFrom, transformFrom2);
-		coordinateTest(midX, range.getMaxY(), delta, transformTo, transformTo2,
+		coordinateTest(minX, maxY, delta, transformTo, transformTo2,
 				transformFrom, transformFrom2);
-		coordinateTest(range.getMinX(), midY, delta, transformTo, transformTo2,
+		coordinateTest(maxX, minY, delta, transformTo, transformTo2,
 				transformFrom, transformFrom2);
-		coordinateTest(range.getMaxX(), midY, delta, transformTo, transformTo2,
+		coordinateTest(maxX, maxY, delta, transformTo, transformTo2,
+				transformFrom, transformFrom2);
+		coordinateTest(midX, minY, delta, transformTo, transformTo2,
+				transformFrom, transformFrom2);
+		coordinateTest(midX, maxY, delta, transformTo, transformTo2,
+				transformFrom, transformFrom2);
+		coordinateTest(minX, midY, delta, transformTo, transformTo2,
+				transformFrom, transformFrom2);
+		coordinateTest(maxX, midY, delta, transformTo, transformTo2,
 				transformFrom, transformFrom2);
 		coordinateTest(midX, midY, delta, transformTo, transformTo2,
 				transformFrom, transformFrom2);
 
 		for (int i = 0; i < 10; i++) {
 
-			double x = range.getMinX() + (Math.random() * xRange);
-			double y = range.getMinY() + (Math.random() * yRange);
+			double x = minX + (Math.random() * xRange);
+			double y = minY + (Math.random() * yRange);
 			coordinateTest(x, y, delta, transformTo, transformTo2,
 					transformFrom, transformFrom2);
 		}

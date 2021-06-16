@@ -1,22 +1,22 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>mil.nga.sf</groupId>
-	<artifactId>sf-proj</artifactId>
-	<version>4.0.0</version>
+	<groupId>mil.nga</groupId>
+	<artifactId>proj</artifactId>
+	<version>1.0.0</version>
 	<packaging>jar</packaging>
-	<name>Simple Features Projection</name>
-	<url>https://github.com/ngageoint/simple-features-proj-java</url>
-	<description>Library for performing projection conversions between Simple Feature Geometries</description>
+	<name>Projections</name>
+	<url>https://github.com/ngageoint/projections-java</url>
+	<description>Library for performing projection conversions between coordinates</description>
 	<scm>
-		<url>git@github.com:ngageoint/simple-features-proj-java.git</url>
-		<connection>scm:git:git@github.com:ngageoint/simple-features-proj-java.git</connection>
-		<developerConnection>scm:git:git@github.com:ngageoint/simple-features-proj-java.git</developerConnection>
+		<url>git@github.com:ngageoint/projections-java.git</url>
+		<connection>scm:git:git@github.com:ngageoint/projections-java.git</connection>
+		<developerConnection>scm:git:git@github.com:ngageoint/projections-java.git</developerConnection>
 	</scm>
 	<licenses>
 		<license>
 			<name>The MIT License (MIT)</name>
-			<url>https://github.com/ngageoint/simple-features-proj-java/blob/master/LICENSE.txt</url>
+			<url>https://github.com/ngageoint/projections-java/blob/master/LICENSE.txt</url>
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
@@ -45,8 +45,8 @@
 	<dependencies>
 		<dependency>
 			<groupId>mil.nga</groupId>
-			<artifactId>sf</artifactId>
-			<version>2.0.4</version>
+			<artifactId>crs</artifactId>
+			<version>1.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.locationtech.proj4j</groupId>
@@ -82,7 +82,7 @@
 				<version>3.2.0</version>
 				<configuration>
 					<links>
-						<link>http://ngageoint.github.io/simple-features-java/docs/api/</link>
+						<link>http://ngageoint.github.io/coordinate-reference-systems-java/docs/api/</link>
 					</links>
 				</configuration>
 				<executions>
