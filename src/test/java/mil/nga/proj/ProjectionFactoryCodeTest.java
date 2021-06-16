@@ -2,7 +2,6 @@ package mil.nga.proj;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.io.IOException;
 
@@ -616,6 +615,10 @@ public class ProjectionFactoryCodeTest {
 
 		final String code = "7405";
 		double delta = 0.0000001;
+		double minX = -7.5600;
+		double minY = 49.9600;
+		double maxX = 1.7800;
+		double maxY = 60.8400;
 
 		String definition = "COMPOUNDCRS[\"OSGB36 / British National Grid + ODN height\","
 				+ "PROJCRS[\"OSGB36 / British National Grid\",BASEGEOGCRS[\"OSGB36\","
@@ -645,7 +648,8 @@ public class ProjectionFactoryCodeTest {
 				+ "ID[\"EPSG\",7405]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				ProjectionConstants.AUTHORITY_EPSG, "27700", definition, delta);
+				ProjectionConstants.AUTHORITY_EPSG, "27700", definition, delta,
+				minX, minY, maxX, maxY);
 
 		definition = "COMPD_CS[\"OSGB 1936 / British National Grid + ODN height\","
 				+ "PROJCS[\"OSGB 1936 / British National Grid\",GEOGCS[\"OSGB 1936\","
@@ -673,7 +677,8 @@ public class ProjectionFactoryCodeTest {
 				+ "AUTHORITY[\"EPSG\",\"7405\"]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				ProjectionConstants.AUTHORITY_EPSG, "27700", definition);
+				ProjectionConstants.AUTHORITY_EPSG, "27700", definition, minX,
+				minY, maxX, maxY);
 
 	}
 
@@ -912,6 +917,36 @@ public class ProjectionFactoryCodeTest {
 	}
 
 	/**
+	 * Test projection creation and transformations with derived authority and
+	 * epsg
+	 * 
+	 * @param authority
+	 *            authority
+	 * @param code
+	 *            code
+	 * @param compareAuthority
+	 *            compare authority
+	 * @param compareCode
+	 *            compare code
+	 * @param definition
+	 *            WKT definition
+	 * @param minX
+	 *            min x in degrees
+	 * @param minY
+	 *            min y in degrees
+	 * @param maxX
+	 *            max x in degrees
+	 * @param maxY
+	 *            max y in degrees
+	 */
+	private void projectionTestDerived(String authority, String code,
+			String compareAuthority, String compareCode, String definition,
+			double minX, double minY, double maxX, double maxY) {
+		projectionTestDerived(authority, code, compareAuthority, compareCode,
+				definition, 0, minX, minY, maxX, maxY);
+	}
+
+	/**
 	 * Test projection creation and transformations with specified authority and
 	 * epsg
 	 * 
@@ -997,6 +1032,40 @@ public class ProjectionFactoryCodeTest {
 	}
 
 	/**
+	 * Test projection creation and transformations with derived authority and
+	 * epsg
+	 * 
+	 * @param authority
+	 *            authority
+	 * @param code
+	 *            code
+	 * @param compareAuthority
+	 *            compare authority
+	 * @param compareCode
+	 *            compare code
+	 * @param definition
+	 *            WKT definition
+	 * @param delta
+	 *            delta comparison
+	 * @param minX
+	 *            min x in degrees
+	 * @param minY
+	 *            min y in degrees
+	 * @param maxX
+	 *            max x in degrees
+	 * @param maxY
+	 *            max y in degrees
+	 */
+	private void projectionTestDerived(String authority, String code,
+			String compareAuthority, String compareCode, String definition,
+			double delta, double minX, double minY, double maxX, double maxY) {
+		Projection projection = ProjectionFactory
+				.getProjectionByDefinition(definition);
+		projectionTest(authority, code, compareAuthority, compareCode,
+				definition, projection, delta, minX, minY, maxX, maxY);
+	}
+
+	/**
 	 * Test projection creation and transformations with specified authority and
 	 * epsg
 	 * 
@@ -1043,6 +1112,44 @@ public class ProjectionFactoryCodeTest {
 	private void projectionTest(String authority, String code,
 			String compareAuthority, String compareCode, String definition,
 			Projection projection, double delta) {
+		projectionTest(authority, code, compareAuthority, compareCode,
+				definition, projection, delta,
+				-ProjectionConstants.WGS84_HALF_WORLD_LON_WIDTH,
+				ProjectionConstants.WEB_MERCATOR_MIN_LAT_RANGE,
+				ProjectionConstants.WGS84_HALF_WORLD_LON_WIDTH,
+				ProjectionConstants.WEB_MERCATOR_MAX_LAT_RANGE);
+	}
+
+	/**
+	 * Test projection creation and transformations
+	 * 
+	 * @param authority
+	 *            authority
+	 * @param code
+	 *            code
+	 * @param compareAuthority
+	 *            compare authority
+	 * @param compareCode
+	 *            compare code
+	 * @param definition
+	 *            WKT definition
+	 * @param projection
+	 *            projection
+	 * @param delta
+	 *            delta comparison
+	 * @param minX
+	 *            min x in degrees
+	 * @param minY
+	 *            min y in degrees
+	 * @param maxX
+	 *            max x in degrees
+	 * @param maxY
+	 *            max y in degrees
+	 */
+	private void projectionTest(String authority, String code,
+			String compareAuthority, String compareCode, String definition,
+			Projection projection, double delta, double minX, double minY,
+			double maxX, double maxY) {
 
 		TestCase.assertNotNull(projection);
 		TestCase.assertEquals(authority, projection.getAuthority());
@@ -1055,24 +1162,19 @@ public class ProjectionFactoryCodeTest {
 
 		compare(projection, projection2, compareAuthority, compareCode, delta);
 
-		double minX;
-		double minY;
-		double maxX;
-		double maxY;
-
 		long transformCode;
 		if (projection.isUnit(Units.METRES)) {
 			transformCode = 4326;
-			minX = -ProjectionConstants.WGS84_HALF_WORLD_LON_WIDTH;
-			minY = ProjectionConstants.WEB_MERCATOR_MIN_LAT_RANGE;
-			maxX = ProjectionConstants.WGS84_HALF_WORLD_LON_WIDTH;
-			maxY = ProjectionConstants.WEB_MERCATOR_MAX_LAT_RANGE;
 		} else {
 			transformCode = 3857;
-			minX = -ProjectionConstants.WEB_MERCATOR_HALF_WORLD_WIDTH;
-			minY = -ProjectionConstants.WEB_MERCATOR_HALF_WORLD_WIDTH;
-			maxX = ProjectionConstants.WEB_MERCATOR_HALF_WORLD_WIDTH;
-			maxY = ProjectionConstants.WEB_MERCATOR_HALF_WORLD_WIDTH;
+			ProjectionTransform boundsTransform = ProjectionTransform
+					.create(4326, 3857);
+			double[] projectedBounds = boundsTransform.transform(minX, minY,
+					maxX, maxY);
+			minX = projectedBounds[0];
+			minY = projectedBounds[1];
+			maxX = projectedBounds[2];
+			maxY = projectedBounds[3];
 		}
 
 		Projection transformProjection = ProjectionFactory
@@ -1174,30 +1276,17 @@ public class ProjectionFactoryCodeTest {
 		assertEquals(coordinateTo2.x, coordinateTo.x, delta);
 		assertEquals(coordinateTo2.y, coordinateTo.y, delta);
 
-		ProjCoordinate coordinateFrom = null;
-		ProjCoordinate coordinateFrom2 = null;
-		try {
-			coordinateFrom = transformFrom.transform(coordinateTo);
-		} catch (IllegalStateException e) {
-			try {
-				coordinateFrom2 = transformFrom2.transform(coordinateTo);
-				fail();
-			} catch (IllegalStateException e2) {
+		ProjCoordinate coordinateFrom = transformFrom.transform(coordinateTo);
+		ProjCoordinate coordinateFrom2 = transformFrom2.transform(coordinateTo);
 
-			}
+		if (delta > 0.0) {
+			double difference = Math.abs(coordinateFrom2.x - coordinateFrom.x);
+			assertTrue(difference <= delta
+					|| Math.abs(difference - 360.0) <= delta);
+		} else {
+			assertEquals(coordinateFrom2.x, coordinateFrom.x, delta);
 		}
-		if (coordinateFrom != null) {
-			coordinateFrom2 = transformFrom2.transform(coordinateTo);
-			if (delta > 0.0) {
-				double difference = Math
-						.abs(coordinateFrom2.x - coordinateFrom.x);
-				assertTrue(difference <= delta
-						|| Math.abs(difference - 360.0) <= delta);
-			} else {
-				assertEquals(coordinateFrom2.x, coordinateFrom.x, delta);
-			}
-			assertEquals(coordinateFrom2.y, coordinateFrom.y, delta);
-		}
+		assertEquals(coordinateFrom2.y, coordinateFrom.y, delta);
 
 	}
 
