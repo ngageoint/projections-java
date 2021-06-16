@@ -255,6 +255,41 @@ public class ProjectionTransform {
 	}
 
 	/**
+	 * Transform the coordinate bounds
+	 * 
+	 * @param minX
+	 *            min x
+	 * @param minY
+	 *            min y
+	 * @param maxX
+	 *            max x
+	 * @param maxY
+	 *            max y
+	 * @return transformed coordinate bounds as [minX, minY, maxX, maxY]
+	 */
+	public double[] transform(double minX, double minY, double maxX,
+			double maxY) {
+
+		ProjCoordinate lowerLeft = new ProjCoordinate(minX, minY);
+		ProjCoordinate lowerRight = new ProjCoordinate(maxX, minY);
+		ProjCoordinate upperRight = new ProjCoordinate(maxX, maxY);
+		ProjCoordinate upperLeft = new ProjCoordinate(minX, maxY);
+
+		ProjCoordinate projectedLowerLeft = transform(lowerLeft);
+		ProjCoordinate projectedLowerRight = transform(lowerRight);
+		ProjCoordinate projectedUpperRight = transform(upperRight);
+		ProjCoordinate projectedUpperLeft = transform(upperLeft);
+
+		double[] bounds = new double[4];
+		bounds[0] = Math.min(projectedLowerLeft.x, projectedUpperLeft.x);
+		bounds[1] = Math.min(projectedLowerLeft.y, projectedLowerRight.y);
+		bounds[2] = Math.max(projectedLowerRight.x, projectedUpperRight.x);
+		bounds[3] = Math.max(projectedUpperLeft.y, projectedUpperRight.y);
+
+		return bounds;
+	}
+
+	/**
 	 * Get the from projection in the transform
 	 * 
 	 * @return from projection
