@@ -526,6 +526,16 @@ public class CRSParser {
 
 			if (projectionName != null) {
 				projection = createProjection(projectionName, coordinateSystem);
+
+				switch (method.getMethod()) {
+
+				case HOTINE_OBLIQUE_MERCATOR_A:
+					projection.setNoUoff(true);
+					break;
+
+				default:
+
+				}
 			}
 		}
 
@@ -650,8 +660,8 @@ public class CRSParser {
 					switch (method.getMethod()) {
 					case HOTINE_OBLIQUE_MERCATOR_A:
 					case HOTINE_OBLIQUE_MERCATOR_B:
-						projection.setLonCDegrees(
-								getValue(parameter, Units.getDegree()));
+						projection.setLonC(
+								getValue(parameter, Units.getRadian()));
 						break;
 					default:
 						projection.setProjectionLongitude(
@@ -664,8 +674,7 @@ public class CRSParser {
 				break;
 
 			case AZIMUTH_OF_INITIAL_LINE:
-				projection.setAlphaDegrees(
-						getValue(parameter, Units.getDegree()));
+				projection.setAlpha(getValue(parameter, Units.getRadian()));
 				break;
 
 			case ANGLE_FROM_RECTIFIED_TO_SKEW_GRID:
