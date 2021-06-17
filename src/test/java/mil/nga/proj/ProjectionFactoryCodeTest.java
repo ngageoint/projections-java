@@ -112,6 +112,55 @@ public class ProjectionFactoryCodeTest {
 	}
 
 	/**
+	 * Test EPSG 3375
+	 */
+	@Test
+	public void test3375() {
+
+		final String code = "3375";
+		double delta = 0.0000001;
+
+		String definition = "PROJCRS[\"GDM2000 / Peninsula RSO\",BASEGEOGCRS[\"GDM2000\","
+				+ "DATUM[\"Geodetic Datum of Malaysia 2000\","
+				+ "ELLIPSOID[\"GRS 1980\",6378137,298.2572221,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],"
+				+ "ID[\"EPSG\",7019]],ID[\"EPSG\",6742]],ID[\"EPSG\",4742]],"
+				+ "CONVERSION[\"Peninsular RSO\",METHOD[\"Hotine Oblique Mercator (variant A)\",ID[\"EPSG\",9812]],"
+				+ "PARAMETER[\"Latitude of projection centre\",4,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]]],"
+				+ "PARAMETER[\"Longitude of projection centre\",102.25,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]]],"
+				+ "PARAMETER[\"Azimuth of initial line\",323.0257964666666,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]]],"
+				+ "PARAMETER[\"Angle from Rectified to Skew Grid\",323.1301023611111,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]]],"
+				+ "PARAMETER[\"Scale factor on initial line\",0.99984,SCALEUNIT[\"unity\",1,ID[\"EPSG\",9201]]],"
+				+ "PARAMETER[\"False easting\",804671,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],"
+				+ "PARAMETER[\"False northing\",0,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],ID[\"EPSG\",19895]],"
+				+ "CS[Cartesian,2,ID[\"EPSG\",4400]],AXIS[\"Easting (E)\",east],AXIS[\"Northing (N)\",north],"
+				+ "LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],"
+				+ "ID[\"EPSG\",3375]]";
+
+		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
+				definition, delta);
+
+		definition = "PROJCS[\"GDM2000 / Peninsula RSO\",GEOGCS[\"GDM2000\","
+				+ "DATUM[\"Geodetic_Datum_of_Malaysia_2000\","
+				+ "SPHEROID[\"GRS 1980\",6378137,298.257222101,AUTHORITY[\"EPSG\",\"7019\"]],"
+				+ "AUTHORITY[\"EPSG\",\"6742\"]],PRIMEM[\"Greenwich\",0,AUTHORITY[\"EPSG\",\"8901\"]],"
+				+ "UNIT[\"degree\",0.01745329251994328,AUTHORITY[\"EPSG\",\"9122\"]],"
+				+ "AUTHORITY[\"EPSG\",\"4742\"]],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],"
+				+ "PROJECTION[\"Hotine_Oblique_Mercator\"],"
+				+ "PARAMETER[\"latitude_of_center\",4],"
+				+ "PARAMETER[\"longitude_of_center\",102.25],"
+				+ "PARAMETER[\"azimuth\",323.0257964666666],"
+				+ "PARAMETER[\"rectified_grid_angle\",323.1301023611111],"
+				+ "PARAMETER[\"scale_factor\",0.99984],"
+				+ "PARAMETER[\"false_easting\",804671],"
+				+ "PARAMETER[\"false_northing\",0],"
+				+ "AUTHORITY[\"EPSG\",\"3375\"],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]";
+
+		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
+				definition);
+
+	}
+
+	/**
 	 * Test EPSG 3395
 	 */
 	@Test
@@ -1357,14 +1406,14 @@ public class ProjectionFactoryCodeTest {
 			}
 		}
 
-		assertEquals(proj.getAlpha(), proj2.getAlpha(), 0);
+		assertEquals(proj.getAlpha(), proj2.getAlpha(), delta);
 		assertEquals(proj.getAxisOrder(), proj2.getAxisOrder());
 		assertEquals(proj.getEPSGCode(), proj2.getEPSGCode(), 0);
 		assertEquals(proj.getEquatorRadius(), proj2.getEquatorRadius(), 0);
 		assertEquals(proj.getFalseEasting(), proj2.getFalseEasting(), 0);
 		assertEquals(proj.getFalseNorthing(), proj2.getFalseNorthing(), 0);
 		assertEquals(proj.getFromMetres(), proj2.getFromMetres(), 0);
-		assertEquals(proj.getLonC(), proj2.getLonC(), 0);
+		assertEquals(proj.getLonC(), proj2.getLonC(), delta);
 		assertEquals(proj.getMaxLatitude(), proj2.getMaxLatitude(), 0);
 		assertEquals(proj.getMaxLatitudeDegrees(),
 				proj2.getMaxLatitudeDegrees(), 0);

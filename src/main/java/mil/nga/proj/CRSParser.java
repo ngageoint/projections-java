@@ -52,7 +52,12 @@ public class CRSParser {
 	static {
 		for (Ellipsoid ellipsoid : Ellipsoid.ellipsoids) {
 			ellipsoids.put(ellipsoid.getShortName().toLowerCase(), ellipsoid);
-			ellipsoids.put(ellipsoid.getName().toLowerCase(), ellipsoid);
+			String name = ellipsoid.getName().toLowerCase();
+			ellipsoids.put(name, ellipsoid);
+			int index = name.indexOf("(");
+			if (index >= 0) {
+				ellipsoids.put(name.substring(0, index).trim(), ellipsoid);
+			}
 		}
 	}
 
@@ -455,8 +460,8 @@ public class CRSParser {
 				projectionName = "eqc";
 				break;
 
-			case HOTLINE_OBLIQUE_MERCATOR_A:
-			case HOTLINE_OBLIQUE_MERCATOR_B:
+			case HOTINE_OBLIQUE_MERCATOR_A:
+			case HOTINE_OBLIQUE_MERCATOR_B:
 				if (mapProjection.getName().toLowerCase()
 						.contains("swiss oblique mercator")) {
 					projectionName = "somerc";
@@ -641,8 +646,30 @@ public class CRSParser {
 			case LONGITUDE_OF_NATURAL_ORIGIN:
 			case LONGITUDE_OF_FALSE_ORIGIN:
 			case LONGITUDE_OF_ORIGIN:
-				projection.setProjectionLongitude(
-						getValue(parameter, Units.getRadian()));
+				if (method.hasMethod()) {
+					switch (method.getMethod()) {
+					case HOTINE_OBLIQUE_MERCATOR_A:
+					case HOTINE_OBLIQUE_MERCATOR_B:
+						projection.setLonCDegrees(
+								getValue(parameter, Units.getDegree()));
+						break;
+					default:
+						projection.setProjectionLongitude(
+								getValue(parameter, Units.getRadian()));
+					}
+				} else {
+					projection.setProjectionLongitude(
+							getValue(parameter, Units.getRadian()));
+				}
+				break;
+
+			case AZIMUTH_OF_INITIAL_LINE:
+				projection.setAlphaDegrees(
+						getValue(parameter, Units.getDegree()));
+				break;
+
+			case ANGLE_FROM_RECTIFIED_TO_SKEW_GRID:
+				projection.setGamma(getValue(parameter, Units.getDegree()));
 				break;
 
 			default:
