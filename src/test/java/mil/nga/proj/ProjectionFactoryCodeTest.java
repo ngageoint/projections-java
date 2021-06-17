@@ -250,6 +250,73 @@ public class ProjectionFactoryCodeTest {
 	}
 
 	/**
+	 * Test EPSG 3376
+	 */
+	@Test
+	public void test3376() {
+
+		final String code = "3376";
+		double delta = 0.0001;
+
+		String definition = "PROJCRS[\"GDM2000 / East Malaysia BRSO\",BASEGEOGCRS[\"GDM2000\","
+				+ "DATUM[\"Geodetic Datum of Malaysia 2000\","
+				+ "ELLIPSOID[\"GRS 1980\",6378137,298.2572221,LENGTHUNIT[\"metre\",1,"
+				+ "ID[\"EPSG\",9001]],ID[\"EPSG\",7019]],ID[\"EPSG\",6742]],ID[\"EPSG\",4742]],"
+				+ "CONVERSION[\"Borneo RSO\",METHOD[\"Hotine Oblique Mercator (variant A)\",ID[\"EPSG\",9812]],"
+				+ "PARAMETER[\"Latitude of projection centre\",4,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]]],"
+				+ "PARAMETER[\"Longitude of projection centre\",115,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]]],"
+				+ "PARAMETER[\"Azimuth of initial line\",53.31580995,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]]],"
+				+ "PARAMETER[\"Angle from Rectified to Skew Grid\",53.130102361,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]]],"
+				+ "PARAMETER[\"Scale factor on initial line\",0.99984,SCALEUNIT[\"unity\",1,ID[\"EPSG\",9201]]],"
+				+ "PARAMETER[\"False easting\",0,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],"
+				+ "PARAMETER[\"False northing\",0,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],ID[\"EPSG\",19894]],"
+				+ "CS[Cartesian,2,ID[\"EPSG\",4400]],AXIS[\"Easting (E)\",east],AXIS[\"Northing (N)\",north],"
+				+ "LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],ID[\"EPSG\",3376]]";
+
+		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
+				definition, delta);
+
+		definition = "PROJCS[\"GDM2000 / East Malaysia BRSO\",GEOGCS[\"GDM2000\","
+				+ "DATUM[\"Geodetic_Datum_of_Malaysia_2000\","
+				+ "SPHEROID[\"GRS 1980\",6378137,298.257222101,AUTHORITY[\"EPSG\",\"7019\"]],AUTHORITY[\"EPSG\",\"6742\"]],"
+				+ "PRIMEM[\"Greenwich\",0,AUTHORITY[\"EPSG\",\"8901\"]],"
+				+ "UNIT[\"degree\",0.01745329251994328,AUTHORITY[\"EPSG\",\"9122\"]],"
+				+ "AUTHORITY[\"EPSG\",\"4742\"]],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],"
+				+ "PROJECTION[\"Hotine_Oblique_Mercator\"],"
+				+ "PARAMETER[\"latitude_of_center\",4],"
+				+ "PARAMETER[\"longitude_of_center\",115],"
+				+ "PARAMETER[\"azimuth\",53.31580995],"
+				+ "PARAMETER[\"rectified_grid_angle\",53.13010236111111],"
+				+ "PARAMETER[\"scale_factor\",0.99984],"
+				+ "PARAMETER[\"false_easting\",0],"
+				+ "PARAMETER[\"false_northing\",0],"
+				+ "AUTHORITY[\"EPSG\",\"3376\"],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]";
+
+		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
+				definition);
+
+		ProjCoordinate coordinate = new ProjCoordinate(114.7097908, 3.0626847);
+		ProjCoordinate expectedCoordinate = new ProjCoordinate(
+				558597.8802098362, 339160.75510987174);
+
+		Projection projection = ProjectionFactory
+				.getProjectionByDefinition(definition);
+		ProjectionTransform transform = ProjectionTransform.create(4326,
+				projection);
+		ProjCoordinate projectedCoordinate = transform.transform(coordinate);
+		assertEquals(expectedCoordinate, projectedCoordinate);
+
+		ProjectionFactory.clear();
+
+		Projection projection2 = ProjectionFactory.getProjection(code);
+		ProjectionTransform transform2 = ProjectionTransform.create(4326,
+				projection2);
+		ProjCoordinate projectedCoordinate2 = transform2.transform(coordinate);
+		assertEquals(expectedCoordinate, projectedCoordinate2);
+
+	}
+
+	/**
 	 * Test EPSG 3395
 	 */
 	@Test
