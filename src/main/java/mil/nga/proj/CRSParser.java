@@ -669,7 +669,7 @@ public class CRSParser {
 				break;
 
 			case ANGLE_FROM_RECTIFIED_TO_SKEW_GRID:
-				projection.setGamma(getValue(parameter, Units.getDegree()));
+				projection.setGamma(getValue(parameter, Units.getRadian()));
 				break;
 
 			default:
