@@ -399,6 +399,7 @@ public class ProjectionFactoryCodeTest {
 	public void test3857() {
 
 		final String code = "3857";
+		double delta = 0.00000001;
 
 		String definition = "PROJCRS[\"WGS 84 / Pseudo-Mercator\",BASEGEOGCRS[\"WGS 84\","
 				+ "ENSEMBLE[\"World Geodetic System 1984 ensemble\","
@@ -421,7 +422,7 @@ public class ProjectionFactoryCodeTest {
 				+ "LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],ID[\"EPSG\",3857]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition);
+				definition, delta);
 
 		definition = "PROJCS[\"WGS 84 / Pseudo-Mercator\",GEOGCS[\"WGS 84\","
 				+ "DATUM[\"WGS_1984\","
@@ -443,7 +444,7 @@ public class ProjectionFactoryCodeTest {
 				+ "AUTHORITY[\"EPSG\",\"3857\"]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition);
+				definition, delta);
 
 		definition = "PROJCS[\"WGS 84 / Pseudo-Mercator\","
 				+ "GEOGCRS[\"WGS 84\",DATUM[\"WGS_1984\","
@@ -462,7 +463,7 @@ public class ProjectionFactoryCodeTest {
 				+ ",ID[\"EPSG\",\"3857\"]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition);
+				definition, delta);
 
 	}
 
