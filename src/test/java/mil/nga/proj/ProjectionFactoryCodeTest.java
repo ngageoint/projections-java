@@ -170,9 +170,7 @@ public class ProjectionFactoryCodeTest {
 		ProjCoordinate projectedCoordinate = transform.transform(coordinate);
 		assertEquals(expectedCoordinate, projectedCoordinate);
 
-		ProjectionFactory.clear();
-
-		Projection projection2 = ProjectionFactory.getProjection(code);
+		Projection projection2 = ProjectionFactory.getCachelessProjection(code);
 		ProjectionTransform transform2 = ProjectionTransform.create(4326,
 				projection2);
 		ProjCoordinate projectedCoordinate2 = transform2.transform(coordinate);
@@ -239,9 +237,7 @@ public class ProjectionFactoryCodeTest {
 		ProjCoordinate projectedCoordinate = transform.transform(coordinate);
 		assertEquals(expectedCoordinate, projectedCoordinate);
 
-		ProjectionFactory.clear();
-
-		Projection projection2 = ProjectionFactory.getProjection(code);
+		Projection projection2 = ProjectionFactory.getCachelessProjection(code);
 		ProjectionTransform transform2 = ProjectionTransform.create(4326,
 				projection2);
 		ProjCoordinate projectedCoordinate2 = transform2.transform(coordinate);
@@ -306,9 +302,7 @@ public class ProjectionFactoryCodeTest {
 		ProjCoordinate projectedCoordinate = transform.transform(coordinate);
 		assertEquals(expectedCoordinate, projectedCoordinate);
 
-		ProjectionFactory.clear();
-
-		Projection projection2 = ProjectionFactory.getProjection(code);
+		Projection projection2 = ProjectionFactory.getCachelessProjection(code);
 		ProjectionTransform transform2 = ProjectionTransform.create(4326,
 				projection2);
 		ProjCoordinate projectedCoordinate2 = transform2.transform(coordinate);
@@ -1362,9 +1356,8 @@ public class ProjectionFactoryCodeTest {
 		TestCase.assertEquals(code, projection.getCode());
 		TestCase.assertEquals(definition, projection.getDefinition());
 
-		clear();
-
-		Projection projection2 = ProjectionFactory.getProjection(compareCode);
+		Projection projection2 = ProjectionFactory
+				.getCachelessProjection(compareCode);
 
 		compare(projection, projection2, compareAuthority, compareCode, delta);
 
@@ -1384,7 +1377,7 @@ public class ProjectionFactoryCodeTest {
 		}
 
 		Projection transformProjection = ProjectionFactory
-				.getProjection(transformCode);
+				.getCachelessProjection(transformCode);
 
 		ProjectionTransform transformTo = transformProjection
 				.getTransformation(projection);
