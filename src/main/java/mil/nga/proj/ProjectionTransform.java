@@ -201,6 +201,17 @@ public class ProjectionTransform {
 	}
 
 	/**
+	 * Create a projection transform
+	 * 
+	 * @param transform
+	 *            projection transform
+	 * @return projection transform
+	 */
+	public static ProjectionTransform create(ProjectionTransform transform) {
+		return new ProjectionTransform(transform);
+	}
+
+	/**
 	 * Constructor
 	 * 
 	 * @param fromProjection
