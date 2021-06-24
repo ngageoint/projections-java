@@ -13,6 +13,8 @@ Software source code previously released under an open source license and then m
 
 [Projections](http://ngageoint.github.io/projections-java/) is a Java library for performing projection conversions between coordinates.
 
+For conversions between geometries, see [Simple Features Projections](https://ngageoint.github.io/simple-features-proj-java/).
+
 ### Usage ###
 
 View the latest [Javadoc](http://ngageoint.github.io/projections-java/docs/api/)
