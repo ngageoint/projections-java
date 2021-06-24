@@ -19,8 +19,6 @@ For conversions between geometries, see [Simple Features Projections](https://ng
 
 View the latest [Javadoc](http://ngageoint.github.io/projections-java/docs/api/)
 
-#### Transform ####
-
 ```java
 
 // ProjCoordinate coordinate = ...
