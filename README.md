@@ -85,3 +85,4 @@ Build this repository using Eclipse and/or Maven:
 ### Remote Dependencies ###
 
 * [Proj4J](https://github.com/locationtech/proj4j) (Apache License, Version 2.0) - Projection Library
+* [Coordinate Reference Systems](https://github.com/ngageoint/coordinate-reference-systems-java) (The MIT License (MIT)) - Coordinate Reference Systems Library
