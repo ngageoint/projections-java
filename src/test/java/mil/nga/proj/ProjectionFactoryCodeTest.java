@@ -33,6 +33,73 @@ public class ProjectionFactoryCodeTest {
 	}
 
 	/**
+	 * Test EPSG 2057
+	 */
+	@Test
+	public void test2057() {
+
+		final String code = "2057";
+		double delta = 0.001;
+
+		String definition = "PROJCRS[\"Rassadiran / Nakhl e Taqi\",BASEGEOGCRS[\"Rassadiran\","
+				+ "DATUM[\"Rassadiran\",ELLIPSOID[\"International 1924\",6378388,297,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],"
+				+ "ID[\"EPSG\",7022]],ID[\"EPSG\",6153]],ID[\"EPSG\",4153]],"
+				+ "CONVERSION[\"Nakhl e Taqi Oblique Mercator\",METHOD[\"Hotine Oblique Mercator (variant B)\",ID[\"EPSG\",9815]],"
+				+ "PARAMETER[\"Latitude of projection centre\",27.518828806,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]]],"
+				+ "PARAMETER[\"Longitude of projection centre\",52.603539167,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]]],"
+				+ "PARAMETER[\"Azimuth of initial line\",0.571661194,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]]],"
+				+ "PARAMETER[\"Angle from Rectified to Skew Grid\",0.571661194,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]]],"
+				+ "PARAMETER[\"Scale factor on initial line\",0.999895934,SCALEUNIT[\"unity\",1,ID[\"EPSG\",9201]]],"
+				+ "PARAMETER[\"Easting at projection centre\",658377.437,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],"
+				+ "PARAMETER[\"Northing at projection centre\",3044969.194,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],"
+				+ "PARAMETER[\"X-axis translation\",-133.63,LENGTHUNIT[\"metre\",1.0]],"
+				+ "PARAMETER[\"Y-axis translation\",-157.5,LENGTHUNIT[\"metre\",1.0]],"
+				+ "PARAMETER[\"Z-axis translation\",-158.62,LENGTHUNIT[\"metre\",1.0]],"
+				+ "ID[\"EPSG\",19951]],CS[Cartesian,2,ID[\"EPSG\",4400]],"
+				+ "AXIS[\"Easting (E)\",east],AXIS[\"Northing (N)\",north],"
+				+ "LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],ID[\"EPSG\",2057]]";
+
+		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
+				definition, delta);
+
+		definition = "PROJCS[\"Rassadiran / Nakhl e Taqi\",GEOGCS[\"Rassadiran\","
+				+ "DATUM[\"Rassadiran\",SPHEROID[\"International 1924\",6378388,297,"
+				+ "AUTHORITY[\"EPSG\",\"7022\"]],TOWGS84[-133.63,-157.5,-158.62,0,0,0,0],AUTHORITY[\"EPSG\",\"6153\"]],"
+				+ "PRIMEM[\"Greenwich\",0,AUTHORITY[\"EPSG\",\"8901\"]],UNIT[\"degree\",0.01745329251994328,AUTHORITY[\"EPSG\",\"9122\"]],"
+				+ "AUTHORITY[\"EPSG\",\"4153\"]],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],"
+				+ "PROJECTION[\"Oblique_Mercator\"],"
+				+ "PARAMETER[\"latitude_of_center\",27.51882880555555],"
+				+ "PARAMETER[\"longitude_of_center\",52.60353916666667],"
+				+ "PARAMETER[\"azimuth\",0.5716611944444444],"
+				+ "PARAMETER[\"rectified_grid_angle\",0.5716611944444444],"
+				+ "PARAMETER[\"scale_factor\",0.999895934],"
+				+ "PARAMETER[\"false_easting\",658377.437],"
+				+ "PARAMETER[\"false_northing\",3044969.194],AUTHORITY[\"EPSG\",\"2057\"],"
+				+ "AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]";
+
+		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
+				definition);
+
+		ProjCoordinate coordinate = new ProjCoordinate(-53.0, 5.0);
+		ProjCoordinate expectedCoordinate = new ProjCoordinate(
+				-1.1608322257560592E7, 1.8282612229838397E7);
+
+		Projection projection = ProjectionFactory
+				.getProjectionByDefinition(definition);
+		ProjectionTransform transform = ProjectionTransform.create(4326,
+				projection);
+		ProjCoordinate projectedCoordinate = transform.transform(coordinate);
+		assertEquals(expectedCoordinate, projectedCoordinate);
+
+		Projection projection2 = ProjectionFactory.getCachelessProjection(code);
+		ProjectionTransform transform2 = ProjectionTransform.create(4326,
+				projection2);
+		ProjCoordinate projectedCoordinate2 = transform2.transform(coordinate);
+		assertEquals(expectedCoordinate, projectedCoordinate2);
+
+	}
+
+	/**
 	 * Test EPSG 3035
 	 */
 	@Test
@@ -108,73 +175,6 @@ public class ProjectionFactoryCodeTest {
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
 				definition);
-
-	}
-
-	/**
-	 * Test EPSG 2057
-	 */
-	@Test
-	public void test2057() {
-
-		final String code = "2057";
-		double delta = 0.001;
-
-		String definition = "PROJCRS[\"Rassadiran / Nakhl e Taqi\",BASEGEOGCRS[\"Rassadiran\","
-				+ "DATUM[\"Rassadiran\",ELLIPSOID[\"International 1924\",6378388,297,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],"
-				+ "ID[\"EPSG\",7022]],ID[\"EPSG\",6153]],ID[\"EPSG\",4153]],"
-				+ "CONVERSION[\"Nakhl e Taqi Oblique Mercator\",METHOD[\"Hotine Oblique Mercator (variant B)\",ID[\"EPSG\",9815]],"
-				+ "PARAMETER[\"Latitude of projection centre\",27.518828806,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]]],"
-				+ "PARAMETER[\"Longitude of projection centre\",52.603539167,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]]],"
-				+ "PARAMETER[\"Azimuth of initial line\",0.571661194,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]]],"
-				+ "PARAMETER[\"Angle from Rectified to Skew Grid\",0.571661194,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]]],"
-				+ "PARAMETER[\"Scale factor on initial line\",0.999895934,SCALEUNIT[\"unity\",1,ID[\"EPSG\",9201]]],"
-				+ "PARAMETER[\"Easting at projection centre\",658377.437,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],"
-				+ "PARAMETER[\"Northing at projection centre\",3044969.194,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],"
-				+ "PARAMETER[\"X-axis translation\",-133.63,LENGTHUNIT[\"metre\",1.0]],"
-				+ "PARAMETER[\"Y-axis translation\",-157.5,LENGTHUNIT[\"metre\",1.0]],"
-				+ "PARAMETER[\"Z-axis translation\",-158.62,LENGTHUNIT[\"metre\",1.0]],"
-				+ "ID[\"EPSG\",19951]],CS[Cartesian,2,ID[\"EPSG\",4400]],"
-				+ "AXIS[\"Easting (E)\",east],AXIS[\"Northing (N)\",north],"
-				+ "LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],ID[\"EPSG\",2057]]";
-
-		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition, delta);
-
-		definition = "PROJCS[\"Rassadiran / Nakhl e Taqi\",GEOGCS[\"Rassadiran\","
-				+ "DATUM[\"Rassadiran\",SPHEROID[\"International 1924\",6378388,297,"
-				+ "AUTHORITY[\"EPSG\",\"7022\"]],TOWGS84[-133.63,-157.5,-158.62,0,0,0,0],AUTHORITY[\"EPSG\",\"6153\"]],"
-				+ "PRIMEM[\"Greenwich\",0,AUTHORITY[\"EPSG\",\"8901\"]],UNIT[\"degree\",0.01745329251994328,AUTHORITY[\"EPSG\",\"9122\"]],"
-				+ "AUTHORITY[\"EPSG\",\"4153\"]],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],"
-				+ "PROJECTION[\"Oblique_Mercator\"],"
-				+ "PARAMETER[\"latitude_of_center\",27.51882880555555],"
-				+ "PARAMETER[\"longitude_of_center\",52.60353916666667],"
-				+ "PARAMETER[\"azimuth\",0.5716611944444444],"
-				+ "PARAMETER[\"rectified_grid_angle\",0.5716611944444444],"
-				+ "PARAMETER[\"scale_factor\",0.999895934],"
-				+ "PARAMETER[\"false_easting\",658377.437],"
-				+ "PARAMETER[\"false_northing\",3044969.194],AUTHORITY[\"EPSG\",\"2057\"],"
-				+ "AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]";
-
-		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition);
-
-		ProjCoordinate coordinate = new ProjCoordinate(-53.0, 5.0);
-		ProjCoordinate expectedCoordinate = new ProjCoordinate(
-				-1.1608322257560592E7, 1.8282612229838397E7);
-
-		Projection projection = ProjectionFactory
-				.getProjectionByDefinition(definition);
-		ProjectionTransform transform = ProjectionTransform.create(4326,
-				projection);
-		ProjCoordinate projectedCoordinate = transform.transform(coordinate);
-		assertEquals(expectedCoordinate, projectedCoordinate);
-
-		Projection projection2 = ProjectionFactory.getCachelessProjection(code);
-		ProjectionTransform transform2 = ProjectionTransform.create(4326,
-				projection2);
-		ProjCoordinate projectedCoordinate2 = transform2.transform(coordinate);
-		assertEquals(expectedCoordinate, projectedCoordinate2);
 
 	}
 
