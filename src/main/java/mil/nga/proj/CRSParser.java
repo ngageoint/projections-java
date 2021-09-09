@@ -461,9 +461,14 @@ public class CRSParser {
 				break;
 
 			case HOTINE_OBLIQUE_MERCATOR_A:
+				projectionName = "omerc";
+				break;
+
 			case HOTINE_OBLIQUE_MERCATOR_B:
 				if (mapProjection.getName().toLowerCase()
-						.contains("swiss oblique mercator")) {
+						.contains("swiss oblique mercator")
+						|| method.getName().toLowerCase().contains(
+								"hotine_oblique_mercator_azimuth_center")) {
 					projectionName = "somerc";
 				} else {
 					projectionName = "omerc";
