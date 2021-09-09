@@ -625,6 +625,7 @@ public class CRSParser {
 
 			case SCALE_FACTOR_AT_NATURAL_ORIGIN:
 			case SCALE_FACTOR_ON_INITIAL_LINE:
+			case SCALE_FACTOR_ON_PSEUDO_STANDARD_PARALLEL:
 				projection
 						.setScaleFactor(getValue(parameter, Units.getUnity()));
 				break;
@@ -679,6 +680,7 @@ public class CRSParser {
 				break;
 
 			case AZIMUTH_OF_INITIAL_LINE:
+			case CO_LATITUDE_OF_CONE_AXIS:
 				projection.setAlpha(getValue(parameter, Units.getRadian()));
 				break;
 
