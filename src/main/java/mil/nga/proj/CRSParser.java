@@ -317,38 +317,38 @@ public class CRSParser {
 				switch (parameter.getParameter()) {
 
 				case X_AXIS_TRANSLATION:
-					transform3[0] = getValue(parameter, Units.getMetre());
+					transform3[0] = getValue(parameter, Units.METRE);
 					param3 = true;
 					break;
 
 				case Y_AXIS_TRANSLATION:
-					transform3[1] = getValue(parameter, Units.getMetre());
+					transform3[1] = getValue(parameter, Units.METRE);
 					param3 = true;
 					break;
 
 				case Z_AXIS_TRANSLATION:
-					transform3[2] = getValue(parameter, Units.getMetre());
+					transform3[2] = getValue(parameter, Units.METRE);
 					param3 = true;
 					break;
 
 				case X_AXIS_ROTATION:
-					transform7[3] = getValue(parameter, Units.getArcSecond());
+					transform7[3] = getValue(parameter, Units.ARC_SECOND);
 					param7 = true;
 					break;
 
 				case Y_AXIS_ROTATION:
-					transform7[4] = getValue(parameter, Units.getArcSecond());
+					transform7[4] = getValue(parameter, Units.ARC_SECOND);
 					param7 = true;
 					break;
 
 				case Z_AXIS_ROTATION:
-					transform7[5] = getValue(parameter, Units.getArcSecond());
+					transform7[5] = getValue(parameter, Units.ARC_SECOND);
 					param7 = true;
 					break;
 
 				case SCALE_DIFFERENCE:
 					transform7[6] = getValue(parameter,
-							Units.getPartsPerMillion());
+							Units.PARTS_PER_MILLION);
 					param7 = true;
 					break;
 
@@ -391,7 +391,7 @@ public class CRSParser {
 			PrimeMeridian primeMeridian = geoDatum.getPrimeMeridian();
 			double primeMeridianLongitude = convertValue(
 					primeMeridian.getLongitude(),
-					primeMeridian.getLongitudeUnit(), Units.getDegree());
+					primeMeridian.getLongitudeUnit(), Units.DEGREE);
 			projection
 					.setPrimeMeridian(Double.toString(primeMeridianLongitude));
 		}
@@ -626,25 +626,24 @@ public class CRSParser {
 			case SCALE_FACTOR_AT_NATURAL_ORIGIN:
 			case SCALE_FACTOR_ON_INITIAL_LINE:
 			case SCALE_FACTOR_ON_PSEUDO_STANDARD_PARALLEL:
-				projection
-						.setScaleFactor(getValue(parameter, Units.getUnity()));
+				projection.setScaleFactor(getValue(parameter, Units.UNITY));
 				break;
 
 			case LATITUDE_OF_1ST_STANDARD_PARALLEL:
 				projection.setProjectionLatitude1(
-						getValue(parameter, Units.getRadian()));
+						getValue(parameter, Units.RADIAN));
 				break;
 
 			case LATITUDE_OF_2ND_STANDARD_PARALLEL:
 				projection.setProjectionLatitude2(
-						getValue(parameter, Units.getRadian()));
+						getValue(parameter, Units.RADIAN));
 				break;
 
 			case LATITUDE_OF_PROJECTION_CENTRE:
 			case LATITUDE_OF_NATURAL_ORIGIN:
 			case LATITUDE_OF_FALSE_ORIGIN:
 				projection.setProjectionLatitude(
-						getValue(parameter, Units.getRadian()));
+						getValue(parameter, Units.RADIAN));
 				if (method.hasMethod()) {
 					switch (method.getMethod()) {
 					case POLAR_STEREOGRAPHIC_A:
@@ -666,26 +665,25 @@ public class CRSParser {
 					switch (method.getMethod()) {
 					case HOTINE_OBLIQUE_MERCATOR_A:
 					case HOTINE_OBLIQUE_MERCATOR_B:
-						projection.setLonC(
-								getValue(parameter, Units.getRadian()));
+						projection.setLonC(getValue(parameter, Units.RADIAN));
 						break;
 					default:
 						projection.setProjectionLongitude(
-								getValue(parameter, Units.getRadian()));
+								getValue(parameter, Units.RADIAN));
 					}
 				} else {
 					projection.setProjectionLongitude(
-							getValue(parameter, Units.getRadian()));
+							getValue(parameter, Units.RADIAN));
 				}
 				break;
 
 			case AZIMUTH_OF_INITIAL_LINE:
 			case CO_LATITUDE_OF_CONE_AXIS:
-				projection.setAlpha(getValue(parameter, Units.getRadian()));
+				projection.setAlpha(getValue(parameter, Units.RADIAN));
 				break;
 
 			case ANGLE_FROM_RECTIFIED_TO_SKEW_GRID:
-				projection.setGamma(getValue(parameter, Units.getRadian()));
+				projection.setGamma(getValue(parameter, Units.RADIAN));
 				break;
 
 			default:
@@ -776,15 +774,29 @@ public class CRSParser {
 	public static double getValue(OperationParameter parameter,
 			org.locationtech.proj4j.units.Unit unit) {
 
-		Unit desiredUnit = null;
+		Units desiredUnit = null;
 
 		if (unit instanceof DegreeUnit) {
-			desiredUnit = Units.getDegree();
+			desiredUnit = Units.DEGREE;
 		} else {
-			desiredUnit = Units.getMetre();
+			desiredUnit = Units.METRE;
 		}
 
 		return getValue(parameter, desiredUnit);
+	}
+
+	/**
+	 * Get the operation parameter value in the specified unit
+	 * 
+	 * @param parameter
+	 *            operation parameter
+	 * @param unit
+	 *            desired unit
+	 * @return value
+	 * @since 1.1.0
+	 */
+	public static double getValue(OperationParameter parameter, Units unit) {
+		return getValue(parameter, unit.createUnit());
 	}
 
 	/**
@@ -810,12 +822,29 @@ public class CRSParser {
 	 * @param toUnit
 	 *            to unit
 	 * @return value
+	 * @since 1.1.0
+	 */
+	public static double convertValue(double value, Unit fromUnit,
+			Units toUnit) {
+		return convertValue(value, fromUnit, toUnit.createUnit());
+	}
+
+	/**
+	 * Convert the value from a unit to another
+	 * 
+	 * @param value
+	 *            value to convert
+	 * @param fromUnit
+	 *            from unit
+	 * @param toUnit
+	 *            to unit
+	 * @return value
 	 */
 	public static double convertValue(double value, Unit fromUnit,
 			Unit toUnit) {
 
 		if (fromUnit == null) {
-			fromUnit = Units.getDefaultUnit(toUnit.getType());
+			fromUnit = Units.createDefaultUnit(toUnit.getType());
 		}
 
 		if (Units.canConvert(fromUnit, toUnit)) {
