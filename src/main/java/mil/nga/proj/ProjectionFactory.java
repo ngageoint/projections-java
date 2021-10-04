@@ -31,6 +31,7 @@ public class ProjectionFactory {
 	 */
 	private static final ProjectionFactoryType[] DEFAULT_ORDER = new ProjectionFactoryType[] {
 			ProjectionFactoryType.CACHE, ProjectionFactoryType.DEFINITION,
+			ProjectionFactoryType.DEFINITION_PARAMETERS,
 			ProjectionFactoryType.PARAMETERS, ProjectionFactoryType.PROPERTIES,
 			ProjectionFactoryType.NAME };
 
@@ -606,6 +607,10 @@ public class ProjectionFactory {
 			projection = fromDefinition(authority, code, definition);
 			break;
 
+		case DEFINITION_PARAMETERS:
+			projection = fromDefinitionParams(authority, code, definition);
+			break;
+
 		case NAME:
 			projection = fromName(authority, code, definition);
 			break;
@@ -720,6 +725,9 @@ public class ProjectionFactory {
 
 					CoordinateReferenceSystem crs = CRSParser
 							.convert(definitionCRS);
+					if (crs == null) {
+						crs = CRSParser.convertAsParams(definitionCRS);
+					}
 					if (crs != null) {
 						projection = new Projection(authority, code, crs,
 								definition, definitionCRS);
@@ -887,6 +895,48 @@ public class ProjectionFactory {
 				CRS definitionCRS = CRSReader.read(definition);
 				if (definitionCRS != null) {
 					crs = CRSParser.convert(definitionCRS);
+				}
+				if (crs != null) {
+					projection = new Projection(authority, code, crs,
+							definition, definitionCRS);
+					projections.addProjection(projection);
+				}
+			} catch (Exception e) {
+				logger.log(Level.WARNING,
+						"Failed to create projection for authority: "
+								+ authority + ", code: " + code
+								+ ", definition: " + definition,
+						e);
+			}
+
+		}
+
+		return projection;
+	}
+
+	/**
+	 * Create a projection from the WKT definition converted to params
+	 * 
+	 * @param authority
+	 *            coordinate authority
+	 * @param code
+	 *            coordinate code
+	 * @param definition
+	 *            WKT coordinate definition
+	 * @return projection
+	 */
+	private static Projection fromDefinitionParams(String authority,
+			String code, String definition) {
+
+		Projection projection = null;
+
+		if (definition != null && !definition.isEmpty()) {
+
+			try {
+				CoordinateReferenceSystem crs = null;
+				CRS definitionCRS = CRSReader.read(definition);
+				if (definitionCRS != null) {
+					crs = CRSParser.convertAsParams(definitionCRS);
 				}
 				if (crs != null) {
 					projection = new Projection(authority, code, crs,

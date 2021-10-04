@@ -30,6 +30,7 @@ import mil.nga.crs.operation.OperationMethod;
 import mil.nga.crs.operation.OperationParameter;
 import mil.nga.crs.projected.MapProjection;
 import mil.nga.crs.projected.ProjectedCoordinateReferenceSystem;
+import mil.nga.crs.util.proj.ProjParser;
 import mil.nga.crs.wkt.CRSReader;
 
 /**
@@ -106,6 +107,32 @@ public class CRSParser {
 	}
 
 	/**
+	 * Parse crs well-known text into proj4 params, then to a proj4 coordinate
+	 * reference system
+	 * 
+	 * @param wkt
+	 *            crs well-known text
+	 * @return coordinate reference system
+	 * @since 1.1.0
+	 */
+	public static CoordinateReferenceSystem parseAsParams(String wkt) {
+
+		CRS crsObject = null;
+		try {
+			crsObject = CRSReader.read(wkt);
+		} catch (IOException e) {
+			throw new ProjectionException("Failed to parse WKT: " + wkt, e);
+		}
+
+		CoordinateReferenceSystem crs = null;
+		if (crsObject != null) {
+			crs = convertAsParams(crsObject);
+		}
+
+		return crs;
+	}
+
+	/**
 	 * Convert a CRS object into a proj4 coordinate reference system
 	 * 
 	 * @param crsObject
@@ -133,6 +160,28 @@ public class CRSParser {
 
 		default:
 
+		}
+
+		return crs;
+	}
+
+	/**
+	 * Convert a CRS object into proj4 params, then to a proj4 coordinate
+	 * reference system
+	 * 
+	 * @param crsObject
+	 *            CRS object
+	 * @return coordinate reference system
+	 * @since 1.1.0
+	 */
+	public static CoordinateReferenceSystem convertAsParams(CRS crsObject) {
+
+		CoordinateReferenceSystem crs = null;
+
+		String params = ProjParser.paramsText(crsObject);
+		if (params != null) {
+			crs = CRSParser.getCRSFactory()
+					.createFromParameters(crsObject.getName(), params);
 		}
 
 		return crs;
