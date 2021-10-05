@@ -19,6 +19,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
   * Hotine Oblique Mercator (variant B) operation method for Swiss Oblique Mercator
   * scale factor on pseudo standard parallel operation parameter
   * co-latitude of cone axis operation parameter
+  * Known Prime Meridian parsing
 * CRS Definition to PROJ parameters conversion and projection creation
 
 ## [1.0.0](https://github.com/ngageoint/projections-java/releases/tag/1.0.0) (06-24-2021)

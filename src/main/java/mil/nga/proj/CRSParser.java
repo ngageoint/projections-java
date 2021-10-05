@@ -442,11 +442,18 @@ public class CRSParser {
 
 		if (geoDatum.hasPrimeMeridian()) {
 			PrimeMeridian primeMeridian = geoDatum.getPrimeMeridian();
-			double primeMeridianLongitude = convertValue(
-					primeMeridian.getLongitude(),
-					primeMeridian.getLongitudeUnit(), Units.DEGREE);
-			projection
-					.setPrimeMeridian(Double.toString(primeMeridianLongitude));
+			String name = primeMeridian.getName();
+			if (name != null) {
+				name = name.toLowerCase();
+			}
+			projection.setPrimeMeridian(name);
+			if (!projection.getPrimeMeridian().getName().equals(name)) {
+				double primeMeridianLongitude = convertValue(
+						primeMeridian.getLongitude(),
+						primeMeridian.getLongitudeUnit(), Units.DEGREE);
+				projection.setPrimeMeridian(
+						Double.toString(primeMeridianLongitude));
+			}
 		}
 
 	}

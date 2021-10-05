@@ -263,6 +263,68 @@ public class ProjectionFactoryCodeTest {
 	}
 
 	/**
+	 * Test EPSG 2065
+	 */
+	@Test
+	public void test2065() {
+
+		final String code = "2065";
+		double delta = 0.00000001;
+		double minX = 12.09;
+		double minY = 47.73;
+		double maxX = 22.56;
+		double maxY = 51.06;
+
+		String definition = "PROJCRS[\"S-JTSK (Ferro) / Krovak\",BASEGEOGCRS[\"S-JTSK (Ferro)\","
+				+ "DATUM[\"System of the Unified Trigonometrical Cadastral Network (Ferro)\","
+				+ "ELLIPSOID[\"Bessel 1841\",6377397.155,299.1528128,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],ID[\"EPSG\",7004]],ID[\"EPSG\",6818]],"
+				+ "PRIMEM[\"Ferro\",-17.666666667,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]],ID[\"EPSG\",8909]],ID[\"EPSG\",4818]],"
+				+ "CONVERSION[\"Krovak\",METHOD[\"Krovak\",ID[\"EPSG\",9819]],"
+				+ "PARAMETER[\"Latitude of projection centre\",49.5,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]]],"
+				+ "PARAMETER[\"Longitude of origin\",42.5,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]]],"
+				+ "PARAMETER[\"Co-latitude of cone axis\",30.288139753,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]]],"
+				+ "PARAMETER[\"Latitude of pseudo standard parallel\",78.5,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]]],"
+				+ "PARAMETER[\"Scale factor on pseudo standard parallel\",0.9999,SCALEUNIT[\"unity\",1,ID[\"EPSG\",9201]]],"
+				+ "PARAMETER[\"False easting\",0,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],"
+				+ "PARAMETER[\"False northing\",0,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],"
+				+ "PARAMETER[\"X-axis translation\",589,LENGTHUNIT[\"metre\",1.0]],"
+				+ "PARAMETER[\"Y-axis translation\",76,LENGTHUNIT[\"metre\",1.0]],"
+				+ "PARAMETER[\"Z-axis translation\",480,LENGTHUNIT[\"metre\",1.0]],"
+				+ "ID[\"EPSG\",19952]],"
+				+ "CS[Cartesian,2,ID[\"EPSG\",6501]],AXIS[\"Southing (X)\",south],AXIS[\"Westing (Y)\",west],"
+				+ "LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],ID[\"EPSG\",2065]]";
+
+		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
+				definition, delta, minX, minY, maxX, maxY);
+
+		definition = "PROJCS[\"S-JTSK (Ferro) / Krovak\","
+				+ "GEOGCS[\"S-JTSK (Ferro)\","
+				+ "DATUM[\"System_Jednotne_Trigonometricke_Site_Katastralni_Ferro\","
+				+ "SPHEROID[\"Bessel 1841\",6377397.155,299.1528128,"
+				+ "AUTHORITY[\"EPSG\",\"7004\"]],"
+				+ "TOWGS84[589,76,480,0,0,0,0],"
+				+ "AUTHORITY[\"EPSG\",\"6818\"]],"
+				+ "PRIMEM[\"Ferro\",-17.66666666666667,"
+				+ "AUTHORITY[\"EPSG\",\"8909\"]],"
+				+ "UNIT[\"degree\",0.0174532925199433,"
+				+ "AUTHORITY[\"EPSG\",\"9122\"]],"
+				+ "AUTHORITY[\"EPSG\",\"4818\"]]," + "PROJECTION[\"Krovak\"],"
+				+ "PARAMETER[\"latitude_of_center\",49.5],"
+				+ "PARAMETER[\"longitude_of_center\",42.5],"
+				+ "PARAMETER[\"azimuth\",30.28813972222222],"
+				+ "PARAMETER[\"pseudo_standard_parallel_1\",78.5],"
+				+ "PARAMETER[\"scale_factor\",0.9999],"
+				+ "PARAMETER[\"false_easting\",0],"
+				+ "PARAMETER[\"false_northing\",0]," + "UNIT[\"metre\",1,"
+				+ "AUTHORITY[\"EPSG\",\"9001\"]]," + "AXIS[\"X\",SOUTH],"
+				+ "AXIS[\"Y\",WEST]," + "AUTHORITY[\"EPSG\",\"2065\"]]";
+
+		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
+				definition, minX, minY, maxX, maxY);
+
+	}
+
+	/**
 	 * Test EPSG 3035
 	 */
 	@Test
