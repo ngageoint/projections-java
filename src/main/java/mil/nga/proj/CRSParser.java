@@ -30,6 +30,7 @@ import mil.nga.crs.operation.OperationMethod;
 import mil.nga.crs.operation.OperationParameter;
 import mil.nga.crs.projected.MapProjection;
 import mil.nga.crs.projected.ProjectedCoordinateReferenceSystem;
+import mil.nga.crs.util.proj.ProjConstants;
 import mil.nga.crs.util.proj.ProjParser;
 import mil.nga.crs.wkt.CRSReader;
 
@@ -56,8 +57,11 @@ public class CRSParser {
 			String name = ellipsoid.getName().toLowerCase();
 			ellipsoids.put(name, ellipsoid);
 			int index = name.indexOf("(");
-			if (index >= 0) {
-				ellipsoids.put(name.substring(0, index).trim(), ellipsoid);
+			if (index > -1) {
+				String namePrefix = name.substring(0, index).trim();
+				if (!ellipsoids.containsKey(namePrefix)) {
+					ellipsoids.put(namePrefix, ellipsoid);
+				}
 			}
 		}
 	}
@@ -462,10 +466,11 @@ public class CRSParser {
 		String projectionName = null;
 		if (unit != null && (unit.getType() == UnitType.ANGLEUNIT
 				|| (unit.getType() == UnitType.UNIT
-						&& unit.getName().toLowerCase().startsWith("deg")))) {
-			projectionName = "longlat";
+						&& unit.getName().toLowerCase()
+								.startsWith(ProjConstants.UNITS_DEGREE)))) {
+			projectionName = ProjConstants.NAME_LONGLAT;
 		} else {
-			projectionName = "merc";
+			projectionName = ProjConstants.NAME_MERC;
 		}
 
 		return createProjection(projectionName, coordinateSystem);
@@ -494,83 +499,83 @@ public class CRSParser {
 			switch (method.getMethod()) {
 
 			case ALBERS_EQUAL_AREA:
-				projectionName = "aea";
+				projectionName = ProjConstants.NAME_AEA;
 				break;
 
 			case AMERICAN_POLYCONIC:
-				projectionName = "poly";
+				projectionName = ProjConstants.NAME_POLY;
 				break;
 
 			case CASSINI_SOLDNER:
-				projectionName = "cass";
+				projectionName = ProjConstants.NAME_CASS;
 				break;
 
 			case EQUIDISTANT_CYLINDRICAL:
-				projectionName = "eqc";
+				projectionName = ProjConstants.NAME_EQC;
 				break;
 
 			case HOTINE_OBLIQUE_MERCATOR_A:
-				projectionName = "omerc";
+				projectionName = ProjConstants.NAME_OMERC;
 				break;
 
 			case HOTINE_OBLIQUE_MERCATOR_B:
 				if (mapProjection.getName().toLowerCase()
-						.contains("swiss oblique mercator")
+						.contains(ProjConstants.SWISS_OBLIQUE_MERCATOR)
 						|| method.getName().toLowerCase().contains(
-								"hotine_oblique_mercator_azimuth_center")) {
-					projectionName = "somerc";
+								ProjConstants.SWISS_OBLIQUE_MERCATOR_COMPAT)) {
+					projectionName = ProjConstants.NAME_SOMERC;
 				} else {
-					projectionName = "omerc";
+					projectionName = ProjConstants.NAME_OMERC;
 				}
 				break;
 
 			case KROVAK:
-				projectionName = "krovak";
+				projectionName = ProjConstants.NAME_KROVAK;
 				break;
 
 			case LAMBERT_AZIMUTHAL_EQUAL_AREA:
-				projectionName = "laea";
+				projectionName = ProjConstants.NAME_LAEA;
 				break;
 
 			case LAMBERT_CONIC_CONFORMAL_1SP:
 			case LAMBERT_CONIC_CONFORMAL_2SP:
-				projectionName = "lcc";
+				projectionName = ProjConstants.NAME_LCC;
 				break;
 
 			case LAMBERT_CYLINDRICAL_EQUAL_AREA:
-				projectionName = "cea";
+				projectionName = ProjConstants.NAME_CEA;
 				break;
 
 			case MERCATOR_A:
 			case MERCATOR_B:
-				projectionName = "merc";
+				projectionName = ProjConstants.NAME_MERC;
 				break;
 
 			case NEW_ZEALAND_MAP_GRID:
-				projectionName = "nzmg";
+				projectionName = ProjConstants.NAME_NZMG;
 				break;
 
 			case OBLIQUE_STEREOGRAPHIC:
-				projectionName = "sterea";
+				projectionName = ProjConstants.NAME_STEREA;
 				break;
 
 			case POLAR_STEREOGRAPHIC_A:
 			case POLAR_STEREOGRAPHIC_B:
 			case POLAR_STEREOGRAPHIC_C:
-				projectionName = "stere";
+				projectionName = ProjConstants.NAME_STERE;
 				break;
 
 			case POPULAR_VISUALISATION_PSEUDO_MERCATOR:
-				projectionName = "merc";
+				projectionName = ProjConstants.NAME_MERC;
 				break;
 
 			case TRANSVERSE_MERCATOR:
 			case TRANSVERSE_MERCATOR_SOUTH_ORIENTATED:
 				if (mapProjection.getName().toLowerCase()
-						.contains("utm zone")) {
-					projectionName = "utm";
+						.contains(ProjConstants.UTM_ZONE)) {
+					projectionName = ProjConstants.NAME_UTM;
 				} else {
-					projectionName = "tmerc";
+					projectionName = ProjConstants.NAME_TMERC;
 				}
 				break;
 
@@ -617,7 +622,7 @@ public class CRSParser {
 
 		String axisOrder = convert(coordinateSystem.getAxes());
 		// Only known proj4 axis specification is wsu
-		if (axisOrder.equals("wsu")) {
+		if (axisOrder.equals(ProjConstants.AXIS_WEST_SOUTH_UP)) {
 			projection.setAxisOrder(axisOrder);
 		}
 
@@ -679,8 +684,20 @@ public class CRSParser {
 				break;
 
 			case LATITUDE_OF_1ST_STANDARD_PARALLEL:
-				projection.setProjectionLatitude1(
-						getValue(parameter, Units.RADIAN));
+				if (method.hasMethod()) {
+					switch (method.getMethod()) {
+					case LAMBERT_CYLINDRICAL_EQUAL_AREA:
+						projection.setTrueScaleLatitude(
+								getValue(parameter, Units.RADIAN));
+						break;
+					default:
+						projection.setProjectionLatitude1(
+								getValue(parameter, Units.RADIAN));
+					}
+				} else {
+					projection.setProjectionLatitude1(
+							getValue(parameter, Units.RADIAN));
+				}
 				break;
 
 			case LATITUDE_OF_2ND_STANDARD_PARALLEL:
@@ -691,18 +708,47 @@ public class CRSParser {
 			case LATITUDE_OF_PROJECTION_CENTRE:
 			case LATITUDE_OF_NATURAL_ORIGIN:
 			case LATITUDE_OF_FALSE_ORIGIN:
-				projection.setProjectionLatitude(
-						getValue(parameter, Units.RADIAN));
 				if (method.hasMethod()) {
 					switch (method.getMethod()) {
 					case POLAR_STEREOGRAPHIC_A:
 					case POLAR_STEREOGRAPHIC_B:
 					case POLAR_STEREOGRAPHIC_C:
 						projection.setTrueScaleLatitude(
-								projection.getProjectionLatitude());
+								getValue(parameter, Units.RADIAN));
+						if (projection.getTrueScaleLatitude() >= 0) {
+							projection.setProjectionLatitudeDegrees(90);
+						} else {
+							projection.setProjectionLatitudeDegrees(-90);
+						}
+						break;
+					case EQUIDISTANT_CYLINDRICAL:
+						projection.setTrueScaleLatitude(
+								getValue(parameter, Units.RADIAN));
+						projection.setProjectionLatitude(0);
+						break;
+					case LAMBERT_CYLINDRICAL_EQUAL_AREA:
+					case MERCATOR_A:
+					case MERCATOR_B:
+					case POPULAR_VISUALISATION_PSEUDO_MERCATOR:
+						projection.setTrueScaleLatitude(
+								getValue(parameter, Units.RADIAN));
+						break;
+					case LAMBERT_CONIC_CONFORMAL_1SP:
+					case LAMBERT_CONIC_CONFORMAL_2SP:
+						projection.setProjectionLatitude(
+								getValue(parameter, Units.RADIAN));
+						if (projection.getProjectionLatitude1() == 0.0) {
+							projection.setProjectionLatitude1(
+									projection.getProjectionLatitude());
+						}
 						break;
 					default:
+						projection.setProjectionLatitude(
+								getValue(parameter, Units.RADIAN));
 					}
+				} else {
+					projection.setProjectionLatitude(
+							getValue(parameter, Units.RADIAN));
 				}
 				break;
 
@@ -713,8 +759,17 @@ public class CRSParser {
 				if (method.hasMethod()) {
 					switch (method.getMethod()) {
 					case HOTINE_OBLIQUE_MERCATOR_A:
-					case HOTINE_OBLIQUE_MERCATOR_B:
 						projection.setLonC(getValue(parameter, Units.RADIAN));
+						break;
+					case HOTINE_OBLIQUE_MERCATOR_B:
+						if (projection.getName() != null && projection.getName()
+								.equals(ProjConstants.NAME_SOMERC)) {
+							projection.setProjectionLongitude(
+									getValue(parameter, Units.RADIAN));
+						} else {
+							projection
+									.setLonC(getValue(parameter, Units.RADIAN));
+						}
 						break;
 					default:
 						projection.setProjectionLongitude(
@@ -728,11 +783,41 @@ public class CRSParser {
 
 			case AZIMUTH_OF_INITIAL_LINE:
 			case CO_LATITUDE_OF_CONE_AXIS:
-				projection.setAlpha(getValue(parameter, Units.RADIAN));
+				if (method.hasMethod()) {
+					switch (method.getMethod()) {
+					case HOTINE_OBLIQUE_MERCATOR_B:
+						if (projection.getName() == null || !projection
+								.getName().equals(ProjConstants.NAME_SOMERC)) {
+							projection.setAlpha(
+									getValue(parameter, Units.RADIAN));
+						}
+						break;
+					default:
+						projection.setAlpha(getValue(parameter, Units.RADIAN));
+						break;
+					}
+				} else {
+					projection.setAlpha(getValue(parameter, Units.RADIAN));
+				}
 				break;
 
 			case ANGLE_FROM_RECTIFIED_TO_SKEW_GRID:
-				projection.setGamma(getValue(parameter, Units.RADIAN));
+				if (method.hasMethod()) {
+					switch (method.getMethod()) {
+					case HOTINE_OBLIQUE_MERCATOR_B:
+						if (projection.getName() == null || !projection
+								.getName().equals(ProjConstants.NAME_SOMERC)) {
+							projection.setGamma(
+									getValue(parameter, Units.RADIAN));
+						}
+						break;
+					default:
+						projection.setGamma(getValue(parameter, Units.RADIAN));
+						break;
+					}
+				} else {
+					projection.setGamma(getValue(parameter, Units.RADIAN));
+				}
 				break;
 
 			default:
@@ -764,27 +849,27 @@ public class CRSParser {
 				switch (axis.getDirection()) {
 
 				case EAST:
-					axisString.append("e");
+					axisString.append(ProjConstants.AXIS_EAST);
 					break;
 
 				case WEST:
-					axisString.append("w");
+					axisString.append(ProjConstants.AXIS_WEST);
 					break;
 
 				case NORTH:
-					axisString.append("n");
+					axisString.append(ProjConstants.AXIS_NORTH);
 					break;
 
 				case SOUTH:
-					axisString.append("s");
+					axisString.append(ProjConstants.AXIS_SOUTH);
 					break;
 
 				case UP:
-					axisString.append("u");
+					axisString.append(ProjConstants.AXIS_UP);
 					break;
 
 				case DOWN:
-					axisString.append("d");
+					axisString.append(ProjConstants.AXIS_DOWN);
 					break;
 
 				default:
@@ -800,7 +885,7 @@ public class CRSParser {
 			if (axisString != null) {
 
 				if (axesCount == 2) {
-					axisString.append("u");
+					axisString.append(ProjConstants.AXIS_UP);
 				}
 
 				axisValue = axisString.toString();
