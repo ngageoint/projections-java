@@ -19,6 +19,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
   * Hotine Oblique Mercator (variant B) operation method for Swiss Oblique Mercator
   * scale factor on pseudo standard parallel operation parameter
   * co-latitude of cone axis operation parameter
+  * Known Datum parsing
   * Known Prime Meridian parsing
   * Length units "from meter" parsing
   * Operation parameters compatibility unit support

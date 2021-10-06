@@ -377,6 +377,112 @@ public class ProjectionFactoryCodeTest {
 	}
 
 	/**
+	 * Test EPSG 2085
+	 */
+	@Test
+	public void test2085() {
+
+		final String code = "2085";
+		double delta = 0.0000001;
+
+		String definition = "PROJCRS[\"NAD27 / Cuba Norte\",BASEGEOGCRS[\"NAD27\","
+				+ "DATUM[\"North American Datum 1927\","
+				+ "ELLIPSOID[\"Clarke 1866\",6378206.4,294.9786982,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],ID[\"EPSG\",7008]],"
+				+ "ID[\"EPSG\",6267]],ID[\"EPSG\",4267]],"
+				+ "CONVERSION[\"Cuba Norte\",METHOD[\"Lambert Conic Conformal (1SP)\",ID[\"EPSG\",9801]],"
+				+ "PARAMETER[\"Latitude of natural origin\",22.35,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]]],"
+				+ "PARAMETER[\"Longitude of natural origin\",-81,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]]],"
+				+ "PARAMETER[\"Scale factor at natural origin\",0.99993602,SCALEUNIT[\"unity\",1,ID[\"EPSG\",9201]]],"
+				+ "PARAMETER[\"False easting\",500000,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],"
+				+ "PARAMETER[\"False northing\",280296.016,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],"
+				+ "ID[\"EPSG\",18061]],"
+				+ "CS[Cartesian,2,ID[\"EPSG\",4532]],AXIS[\"Northing (Y)\",north],AXIS[\"Easting (X)\",east],"
+				+ "LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],ID[\"EPSG\",2085]]";
+
+		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
+				definition, delta);
+
+		definition = "PROJCS[\"NAD27 / Cuba Norte (deprecated)\","
+				+ "GEOGCS[\"NAD27\"," + "DATUM[\"North_American_Datum_1927\","
+				+ "SPHEROID[\"Clarke 1866\",6378206.4,294.9786982139006,"
+				+ "AUTHORITY[\"EPSG\",\"7008\"]],"
+				+ "AUTHORITY[\"EPSG\",\"6267\"]]," + "PRIMEM[\"Greenwich\",0,"
+				+ "AUTHORITY[\"EPSG\",\"8901\"]],"
+				+ "UNIT[\"degree\",0.0174532925199433,"
+				+ "AUTHORITY[\"EPSG\",\"9122\"]],"
+				+ "AUTHORITY[\"EPSG\",\"4267\"]],"
+				+ "PROJECTION[\"Lambert_Conformal_Conic_1SP\"],"
+				+ "PARAMETER[\"latitude_of_origin\",22.35],"
+				+ "PARAMETER[\"central_meridian\",-81],"
+				+ "PARAMETER[\"scale_factor\",0.99993602],"
+				+ "PARAMETER[\"false_easting\",500000],"
+				+ "PARAMETER[\"false_northing\",280296.016],"
+				+ "UNIT[\"metre\",1," + "AUTHORITY[\"EPSG\",\"9001\"]],"
+				+ "AUTHORITY[\"EPSG\",\"2085\"]]";
+
+		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
+				definition);
+
+	}
+
+	/**
+	 * Test EPSG 2088
+	 */
+	@Test
+	public void test2088() {
+
+		final String code = "2088";
+		double delta = 0.000000001;
+		double minX = 7.49;
+		double minY = 30.23;
+		double maxX = 13.67;
+		double maxY = 38.41;
+
+		String definition = "PROJCRS[\"Carthage / TM 11 NE\",BASEGEOGCRS[\"Carthage\","
+				+ "DATUM[\"Carthage\","
+				+ "ELLIPSOID[\"Clarke 1880 (IGN)\",6378249.2,293.4660213,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],ID[\"EPSG\",7011]],"
+				+ "ID[\"EPSG\",6223]],ID[\"EPSG\",4223]],"
+				+ "CONVERSION[\"TM 11 NE\",METHOD[\"Transverse Mercator\",ID[\"EPSG\",9807]],"
+				+ "PARAMETER[\"Latitude of natural origin\",0,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]]],"
+				+ "PARAMETER[\"Longitude of natural origin\",11,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]]],"
+				+ "PARAMETER[\"Scale factor at natural origin\",0.9996,SCALEUNIT[\"unity\",1,ID[\"EPSG\",9201]]],"
+				+ "PARAMETER[\"False easting\",500000,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],"
+				+ "PARAMETER[\"False northing\",0,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],"
+				+ "PARAMETER[\"X-axis translation\",-263,LENGTHUNIT[\"metre\",1.0]],"
+				+ "PARAMETER[\"Y-axis translation\",6,LENGTHUNIT[\"metre\",1.0]],"
+				+ "PARAMETER[\"Z-axis translation\",431,LENGTHUNIT[\"metre\",1.0]],"
+				+ "ID[\"EPSG\",16411]],"
+				+ "CS[Cartesian,2,ID[\"EPSG\",4400]],AXIS[\"Easting (E)\",east],AXIS[\"Northing (N)\",north],"
+				+ "LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],ID[\"EPSG\",2088]]";
+
+		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
+				definition, delta, minX, minY, maxX, maxY);
+
+		definition = "PROJCS[\"Carthage / TM 11 NE\"," + "GEOGCS[\"Carthage\","
+				+ "DATUM[\"Carthage\","
+				+ "SPHEROID[\"Clarke 1880 (IGN)\",6378249.2,293.4660212936265,"
+				+ "AUTHORITY[\"EPSG\",\"7011\"]],"
+				+ "TOWGS84[-263,6,431,0,0,0,0],"
+				+ "AUTHORITY[\"EPSG\",\"6223\"]]," + "PRIMEM[\"Greenwich\",0,"
+				+ "AUTHORITY[\"EPSG\",\"8901\"]],"
+				+ "UNIT[\"degree\",0.0174532925199433,"
+				+ "AUTHORITY[\"EPSG\",\"9122\"]],"
+				+ "AUTHORITY[\"EPSG\",\"4223\"]],"
+				+ "PROJECTION[\"Transverse_Mercator\"],"
+				+ "PARAMETER[\"latitude_of_origin\",0],"
+				+ "PARAMETER[\"central_meridian\",11],"
+				+ "PARAMETER[\"scale_factor\",0.9996],"
+				+ "PARAMETER[\"false_easting\",500000],"
+				+ "PARAMETER[\"false_northing\",0]," + "UNIT[\"metre\",1,"
+				+ "AUTHORITY[\"EPSG\",\"9001\"]]," + "AXIS[\"Easting\",EAST],"
+				+ "AXIS[\"Northing\",NORTH]," + "AUTHORITY[\"EPSG\",\"2088\"]]";
+
+		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
+				definition, minX, minY, maxX, maxY);
+
+	}
+
+	/**
 	 * Test EPSG 3035
 	 */
 	@Test
@@ -1222,8 +1328,6 @@ public class ProjectionFactoryCodeTest {
 		TestCase.assertEquals(definition, projection.getDefinition());
 		TestCase.assertTrue(projection.getCrs()
 				.getProjection() instanceof LambertConformalConicProjection);
-		TestCase.assertEquals(6371000, projection.getCrs().getProjection()
-				.getEllipsoid().getEquatorRadius(), 0);
 
 	}
 
@@ -1260,8 +1364,6 @@ public class ProjectionFactoryCodeTest {
 		TestCase.assertEquals(definition, projection.getDefinition());
 		TestCase.assertTrue(projection.getCrs()
 				.getProjection() instanceof LambertConformalConicProjection);
-		TestCase.assertEquals(6378160, projection.getCrs().getProjection()
-				.getEllipsoid().getEquatorRadius(), 0);
 
 	}
 
@@ -1859,16 +1961,16 @@ public class ProjectionFactoryCodeTest {
 		assertEquals(ellipsoid.getEccentricitySquared(),
 				ellipsoid2.getEccentricitySquared(), delta);
 		assertEquals(ellipsoid.getEquatorRadius(),
-				ellipsoid2.getEquatorRadius(), 0);
-		assertEquals(ellipsoid.getA(), ellipsoid2.getA(), 0);
+				ellipsoid2.getEquatorRadius(), delta);
+		assertEquals(ellipsoid.getA(), ellipsoid2.getA(), delta);
 		assertEquals(ellipsoid.getB(), ellipsoid2.getB(), delta);
 
 		assertEquals(proj.getEllipsoid().getEccentricitySquared(),
 				proj2.getEllipsoid().getEccentricitySquared(), delta);
 		assertEquals(proj.getEllipsoid().getEquatorRadius(),
-				proj2.getEllipsoid().getEquatorRadius(), 0);
+				proj2.getEllipsoid().getEquatorRadius(), delta);
 		assertEquals(proj.getEllipsoid().getA(), proj2.getEllipsoid().getA(),
-				0);
+				delta);
 		assertEquals(proj.getEllipsoid().getB(), proj2.getEllipsoid().getB(),
 				delta);
 
@@ -1890,7 +1992,7 @@ public class ProjectionFactoryCodeTest {
 		assertEquals(proj.getAlpha(), proj2.getAlpha(), delta);
 		assertEquals(proj.getAxisOrder(), proj2.getAxisOrder());
 		assertEquals(proj.getEPSGCode(), proj2.getEPSGCode(), 0);
-		assertEquals(proj.getEquatorRadius(), proj2.getEquatorRadius(), 0);
+		assertEquals(proj.getEquatorRadius(), proj2.getEquatorRadius(), delta);
 		assertEquals(proj.getFalseEasting(), proj2.getFalseEasting(), 0);
 		assertEquals(proj.getFalseNorthing(), proj2.getFalseNorthing(), 0);
 		assertEquals(proj.getFromMetres(), proj2.getFromMetres(), 0);

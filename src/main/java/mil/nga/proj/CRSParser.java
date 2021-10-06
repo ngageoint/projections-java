@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.locationtech.proj4j.CRSFactory;
 import org.locationtech.proj4j.CoordinateReferenceSystem;
+import org.locationtech.proj4j.Registry;
 import org.locationtech.proj4j.datum.Datum;
 import org.locationtech.proj4j.datum.Ellipsoid;
 import org.locationtech.proj4j.parser.DatumParameters;
@@ -47,11 +48,20 @@ public class CRSParser {
 	private static final CRSFactory crsFactory = new CRSFactory();
 
 	/**
+	 * Name to known datum mapping
+	 */
+	private static final Map<String, Datum> datums = new HashMap<>();
+
+	/**
 	 * Name to known ellipsoid mapping
 	 */
 	private static final Map<String, Ellipsoid> ellipsoids = new HashMap<>();
 
 	static {
+		for (Datum datum : Registry.datums) {
+			datums.put(datum.getCode().toLowerCase(), datum);
+			datums.put(datum.getName().toLowerCase(), datum);
+		}
 		for (Ellipsoid ellipsoid : Ellipsoid.ellipsoids) {
 			ellipsoids.put(ellipsoid.getShortName().toLowerCase(), ellipsoid);
 			String name = ellipsoid.getName().toLowerCase();
@@ -73,6 +83,18 @@ public class CRSParser {
 	 */
 	public static CRSFactory getCRSFactory() {
 		return crsFactory;
+	}
+
+	/**
+	 * Get a predefined proj4j datum by name or short name
+	 * 
+	 * @param name
+	 *            name or short name
+	 * @return datum or null
+	 * @since 1.1.0
+	 */
+	public static Datum getDatum(String name) {
+		return datums.get(name.toLowerCase());
 	}
 
 	/**
@@ -225,27 +247,32 @@ public class CRSParser {
 
 		CoordinateSystem coordinateSystem = projected.getCoordinateSystem();
 		MapProjection mapProjection = projected.getMapProjection();
-
+		OperationMethod method = mapProjection.getMethod();
 		GeoDatum geoDatum = projected.getGeoDatum();
 
-		Ellipsoid ellipsoid = convert(geoDatum.getEllipsoid());
-		DatumParameters datumParameters = new DatumParameters();
+		Datum datum = getDatum(geoDatum.getName());
 
-		OperationMethod method = mapProjection.getMethod();
-		if (projected.hasIdentifiers()
-				&& projected.getIdentifier(0).getNameAndUniqueIdentifier()
-						.equalsIgnoreCase(ProjectionConstants.AUTHORITY_EPSG
-								+ ":"
-								+ ProjectionConstants.EPSG_WEB_MERCATOR)) {
-			datumParameters.setA(ellipsoid.getA());
-			datumParameters.setES(0);
-		} else {
-			datumParameters.setEllipsoid(ellipsoid);
+		if (datum == null) {
+
+			Ellipsoid ellipsoid = convert(geoDatum.getEllipsoid());
+			DatumParameters datumParameters = new DatumParameters();
+
+			if (projected.hasIdentifiers()
+					&& projected.getIdentifier(0).getNameAndUniqueIdentifier()
+							.equalsIgnoreCase(ProjectionConstants.AUTHORITY_EPSG
+									+ ":"
+									+ ProjectionConstants.EPSG_WEB_MERCATOR)) {
+				datumParameters.setA(ellipsoid.getA());
+				datumParameters.setES(0);
+			} else {
+				datumParameters.setEllipsoid(ellipsoid);
+			}
+
+			datumParameters.setDatumTransform(convertDatumTransform(method));
+
+			datum = datumParameters.getDatum();
+
 		}
-
-		datumParameters.setDatumTransform(convertDatumTransform(method));
-
-		Datum datum = datumParameters.getDatum();
 
 		Projection projection = createProjection(coordinateSystem,
 				mapProjection);
