@@ -74,6 +74,7 @@ public class CRSParser {
 				}
 			}
 		}
+		ellipsoids.remove(Ellipsoid.SPHERE.getShortName());
 	}
 
 	/**
