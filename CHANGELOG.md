@@ -20,6 +20,8 @@ Adheres to [Semantic Versioning](http://semver.org/).
   * scale factor on pseudo standard parallel operation parameter
   * co-latitude of cone axis operation parameter
   * Known Prime Meridian parsing
+  * Length units "from meter" parsing
+  * Operation parameters compatibility unit support
 * CRS Definition to PROJ parameters conversion and projection creation
 
 ## [1.0.0](https://github.com/ngageoint/projections-java/releases/tag/1.0.0) (06-24-2021)

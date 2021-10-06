@@ -223,6 +223,7 @@ public class CRSParser {
 	public static CoordinateReferenceSystem convert(
 			ProjectedCoordinateReferenceSystem projected) {
 
+		CoordinateSystem coordinateSystem = projected.getCoordinateSystem();
 		MapProjection mapProjection = projected.getMapProjection();
 
 		GeoDatum geoDatum = projected.getGeoDatum();
@@ -246,10 +247,10 @@ public class CRSParser {
 
 		Datum datum = datumParameters.getDatum();
 
-		Projection projection = createProjection(
-				projected.getCoordinateSystem(), mapProjection);
+		Projection projection = createProjection(coordinateSystem,
+				mapProjection);
 		updateProjection(projection, datum.getEllipsoid(), geoDatum);
-		updateProjection(projection, method);
+		updateProjection(projection, method, coordinateSystem.getUnit());
 		projection.initialize();
 
 		return new CoordinateReferenceSystem(projected.getName(), null, datum,
@@ -322,7 +323,10 @@ public class CRSParser {
 				shortName = ellipsoid.getIdentifier(0)
 						.getNameAndUniqueIdentifier();
 			}
-			double equatorRadius = ellipsoid.getSemiMajorAxis();
+
+			double equatorRadius = convertValue(ellipsoid.getSemiMajorAxis(),
+					ellipsoid.getUnit(), Units.METRE);
+
 			double poleRadius = 0;
 			double reciprocalFlattening = 0;
 
@@ -335,7 +339,8 @@ public class CRSParser {
 				break;
 			case TRIAXIAL:
 				TriaxialEllipsoid triaxial = (TriaxialEllipsoid) ellipsoid;
-				poleRadius = triaxial.getSemiMinorAxis();
+				poleRadius = convertValue(triaxial.getSemiMinorAxis(),
+						ellipsoid.getUnit(), Units.METRE);
 				break;
 			default:
 				throw new CRSException(
@@ -426,7 +431,7 @@ public class CRSParser {
 	}
 
 	/**
-	 * Create a proj4j projection
+	 * Update the projection ellipsoid and prime meridian
 	 * 
 	 * @param projection
 	 *            projection
@@ -459,7 +464,7 @@ public class CRSParser {
 	}
 
 	/**
-	 * Create a proj4j projection for the unit
+	 * Create a proj4j projection for the coordinate system
 	 * 
 	 * @param coordinateSystem
 	 *            coordinate system
@@ -484,7 +489,7 @@ public class CRSParser {
 	}
 
 	/**
-	 * Create a proj4j projection for the method and unit
+	 * Create a proj4j projection for the coordinate system and map projection
 	 * 
 	 * @param coordinateSystem
 	 *            coordinate system
@@ -613,7 +618,7 @@ public class CRSParser {
 	}
 
 	/**
-	 * Create a proj4j projection for the projection name and unit
+	 * Create a proj4j projection for the projection name and coordinate system
 	 * 
 	 * @param projectionName
 	 *            projection name
@@ -633,6 +638,33 @@ public class CRSParser {
 			projection.setAxisOrder(axisOrder);
 		}
 
+		if (coordinateSystem.hasUnit()) {
+
+			Unit unit = coordinateSystem.getUnit();
+
+			if (unit.hasConversionFactor()
+					&& unit.getConversionFactor() != 1.0) {
+
+				boolean fromMetres = false;
+
+				switch (unit.getType()) {
+				case LENGTHUNIT:
+					fromMetres = true;
+					break;
+				case UNIT:
+					UnitType type = Units.getUnitType(unit.getName());
+					fromMetres = type == null || type == UnitType.LENGTHUNIT;
+					break;
+				default:
+				}
+
+				if (fromMetres) {
+					projection.setFromMetres(1.0 / unit.getConversionFactor());
+				}
+
+			}
+		}
+
 		return projection;
 	}
 
@@ -643,12 +675,15 @@ public class CRSParser {
 	 *            proj4j projection
 	 * @param method
 	 *            operation method
+	 * @param unit
+	 *            unit
+	 * @since 1.1.0
 	 */
 	public static void updateProjection(Projection projection,
-			OperationMethod method) {
+			OperationMethod method, Unit unit) {
 		if (method.hasParameters()) {
 			for (OperationParameter parameter : method.getParameters()) {
-				updateProjection(projection, method, parameter);
+				updateProjection(projection, method, unit, parameter);
 			}
 		}
 	}
@@ -660,11 +695,14 @@ public class CRSParser {
 	 *            proj4j projection
 	 * @param method
 	 *            operation method
+	 * @param unit
+	 *            unit
 	 * @param parameter
 	 *            operation parameter
+	 * @since 1.1.0
 	 */
 	public static void updateProjection(Projection projection,
-			OperationMethod method, OperationParameter parameter) {
+			OperationMethod method, Unit unit, OperationParameter parameter) {
 
 		if (parameter.hasParameter()) {
 
@@ -674,14 +712,14 @@ public class CRSParser {
 			case EASTING_AT_PROJECTION_CENTRE:
 			case EASTING_AT_FALSE_ORIGIN:
 				projection.setFalseEasting(
-						getValue(parameter, projection.getUnits()));
+						getValue(parameter, unit, projection.getUnits()));
 				break;
 
 			case FALSE_NORTHING:
 			case NORTHING_AT_PROJECTION_CENTRE:
 			case NORTHING_AT_FALSE_ORIGIN:
 				projection.setFalseNorthing(
-						getValue(parameter, projection.getUnits()));
+						getValue(parameter, unit, projection.getUnits()));
 				break;
 
 			case SCALE_FACTOR_AT_NATURAL_ORIGIN:
@@ -914,16 +952,33 @@ public class CRSParser {
 	 */
 	public static double getValue(OperationParameter parameter,
 			org.locationtech.proj4j.units.Unit unit) {
+		return getValue(parameter, null, unit);
+	}
+
+	/**
+	 * Get the operation parameter value in the specified unit
+	 * 
+	 * @param parameter
+	 *            operation parameter
+	 * @param unit
+	 *            unit
+	 * @param inUnit
+	 *            in unit
+	 * @return value
+	 * @since 1.1.0
+	 */
+	public static double getValue(OperationParameter parameter, Unit unit,
+			org.locationtech.proj4j.units.Unit inUnit) {
 
 		Units desiredUnit = null;
 
-		if (unit instanceof DegreeUnit) {
+		if (inUnit instanceof DegreeUnit) {
 			desiredUnit = Units.DEGREE;
 		} else {
 			desiredUnit = Units.METRE;
 		}
 
-		return getValue(parameter, desiredUnit);
+		return getValue(parameter, unit, desiredUnit);
 	}
 
 	/**
@@ -937,7 +992,24 @@ public class CRSParser {
 	 * @since 1.1.0
 	 */
 	public static double getValue(OperationParameter parameter, Units unit) {
-		return getValue(parameter, unit.createUnit());
+		return getValue(parameter, null, unit);
+	}
+
+	/**
+	 * Get the operation parameter value in the specified unit
+	 * 
+	 * @param parameter
+	 *            operation parameter
+	 * @param unit
+	 *            unit
+	 * @param inUnit
+	 *            in unit
+	 * @return value
+	 * @since 1.1.0
+	 */
+	public static double getValue(OperationParameter parameter, Unit unit,
+			Units inUnit) {
+		return getValue(parameter, unit, inUnit.createUnit());
 	}
 
 	/**
@@ -950,7 +1022,28 @@ public class CRSParser {
 	 * @return value
 	 */
 	public static double getValue(OperationParameter parameter, Unit unit) {
-		return convertValue(parameter.getValue(), parameter.getUnit(), unit);
+		return getValue(parameter, null, unit);
+	}
+
+	/**
+	 * Get the operation parameter value in the specified unit
+	 * 
+	 * @param parameter
+	 *            operation parameter
+	 * @param unit
+	 *            unit
+	 * @param inUnit
+	 *            in unit
+	 * @return value
+	 * @since 1.1.0
+	 */
+	public static double getValue(OperationParameter parameter, Unit unit,
+			Unit inUnit) {
+		Unit parameterUnit = parameter.getUnit();
+		if (parameterUnit == null) {
+			parameterUnit = unit;
+		}
+		return convertValue(parameter.getValue(), parameterUnit, inUnit);
 	}
 
 	/**

@@ -325,6 +325,58 @@ public class ProjectionFactoryCodeTest {
 	}
 
 	/**
+	 * Test EPSG 2066
+	 */
+	@Test
+	public void test2066() {
+
+		final String code = "2066";
+		double delta = 0.0001;
+		double minX = -60.9;
+		double minY = 11.08;
+		double maxX = -60.44;
+		double maxY = 11.41;
+
+		String definition = "PROJCRS[\"Mount Dillon / Tobago Grid\",BASEGEOGCRS[\"Mount Dillon\","
+				+ "DATUM[\"Mount Dillon\","
+				+ "ELLIPSOID[\"Clarke 1858\",20926348,294.2606764,LENGTHUNIT[\"Clarke's foot\",0.3047972654,ID[\"EPSG\",9005]],ID[\"EPSG\",7007]],"
+				+ "ID[\"EPSG\",6157]],ID[\"EPSG\",4157]],"
+				+ "CONVERSION[\"Tobago Grid\",METHOD[\"Cassini-Soldner\",ID[\"EPSG\",9806]],"
+				+ "PARAMETER[\"Latitude of natural origin\",11.252178611,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]]],"
+				+ "PARAMETER[\"Longitude of natural origin\",-60.686008889,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]]],"
+				+ "PARAMETER[\"False easting\",187500,LENGTHUNIT[\"Clarke's link\",0.201166195164,ID[\"EPSG\",9039]]],"
+				+ "PARAMETER[\"False northing\",180000,LENGTHUNIT[\"Clarke's link\",0.201166195164,ID[\"EPSG\",9039]]],"
+				+ "ID[\"EPSG\",19924]],"
+				+ "CS[Cartesian,2,ID[\"EPSG\",4407]],AXIS[\"Easting (E)\",east],AXIS[\"Northing (N)\",north],"
+				+ "LENGTHUNIT[\"Clarke's link\",0.201166195164,ID[\"EPSG\",9039]],ID[\"EPSG\",2066]]";
+
+		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
+				definition, delta, minX, minY, maxX, maxY);
+
+		definition = "PROJCS[\"Mount Dillon / Tobago Grid\","
+				+ "GEOGCS[\"Mount Dillon\"," + "DATUM[\"Mount_Dillon\","
+				+ "SPHEROID[\"Clarke 1858\",6378293.645208759,294.2606763692569,"
+				+ "AUTHORITY[\"EPSG\",\"7007\"]],"
+				+ "AUTHORITY[\"EPSG\",\"6157\"]]," + "PRIMEM[\"Greenwich\",0,"
+				+ "AUTHORITY[\"EPSG\",\"8901\"]],"
+				+ "UNIT[\"degree\",0.0174532925199433,"
+				+ "AUTHORITY[\"EPSG\",\"9122\"]],"
+				+ "AUTHORITY[\"EPSG\",\"4157\"]],"
+				+ "PROJECTION[\"Cassini_Soldner\"],"
+				+ "PARAMETER[\"latitude_of_origin\",11.25217861111111],"
+				+ "PARAMETER[\"central_meridian\",-60.68600888888889],"
+				+ "PARAMETER[\"false_easting\",187500],"
+				+ "PARAMETER[\"false_northing\",180000],"
+				+ "UNIT[\"Clarke's link\",0.201166195164,"
+				+ "AUTHORITY[\"EPSG\",\"9039\"]]," + "AXIS[\"Easting\",EAST],"
+				+ "AXIS[\"Northing\",NORTH]," + "AUTHORITY[\"EPSG\",\"2066\"]]";
+
+		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
+				definition, delta, minX, minY, maxX, maxY);
+
+	}
+
+	/**
 	 * Test EPSG 3035
 	 */
 	@Test
@@ -1805,20 +1857,20 @@ public class ProjectionFactoryCodeTest {
 		org.locationtech.proj4j.proj.Projection proj2 = crs2.getProjection();
 
 		assertEquals(ellipsoid.getEccentricitySquared(),
-				ellipsoid2.getEccentricitySquared(), 0);
+				ellipsoid2.getEccentricitySquared(), delta);
 		assertEquals(ellipsoid.getEquatorRadius(),
 				ellipsoid2.getEquatorRadius(), 0);
 		assertEquals(ellipsoid.getA(), ellipsoid2.getA(), 0);
-		assertEquals(ellipsoid.getB(), ellipsoid2.getB(), 0);
+		assertEquals(ellipsoid.getB(), ellipsoid2.getB(), delta);
 
 		assertEquals(proj.getEllipsoid().getEccentricitySquared(),
-				proj2.getEllipsoid().getEccentricitySquared(), 0);
+				proj2.getEllipsoid().getEccentricitySquared(), delta);
 		assertEquals(proj.getEllipsoid().getEquatorRadius(),
 				proj2.getEllipsoid().getEquatorRadius(), 0);
 		assertEquals(proj.getEllipsoid().getA(), proj2.getEllipsoid().getA(),
 				0);
 		assertEquals(proj.getEllipsoid().getB(), proj2.getEllipsoid().getB(),
-				0);
+				delta);
 
 		if (transform != null || transform2 != null) {
 			if (transform != null && transform2 != null) {
