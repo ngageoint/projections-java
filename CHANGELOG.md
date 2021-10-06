@@ -21,7 +21,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
   * co-latitude of cone axis operation parameter
   * Known Datum parsing
   * Known Prime Meridian parsing
-  * Length units "from meter" parsing
+  * Length non meter units parsing
   * Operation parameters compatibility unit support
 * CRS Definition to PROJ parameters conversion and projection creation
 

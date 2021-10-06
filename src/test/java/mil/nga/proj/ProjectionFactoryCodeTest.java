@@ -269,7 +269,7 @@ public class ProjectionFactoryCodeTest {
 	public void test2065() {
 
 		final String code = "2065";
-		double delta = 0.00000001;
+		double delta = 0.0000001;
 		double minX = 12.09;
 		double minY = 47.73;
 		double maxX = 22.56;
@@ -479,6 +479,65 @@ public class ProjectionFactoryCodeTest {
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
 				definition, minX, minY, maxX, maxY);
+
+	}
+
+	/**
+	 * Test EPSG 2155
+	 */
+	@Test
+	public void test2155() {
+
+		final String code = "2155";
+		double delta = 0.001;
+		double minX = -170.88;
+		double minY = -14.43;
+		double maxX = -169.38;
+		double maxY = -14.11;
+
+		String definition = "PROJCRS[\"American Samoa 1962 / American Samoa Lambert\",BASEGEOGCRS[\"American Samoa 1962\","
+				+ "DATUM[\"American Samoa 1962\","
+				+ "ELLIPSOID[\"Clarke 1866\",6378206.4,294.9786982,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],ID[\"EPSG\",7008]],"
+				+ "ID[\"EPSG\",6169]],ID[\"EPSG\",4169]],"
+				+ "CONVERSION[\"American Samoa Lambert\",METHOD[\"Lambert Conic Conformal (1SP)\",ID[\"EPSG\",9801]],"
+				+ "PARAMETER[\"Latitude of natural origin\",-14.266666667,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]]],"
+				+ "PARAMETER[\"Longitude of natural origin\",170,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]]],"
+				+ "PARAMETER[\"Scale factor at natural origin\",1,SCALEUNIT[\"unity\",1,ID[\"EPSG\",9201]]],"
+				+ "PARAMETER[\"False easting\",500000,LENGTHUNIT[\"US survey foot\",0.304800609601219,ID[\"EPSG\",9003]]],"
+				+ "PARAMETER[\"False northing\",0,LENGTHUNIT[\"US survey foot\",0.304800609601219,ID[\"EPSG\",9003]]],"
+				+ "PARAMETER[\"X-axis translation\",-115,LENGTHUNIT[\"metre\",1.0]],"
+				+ "PARAMETER[\"Y-axis translation\",118,LENGTHUNIT[\"metre\",1.0]],"
+				+ "PARAMETER[\"Z-axis translation\",426,LENGTHUNIT[\"metre\",1.0]],"
+				+ "ID[\"EPSG\",15300]],"
+				+ "CS[Cartesian,2,ID[\"EPSG\",4497]],AXIS[\"Easting (X)\",east],AXIS[\"Northing (Y)\",north],"
+				+ "LENGTHUNIT[\"US survey foot\",0.304800609601219,ID[\"EPSG\",9003]],ID[\"EPSG\",2155]]";
+
+		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
+				definition, delta, minX, minY, maxX, maxY);
+
+		definition = "PROJCS[\"American Samoa 1962 / American Samoa Lambert (deprecated)\","
+				+ "GEOGCS[\"American Samoa 1962\","
+				+ "DATUM[\"American_Samoa_1962\","
+				+ "SPHEROID[\"Clarke 1866\",6378206.4,294.9786982139006,"
+				+ "AUTHORITY[\"EPSG\",\"7008\"]],"
+				+ "TOWGS84[-115,118,426,0,0,0,0],"
+				+ "AUTHORITY[\"EPSG\",\"6169\"]]," + "PRIMEM[\"Greenwich\",0,"
+				+ "AUTHORITY[\"EPSG\",\"8901\"]],"
+				+ "UNIT[\"degree\",0.0174532925199433,"
+				+ "AUTHORITY[\"EPSG\",\"9122\"]],"
+				+ "AUTHORITY[\"EPSG\",\"4169\"]],"
+				+ "PROJECTION[\"Lambert_Conformal_Conic_1SP\"],"
+				+ "PARAMETER[\"latitude_of_origin\",-14.26666666666667],"
+				+ "PARAMETER[\"central_meridian\",170],"
+				+ "PARAMETER[\"scale_factor\",1],"
+				+ "PARAMETER[\"false_easting\",500000],"
+				+ "PARAMETER[\"false_northing\",0],"
+				+ "UNIT[\"US survey foot\",0.3048006096012192,"
+				+ "AUTHORITY[\"EPSG\",\"9003\"]]," + "AXIS[\"X\",EAST],"
+				+ "AXIS[\"Y\",NORTH]," + "AUTHORITY[\"EPSG\",\"2155\"]]";
+
+		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
+				definition, delta, minX, minY, maxX, maxY);
 
 	}
 
@@ -1993,9 +2052,9 @@ public class ProjectionFactoryCodeTest {
 		assertEquals(proj.getAxisOrder(), proj2.getAxisOrder());
 		assertEquals(proj.getEPSGCode(), proj2.getEPSGCode(), 0);
 		assertEquals(proj.getEquatorRadius(), proj2.getEquatorRadius(), delta);
-		assertEquals(proj.getFalseEasting(), proj2.getFalseEasting(), 0);
+		assertEquals(proj.getFalseEasting(), proj2.getFalseEasting(), delta);
 		assertEquals(proj.getFalseNorthing(), proj2.getFalseNorthing(), 0);
-		assertEquals(proj.getFromMetres(), proj2.getFromMetres(), 0);
+		assertEquals(proj.getFromMetres(), proj2.getFromMetres(), delta);
 		assertEquals(proj.getLonC(), proj2.getLonC(), delta);
 		assertEquals(proj.getMaxLatitude(), proj2.getMaxLatitude(), 0);
 		assertEquals(proj.getMaxLatitudeDegrees(),

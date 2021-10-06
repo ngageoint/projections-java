@@ -276,8 +276,9 @@ public class CRSParser {
 
 		Projection projection = createProjection(coordinateSystem,
 				mapProjection);
+		updateUnits(projection, coordinateSystem);
 		updateProjection(projection, datum.getEllipsoid(), geoDatum);
-		updateProjection(projection, method, coordinateSystem.getUnit());
+		updateParams(projection, method, coordinateSystem.getUnit());
 		projection.initialize();
 
 		return new CoordinateReferenceSystem(projected.getName(), null, datum,
@@ -665,34 +666,81 @@ public class CRSParser {
 			projection.setAxisOrder(axisOrder);
 		}
 
+		return projection;
+	}
+
+	/**
+	 * Update the units
+	 * 
+	 * @param projection
+	 *            proj4j projection
+	 * @param coordinateSystem
+	 *            coordinate system
+	 * @since 1.1.0
+	 */
+	public static void updateUnits(Projection projection,
+			CoordinateSystem coordinateSystem) {
+
 		if (coordinateSystem.hasUnit()) {
 
 			Unit unit = coordinateSystem.getUnit();
 
-			if (unit.hasConversionFactor()
-					&& unit.getConversionFactor() != 1.0) {
+			if (unit.getType() == UnitType.LENGTHUNIT
+					|| unit.getType() == UnitType.UNIT) {
 
-				boolean fromMetres = false;
+				Units type = Units.fromUnit(unit);
+				if (type != null) {
 
-				switch (unit.getType()) {
-				case LENGTHUNIT:
-					fromMetres = true;
-					break;
-				case UNIT:
-					UnitType type = Units.getUnitType(unit.getName());
-					fromMetres = type == null || type == UnitType.LENGTHUNIT;
-					break;
-				default:
+					switch (type) {
+					case MICROMETRE:
+					case MILLIMETRE:
+					case METRE:
+					case KILOMETRE:
+						projection.setUnits(
+								org.locationtech.proj4j.units.Units.METRES);
+						break;
+					case US_SURVEY_FOOT:
+						projection.setUnits(
+								org.locationtech.proj4j.units.Units.US_FEET);
+						break;
+					case FOOT:
+						projection.setUnits(
+								org.locationtech.proj4j.units.Units.FEET);
+						break;
+					default:
+						break;
+					}
+
 				}
 
-				if (fromMetres) {
-					projection.setFromMetres(1.0 / unit.getConversionFactor());
+				if (unit.hasConversionFactor()
+						&& unit.getConversionFactor() != 1.0) {
+
+					boolean fromMetres = false;
+
+					switch (unit.getType()) {
+					case LENGTHUNIT:
+						fromMetres = true;
+						break;
+					case UNIT:
+						UnitType unitType = Units.getUnitType(unit.getName());
+						fromMetres = unitType == null
+								|| unitType == UnitType.LENGTHUNIT;
+						break;
+					default:
+					}
+
+					if (fromMetres) {
+						projection.setFromMetres(
+								1.0 / unit.getConversionFactor());
+					}
+
 				}
 
 			}
+
 		}
 
-		return projection;
 	}
 
 	/**
@@ -706,11 +754,11 @@ public class CRSParser {
 	 *            unit
 	 * @since 1.1.0
 	 */
-	public static void updateProjection(Projection projection,
+	public static void updateParams(Projection projection,
 			OperationMethod method, Unit unit) {
 		if (method.hasParameters()) {
 			for (OperationParameter parameter : method.getParameters()) {
-				updateProjection(projection, method, unit, parameter);
+				updateParams(projection, method, unit, parameter);
 			}
 		}
 	}
@@ -728,7 +776,7 @@ public class CRSParser {
 	 *            operation parameter
 	 * @since 1.1.0
 	 */
-	public static void updateProjection(Projection projection,
+	public static void updateParams(Projection projection,
 			OperationMethod method, Unit unit, OperationParameter parameter) {
 
 		if (parameter.hasParameter()) {
