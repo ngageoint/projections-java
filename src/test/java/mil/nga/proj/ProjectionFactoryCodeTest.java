@@ -39,7 +39,7 @@ public class ProjectionFactoryCodeTest {
 	public void test2036() {
 
 		final String code = "2036";
-		double delta = 0.000001;
+		double delta = 0.00001;
 
 		String definition = "PROJCRS[\"NAD83(CSRS98) / New Brunswick Stereo\",BASEGEOGCRS[\"NAD83(CSRS98)\","
 				+ "DATUM[\"NAD83 Canadian Spatial Reference System\","
@@ -1550,6 +1550,213 @@ public class ProjectionFactoryCodeTest {
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
 				definition, delta);
+
+	}
+
+	/**
+	 * Test EPSG 4023
+	 */
+	@Test
+	public void test4023() {
+
+		final String code = "4023";
+
+		String definition = "GEOGCRS[\"MOLDREF99\"," + "DATUM[\"MOLDREF99\","
+				+ "ELLIPSOID[\"GRS 1980\",6378137,298.2572221,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],"
+				+ "ID[\"EPSG\",7019]]," + "TOWGS84[0,0,0,0,0,0,0],"
+				+ "ID[\"EPSG\",1032]]," + "CS[ellipsoidal,2,ID[\"EPSG\",6422]],"
+				+ "AXIS[\"latitude (Lat)\",north],AXIS[\"longitude (Lon)\",east],"
+				+ "ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]],ID[\"EPSG\",4023]]";
+
+		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
+				definition);
+
+		definition = "GEOGCS[\"MOLDREF99\"," + "DATUM[\"MOLDREF99\","
+				+ "SPHEROID[\"GRS 1980\",6378137,298.257222101,"
+				+ "AUTHORITY[\"EPSG\",\"7019\"]]," + "TOWGS84[0,0,0,0,0,0,0],"
+				+ "AUTHORITY[\"EPSG\",\"1032\"]]," + "PRIMEM[\"Greenwich\",0,"
+				+ "AUTHORITY[\"EPSG\",\"8901\"]],"
+				+ "UNIT[\"degree\",0.0174532925199433,"
+				+ "AUTHORITY[\"EPSG\",\"9122\"]],"
+				+ "AUTHORITY[\"EPSG\",\"4023\"]]";
+
+		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
+				definition);
+
+	}
+
+	/**
+	 * Test EPSG 4035
+	 */
+	@Test
+	public void test4035() {
+
+		final String code = "4035";
+
+		String definition = "GEOGCRS[\"Unknown datum based upon the Authalic Sphere\","
+				+ "DATUM[\"Not specified (based on Authalic Sphere)\","
+				+ "ELLIPSOID[\"Sphere\",6371000,0,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],"
+				+ "ID[\"EPSG\",7035]],ID[\"EPSG\",6035]],"
+				+ "CS[ellipsoidal,2,ID[\"EPSG\",6402]],"
+				+ "AXIS[\"latitude (Lat)\",north],AXIS[\"longitude (Long)\",east],"
+				+ "ANGLEUNIT[\"degree minute second hemisphere\",1,ID[\"EPSG\",9108]],ID[\"EPSG\",4035]]";
+
+		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
+				definition);
+
+		definition = "GEOGCS[\"Unknown datum based upon the Authalic Sphere\","
+				+ "DATUM[\"Not_specified_based_on_Authalic_Sphere\","
+				+ "SPHEROID[\"Sphere\",6371000,0,"
+				+ "AUTHORITY[\"EPSG\",\"7035\"]],"
+				+ "AUTHORITY[\"EPSG\",\"6035\"]]," + "PRIMEM[\"Greenwich\",0,"
+				+ "AUTHORITY[\"EPSG\",\"8901\"]],"
+				+ "UNIT[\"degree\",0.0174532925199433,"
+				+ "AUTHORITY[\"EPSG\",\"9108\"]],"
+				+ "AUTHORITY[\"EPSG\",\"4035\"]]";
+
+		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
+				definition);
+
+	}
+
+	/**
+	 * Test EPSG 4047
+	 */
+	@Test
+	public void test4047() {
+
+		final String code = "4047";
+
+		String definition = "GEOGCRS[\"Unspecified datum based upon the GRS 1980 Authalic Sphere\","
+				+ "DATUM[\"Not specified (based on GRS 1980 Authalic Sphere)\","
+				+ "ELLIPSOID[\"GRS 1980 Authalic Sphere\",6371007,0,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],"
+				+ "ID[\"EPSG\",7048]],ID[\"EPSG\",6047]],"
+				+ "CS[ellipsoidal,2,ID[\"EPSG\",6422]],"
+				+ "AXIS[\"latitude (Lat)\",north],AXIS[\"longitude (Lon)\",east],"
+				+ "ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]],ID[\"EPSG\",4047]]";
+
+		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
+				definition);
+
+		definition = "GEOGCS[\"Unspecified datum based upon the GRS 1980 Authalic Sphere\","
+				+ "DATUM[\"Not_specified_based_on_GRS_1980_Authalic_Sphere\","
+				+ "SPHEROID[\"GRS 1980 Authalic Sphere\",6371007,0,"
+				+ "AUTHORITY[\"EPSG\",\"7048\"]],"
+				+ "AUTHORITY[\"EPSG\",\"6047\"]]," + "PRIMEM[\"Greenwich\",0,"
+				+ "AUTHORITY[\"EPSG\",\"8901\"]],"
+				+ "UNIT[\"degree\",0.0174532925199433,"
+				+ "AUTHORITY[\"EPSG\",\"9122\"]],"
+				+ "AUTHORITY[\"EPSG\",\"4047\"]]";
+
+		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
+				definition);
+
+	}
+
+	/**
+	 * Test EPSG 4055
+	 */
+	@Test
+	public void test4055() {
+
+		final String code = "4055";
+
+		String definition = "GEOGCRS[\"Popular Visualisation CRS\","
+				+ "DATUM[\"Popular Visualisation Datum\","
+				+ "ELLIPSOID[\"Popular Visualisation Sphere\",6378137,0,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],"
+				+ "ID[\"EPSG\",7059]]," + "TOWGS84[0,0,0,0,0,0,0],"
+				+ "ID[\"EPSG\",6055]]," + "CS[ellipsoidal,2,ID[\"EPSG\",6422]],"
+				+ "AXIS[\"latitude (Lat)\",north],AXIS[\"longitude (Lon)\",east],"
+				+ "ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]],ID[\"EPSG\",4055]]";
+
+		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
+				definition);
+
+		definition = "PROJCRS[\"Popular Visualisation CRS\",BASEGEOGCRS[\"Popular Visualisation CRS\","
+				+ "DATUM[\"Popular Visualisation Datum\","
+				+ "ELLIPSOID[\"Popular Visualisation Sphere\",6378137,0,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],ID[\"EPSG\",7059]],"
+				+ "ID[\"EPSG\",6055]]],"
+				+ "CONVERSION[\"Coordinate Frame rotation\",METHOD[\"Coordinate Frame rotation (geocentric domain)\",ID[\"EPSG\",1032]],"
+				+ "PARAMETER[\"X-axis translation\",0,LENGTHUNIT[\"metre\",1.0]],"
+				+ "PARAMETER[\"Y-axis translation\",0,LENGTHUNIT[\"metre\",1.0]],"
+				+ "PARAMETER[\"Z-axis translation\",0,LENGTHUNIT[\"metre\",1.0]],"
+				+ "],CS[Cartesian,2,ID[\"EPSG\",6422]],"
+				+ "AXIS[\"latitude (Lat)\",north],AXIS[\"longitude (Lon)\",east],"
+				+ "ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]],ID[\"EPSG\",4055]]";
+
+		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
+				definition);
+
+		definition = "GEOGCS[\"Popular Visualisation CRS\","
+				+ "DATUM[\"Popular_Visualisation_Datum\","
+				+ "SPHEROID[\"Popular Visualisation Sphere\",6378137,0,"
+				+ "AUTHORITY[\"EPSG\",\"7059\"]]," + "TOWGS84[0,0,0,0,0,0,0],"
+				+ "AUTHORITY[\"EPSG\",\"6055\"]]," + "PRIMEM[\"Greenwich\",0,"
+				+ "AUTHORITY[\"EPSG\",\"8901\"]],"
+				+ "UNIT[\"degree\",0.0174532925199433,"
+				+ "AUTHORITY[\"EPSG\",\"9122\"]],"
+				+ "AUTHORITY[\"EPSG\",\"4055\"]]";
+
+		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
+				definition);
+
+	}
+
+	/**
+	 * Test EPSG 4071
+	 */
+	@Test
+	public void test4071() {
+
+		final String code = "4071";
+		double delta = 0.00000001;
+		double minX = -48.1;
+		double minY = -15.94;
+		double maxX = -47.1;
+		double maxY = -15.37;
+
+		String definition = "PROJCRS[\"Chua / UTM zone 23S\",BASEGEOGCRS[\"Chua\","
+				+ "DATUM[\"Chua\","
+				+ "ELLIPSOID[\"International 1924\",6378388,297,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],ID[\"EPSG\",7022]],"
+				+ "ID[\"EPSG\",6224]],ID[\"EPSG\",4224]],"
+				+ "CONVERSION[\"UTM zone 23S\",METHOD[\"Transverse Mercator\",ID[\"EPSG\",9807]],"
+				+ "PARAMETER[\"Latitude of natural origin\",0,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]]],"
+				+ "PARAMETER[\"Longitude of natural origin\",-45,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]]],"
+				+ "PARAMETER[\"Scale factor at natural origin\",0.9996,SCALEUNIT[\"unity\",1,ID[\"EPSG\",9201]]],"
+				+ "PARAMETER[\"False easting\",500000,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],"
+				+ "PARAMETER[\"False northing\",10000000,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],"
+				+ "PARAMETER[\"X-axis translation\",-134,LENGTHUNIT[\"metre\",1.0]],"
+				+ "PARAMETER[\"Y-axis translation\",229,LENGTHUNIT[\"metre\",1.0]],"
+				+ "PARAMETER[\"Z-axis translation\",-29,LENGTHUNIT[\"metre\",1.0]],"
+				+ "ID[\"EPSG\",16123]],CS[Cartesian,2,ID[\"EPSG\",4400]],"
+				+ "AXIS[\"Easting (E)\",east],AXIS[\"Northing (N)\",north],"
+				+ "LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],ID[\"EPSG\",4071]]";
+
+		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
+				definition, delta, minX, minY, maxX, maxY);
+
+		definition = "PROJCS[\"Chua / UTM zone 23S\"," + "GEOGCS[\"Chua\","
+				+ "DATUM[\"Chua\","
+				+ "SPHEROID[\"International 1924\",6378388,297,"
+				+ "AUTHORITY[\"EPSG\",\"7022\"]],"
+				+ "TOWGS84[-134,229,-29,0,0,0,0],"
+				+ "AUTHORITY[\"EPSG\",\"6224\"]]," + "PRIMEM[\"Greenwich\",0,"
+				+ "AUTHORITY[\"EPSG\",\"8901\"]],"
+				+ "UNIT[\"degree\",0.0174532925199433,"
+				+ "AUTHORITY[\"EPSG\",\"9122\"]],"
+				+ "AUTHORITY[\"EPSG\",\"4224\"]],"
+				+ "PROJECTION[\"Transverse_Mercator\"],"
+				+ "PARAMETER[\"latitude_of_origin\",0],"
+				+ "PARAMETER[\"central_meridian\",-45],"
+				+ "PARAMETER[\"scale_factor\",0.9996],"
+				+ "PARAMETER[\"false_easting\",500000],"
+				+ "PARAMETER[\"false_northing\",10000000],"
+				+ "UNIT[\"metre\",1," + "AUTHORITY[\"EPSG\",\"9001\"]],"
+				+ "AXIS[\"Easting\",EAST]," + "AXIS[\"Northing\",NORTH],"
+				+ "AUTHORITY[\"EPSG\",\"4071\"]]";
+
+		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
+				definition, minX, minY, maxX, maxY);
 
 	}
 
