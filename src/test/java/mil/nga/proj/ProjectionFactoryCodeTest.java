@@ -1168,6 +1168,27 @@ public class ProjectionFactoryCodeTest {
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
 				definition, minX, minY, maxX, maxY);
 
+		definition = "PROJCS[\"WGS 84 / World Mercator\",GEOGCS[\"WGS 84\","
+				+ "DATUM[\"WGS_1984\","
+				+ "SPHEROID[\"WGS 84\",6378137,298.257223563,"
+				+ "AUTHORITY[\"EPSG\",\"7030\"]],"
+				+ "AUTHORITY[\"EPSG\",\"6326\"]],"
+				+ "PRIMEM[\"Greenwich\",0,AUTHORITY[\"EPSG\",\"8901\"]],"
+				+ "UNIT[\"degree\",0.01745329251994328,"
+				+ "AUTHORITY[\"EPSG\",\"9122\"]],"
+				+ "AUTHORITY[\"EPSG\",\"4326\"]],"
+				+ "UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],"
+				+ "PROJECTION[\"Mercator\"],"
+				+ "PARAMETER[\"central_meridian\",0],"
+				+ "PARAMETER[\"scale_factor\",1],"
+				+ "PARAMETER[\"false_easting\",0],"
+				+ "PARAMETER[\"false_northing\",0],"
+				+ "AUTHORITY[\"EPSG\",\"3395\"],"
+				+ "AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]";
+
+		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
+				definition, minX, minY, maxX, maxY);
+
 		definition = "PROJCRS[\"WGS 84 / World Mercator\","
 				+ "BASEGEODCRS[\"WGS 84\","
 				+ "DATUM[\"World Geodetic System 1984\","
@@ -3390,7 +3411,8 @@ public class ProjectionFactoryCodeTest {
 		compare(projection, projection2, compareAuthority, compareCode, delta);
 
 		long transformCode;
-		if (projection.isUnit(Units.METRES)) {
+		boolean meters = projection.isUnit(Units.METRES);
+		if (meters) {
 			transformCode = 4326;
 		} else {
 			transformCode = 3857;
@@ -3419,13 +3441,22 @@ public class ProjectionFactoryCodeTest {
 
 		double xRange = maxX - minX;
 		if (xRange < 0) {
-			xRange += 360.0;
+			if (meters) {
+				xRange += (2 * ProjectionConstants.WGS84_HALF_WORLD_LON_WIDTH);
+			} else {
+				xRange += (2
+						* ProjectionConstants.WEB_MERCATOR_HALF_WORLD_WIDTH);
+			}
 		}
 		double yRange = maxY - minY;
 		double midX = minX + (xRange / 2.0);
 		double midY = minY + (yRange / 2.0);
-		if (midX > 180.0) {
-			midX -= 360.0;
+		if (meters) {
+			if (midX > ProjectionConstants.WGS84_HALF_WORLD_LON_WIDTH) {
+				midX -= (2 * ProjectionConstants.WGS84_HALF_WORLD_LON_WIDTH);
+			}
+		} else if (midX > ProjectionConstants.WEB_MERCATOR_HALF_WORLD_WIDTH) {
+			midX -= (2 * ProjectionConstants.WEB_MERCATOR_HALF_WORLD_WIDTH);
 		}
 
 		coordinateTest(minX, minY, delta, transformTo, transformTo2,
@@ -3450,8 +3481,12 @@ public class ProjectionFactoryCodeTest {
 		for (int i = 0; i < 10; i++) {
 
 			double x = minX + (Math.random() * xRange);
-			if (x > 180.0) {
-				x -= 360.0;
+			if (meters) {
+				if (x > ProjectionConstants.WGS84_HALF_WORLD_LON_WIDTH) {
+					x -= (2 * ProjectionConstants.WGS84_HALF_WORLD_LON_WIDTH);
+				}
+			} else if (x > ProjectionConstants.WEB_MERCATOR_HALF_WORLD_WIDTH) {
+				x -= (2 * ProjectionConstants.WEB_MERCATOR_HALF_WORLD_WIDTH);
 			}
 			double y = minY + (Math.random() * yRange);
 			coordinateTest(x, y, delta, transformTo, transformTo2,
