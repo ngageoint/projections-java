@@ -39,7 +39,11 @@ public class ProjectionFactoryCodeTest {
 	public void test2036() {
 
 		final String code = "2036";
-		double delta = 0.0001;
+		double delta = 0.0000001;
+		double minX = -120.0;
+		double minY = 44.61;
+		double maxX = -57.1;
+		double maxY = 62.56;
 
 		String definition = "PROJCRS[\"NAD83(CSRS98) / New Brunswick Stereo\",BASEGEOGCRS[\"NAD83(CSRS98)\","
 				+ "DATUM[\"NAD83 Canadian Spatial Reference System\","
@@ -56,7 +60,7 @@ public class ProjectionFactoryCodeTest {
 				+ "LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],ID[\"EPSG\",2036]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition, delta);
+				definition, delta, minX, minY, maxX, maxY);
 
 		definition = "PROJCS[\"NAD83(CSRS98) / New Brunswick Stereo (deprecated)\","
 				+ "GEOGCS[\"NAD83(CSRS98)\","
@@ -78,7 +82,7 @@ public class ProjectionFactoryCodeTest {
 				+ "AUTHORITY[\"EPSG\",\"2036\"]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition);
+				definition, minX, minY, maxX, maxY);
 
 	}
 
@@ -202,7 +206,11 @@ public class ProjectionFactoryCodeTest {
 	public void test2057() {
 
 		final String code = "2057";
-		double delta = 0.01;
+		double delta = 0.001;
+		double minX = 52.5;
+		double minY = 27.39;
+		double maxX = 52.71;
+		double maxY = 27.61;
 
 		String definition = "PROJCRS[\"Rassadiran / Nakhl e Taqi\",BASEGEOGCRS[\"Rassadiran\","
 				+ "DATUM[\"Rassadiran\",ELLIPSOID[\"International 1924\",6378388,297,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],"
@@ -223,7 +231,7 @@ public class ProjectionFactoryCodeTest {
 				+ "LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],ID[\"EPSG\",2057]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition, delta);
+				definition, delta, minX, minY, maxX, maxY);
 
 		definition = "PROJCS[\"Rassadiran / Nakhl e Taqi\",GEOGCS[\"Rassadiran\","
 				+ "DATUM[\"Rassadiran\",SPHEROID[\"International 1924\",6378388,297,"
@@ -241,7 +249,7 @@ public class ProjectionFactoryCodeTest {
 				+ "AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition);
+				definition, minX, minY, maxX, maxY);
 
 		ProjCoordinate coordinate = new ProjCoordinate(-53.0, 5.0);
 		ProjCoordinate expectedCoordinate = new ProjCoordinate(
@@ -384,6 +392,10 @@ public class ProjectionFactoryCodeTest {
 
 		final String code = "2085";
 		double delta = 0.0000001;
+		double minX = -85.01;
+		double minY = 21.38;
+		double maxX = -76.91;
+		double maxY = 23.25;
 
 		String definition = "PROJCRS[\"NAD27 / Cuba Norte\",BASEGEOGCRS[\"NAD27\","
 				+ "DATUM[\"North American Datum 1927\","
@@ -400,7 +412,7 @@ public class ProjectionFactoryCodeTest {
 				+ "LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],ID[\"EPSG\",2085]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition, delta);
+				definition, delta, minX, minY, maxX, maxY);
 
 		definition = "PROJCS[\"NAD27 / Cuba Norte (deprecated)\","
 				+ "GEOGCS[\"NAD27\"," + "DATUM[\"North_American_Datum_1927\","
@@ -421,7 +433,7 @@ public class ProjectionFactoryCodeTest {
 				+ "AUTHORITY[\"EPSG\",\"2085\"]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition);
+				definition, minX, minY, maxX, maxY);
 
 	}
 
@@ -548,7 +560,11 @@ public class ProjectionFactoryCodeTest {
 	public void test2163() {
 
 		final String code = "2163";
-		double delta = 0.00001;
+		double delta = 0.0000001;
+		double minX = 167.65;
+		double minY = 15.56;
+		double maxX = -65.69;
+		double maxY = 74.71;
 
 		String definition = "PROJCRS[\"US National Atlas Equal Area\",BASEGEOGCRS[\"Unspecified datum based upon the Clarke 1866 Authalic Sphere\","
 				+ "DATUM[\"Not specified (based on Clarke 1866 Authalic Sphere)\","
@@ -564,7 +580,7 @@ public class ProjectionFactoryCodeTest {
 				+ "LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],ID[\"EPSG\",2163]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition, delta);
+				definition, delta, minX, minY, maxX, maxY);
 
 		definition = "PROJCS[\"US National Atlas Equal Area\","
 				+ "GEOGCS[\"Unspecified datum based upon the Clarke 1866 Authalic Sphere\","
@@ -585,7 +601,7 @@ public class ProjectionFactoryCodeTest {
 				+ "AXIS[\"Y\",NORTH]," + "AUTHORITY[\"EPSG\",\"2163\"]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition);
+				definition, minX, minY, maxX, maxY);
 
 	}
 
@@ -766,7 +782,11 @@ public class ProjectionFactoryCodeTest {
 	public void test3035() {
 
 		final String code = "3035";
-		double delta = 0.000001;
+		double delta = 0.0000001;
+		double minX = -16.1;
+		double minY = 32.88;
+		double maxX = 40.18;
+		double maxY = 84.17;
 
 		String definition = "PROJCRS[\"ETRS89-extended / LAEA Europe\",BASEGEOGCRS[\"ETRS89\","
 				+ "ENSEMBLE[\"European Terrestrial Reference System 1989 ensemble\","
@@ -793,7 +813,7 @@ public class ProjectionFactoryCodeTest {
 				+ "LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],ID[\"EPSG\",3035]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition, delta);
+				definition, delta, minX, minY, maxX, maxY);
 
 		definition = "PROJCS[\"ETRS89 / ETRS-LAEA\",GEOGCS[\"ETRS89\","
 				+ "DATUM[\"European_Terrestrial_Reference_System_1989\","
@@ -814,7 +834,7 @@ public class ProjectionFactoryCodeTest {
 				+ "AXIS[\"X\",EAST],AXIS[\"Y\",NORTH]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition);
+				definition, minX, minY, maxX, maxY);
 
 		definition = "PROJCS[\"ETRS89 / LAEA Europe\",GEOGCRS[\"ETRS89\","
 				+ "DATUM[\"European_Terrestrial_Reference_System_1989\","
@@ -834,7 +854,7 @@ public class ProjectionFactoryCodeTest {
 				+ "ID[\"EPSG\",\"3035\"]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition);
+				definition, minX, minY, maxX, maxY);
 
 	}
 
@@ -904,7 +924,11 @@ public class ProjectionFactoryCodeTest {
 	public void test3083() {
 
 		final String code = "3083";
-		double delta = 0.0000001;
+		double delta = 0.000001;
+		double minX = -172.54;
+		double minY = 23.81;
+		double maxX = -47.74;
+		double maxY = 86.46;
 
 		String definition = "PROJCRS[\"NAD83 / Texas Centric Albers Equal Area\",BASEGEOGCRS[\"NAD83\","
 				+ "DATUM[\"North American Datum 1983\","
@@ -922,7 +946,7 @@ public class ProjectionFactoryCodeTest {
 				+ "LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],ID[\"EPSG\",3083]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition, delta);
+				definition, delta, minX, minY, maxX, maxY);
 
 		definition = "PROJCS[\"NAD83 / Texas Centric Albers Equal Area\","
 				+ "GEOGCS[\"NAD83\"," + "DATUM[\"North_American_Datum_1983\","
@@ -944,7 +968,7 @@ public class ProjectionFactoryCodeTest {
 				+ "AXIS[\"Y\",NORTH]," + "AUTHORITY[\"EPSG\",\"3083\"]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition);
+				definition, minX, minY, maxX, maxY);
 
 	}
 
@@ -955,7 +979,11 @@ public class ProjectionFactoryCodeTest {
 	public void test3375() {
 
 		final String code = "3375";
-		double delta = 0.000001;
+		double delta = 0.0000001;
+		double minX = 98.02;
+		double minY = 1.13;
+		double maxX = 105.82;
+		double maxY = 7.81;
 
 		String definition = "PROJCRS[\"GDM2000 / Peninsula RSO\",BASEGEOGCRS[\"GDM2000\","
 				+ "DATUM[\"Geodetic Datum of Malaysia 2000\","
@@ -974,7 +1002,7 @@ public class ProjectionFactoryCodeTest {
 				+ "ID[\"EPSG\",3375]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition, delta);
+				definition, delta, minX, minY, maxX, maxY);
 
 		definition = "PROJCS[\"GDM2000 / Peninsula RSO\",GEOGCS[\"GDM2000\","
 				+ "DATUM[\"Geodetic_Datum_of_Malaysia_2000\","
@@ -993,7 +1021,7 @@ public class ProjectionFactoryCodeTest {
 				+ "AUTHORITY[\"EPSG\",\"3375\"],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition);
+				definition, minX, minY, maxX, maxY);
 
 		ProjCoordinate coordinate = new ProjCoordinate(101.70979078430528,
 				3.06268465621428);
@@ -1023,6 +1051,10 @@ public class ProjectionFactoryCodeTest {
 
 		final String code = "3376";
 		double delta = 0.0001;
+		double minX = 109.31;
+		double minY = 0.85;
+		double maxX = 119.61;
+		double maxY = 7.67;
 
 		String definition = "PROJCRS[\"GDM2000 / East Malaysia BRSO\",BASEGEOGCRS[\"GDM2000\","
 				+ "DATUM[\"Geodetic Datum of Malaysia 2000\","
@@ -1040,7 +1072,7 @@ public class ProjectionFactoryCodeTest {
 				+ "LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],ID[\"EPSG\",3376]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition, delta);
+				definition, delta, minX, minY, maxX, maxY);
 
 		definition = "PROJCS[\"GDM2000 / East Malaysia BRSO\",GEOGCS[\"GDM2000\","
 				+ "DATUM[\"Geodetic_Datum_of_Malaysia_2000\","
@@ -1059,7 +1091,7 @@ public class ProjectionFactoryCodeTest {
 				+ "AUTHORITY[\"EPSG\",\"3376\"],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition);
+				definition, minX, minY, maxX, maxY);
 
 		ProjCoordinate coordinate = new ProjCoordinate(114.7097908, 3.0626847);
 		ProjCoordinate expectedCoordinate = new ProjCoordinate(
@@ -1087,6 +1119,10 @@ public class ProjectionFactoryCodeTest {
 	public void test3395() {
 
 		final String code = "3395";
+		double minX = -180.0;
+		double minY = -80.0;
+		double maxX = 180.0;
+		double maxY = 84.0;
 
 		String definition = "PROJCRS[\"WGS 84 / World Mercator\",BASEGEOGCRS[\"WGS 84\","
 				+ "ENSEMBLE[\"World Geodetic System 1984 ensemble\","
@@ -1109,7 +1145,7 @@ public class ProjectionFactoryCodeTest {
 				+ "LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],ID[\"EPSG\",3395]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition);
+				definition, minX, minY, maxX, maxY);
 
 		definition = "PROJCS[\"WGS 84 / World Mercator\",GEOGCS[\"WGS 84\","
 				+ "DATUM[\"WGS_1984\","
@@ -1130,7 +1166,7 @@ public class ProjectionFactoryCodeTest {
 				+ "AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition);
+				definition, minX, minY, maxX, maxY);
 
 		definition = "PROJCRS[\"WGS 84 / World Mercator\","
 				+ "BASEGEODCRS[\"WGS 84\","
@@ -1152,7 +1188,7 @@ public class ProjectionFactoryCodeTest {
 				+ "LENGTHUNIT[\"metre\",1.0],ID[\"EPSG\",\"3395\"]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition);
+				definition, minX, minY, maxX, maxY);
 
 	}
 
@@ -1163,7 +1199,11 @@ public class ProjectionFactoryCodeTest {
 	public void test3410() {
 
 		final String code = "3410";
-		double delta = 0.00000001;
+		double delta = 0.0000001;
+		double minX = -180.0;
+		double minY = -86.0;
+		double maxX = 180.0;
+		double maxY = 86.0;
 
 		String definition = "PROJCRS[\"NSIDC EASE-Grid Global\",BASEGEOGCRS[\"Unspecified datum based upon the International 1924 Authalic Sphere\","
 				+ "DATUM[\"Not specified (based on International 1924 Authalic Sphere)\","
@@ -1179,7 +1219,7 @@ public class ProjectionFactoryCodeTest {
 				+ "LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],ID[\"EPSG\",3410]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition, delta);
+				definition, delta, minX, minY, maxX, maxY);
 
 		definition = "PROJCS[\"NSIDC EASE-Grid Global\","
 				+ "GEOGCS[\"Unspecified datum based upon the International 1924 Authalic Sphere\","
@@ -1200,7 +1240,7 @@ public class ProjectionFactoryCodeTest {
 				+ "AXIS[\"Y\",NORTH]," + "AUTHORITY[\"EPSG\",\"3410\"]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition);
+				definition, minX, minY, maxX, maxY);
 
 	}
 
@@ -1211,6 +1251,10 @@ public class ProjectionFactoryCodeTest {
 	public void test3786() {
 
 		final String code = "3786";
+		double minX = -180.0;
+		double minY = -90.0;
+		double maxX = 180.0;
+		double maxY = 90.0;
 
 		String definition = "PROJCRS[\"World Equidistant Cylindrical (Sphere)\",BASEGEOGCRS[\"Unspecified datum based upon the GRS 1980 Authalic Sphere\","
 				+ "DATUM[\"Not specified (based on GRS 1980 Authalic Sphere)\","
@@ -1226,7 +1270,7 @@ public class ProjectionFactoryCodeTest {
 				+ "LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],ID[\"EPSG\",3786]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition);
+				definition, minX, minY, maxX, maxY);
 
 		definition = "PROJCS[\"World Equidistant Cylindrical (Sphere) (deprecated)\","
 				+ "GEOGCS[\"Unspecified datum based upon the GRS 1980 Authalic Sphere\","
@@ -1247,7 +1291,7 @@ public class ProjectionFactoryCodeTest {
 				+ "AXIS[\"Y\",NORTH]," + "AUTHORITY[\"EPSG\",\"3786\"]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition);
+				definition, minX, minY, maxX, maxY);
 
 	}
 
@@ -1396,7 +1440,11 @@ public class ProjectionFactoryCodeTest {
 	public void test3978() {
 
 		final String code = "3978";
-		double delta = 0.000001;
+		double delta = 0.0000001;
+		double minX = -172.54;
+		double minY = 23.81;
+		double maxX = -47.74;
+		double maxY = 86.46;
 
 		String definition = "PROJCRS[\"NAD83 / Canada Atlas Lambert\",BASEGEOGCRS[\"NAD83\","
 				+ "DATUM[\"North American Datum 1983\","
@@ -1414,7 +1462,7 @@ public class ProjectionFactoryCodeTest {
 				+ "LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],ID[\"EPSG\",3978]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition, delta);
+				definition, delta, minX, minY, maxX, maxY);
 
 		definition = "PROJCS[\"NAD83 / Canada Atlas Lambert\",GEOGCS[\"NAD83\","
 				+ "DATUM[\"North_American_Datum_1983\","
@@ -1436,7 +1484,7 @@ public class ProjectionFactoryCodeTest {
 				+ "AUTHORITY[\"EPSG\",\"3978\"]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition);
+				definition, minX, minY, maxX, maxY);
 
 		definition = "PROJCS[\"NAD83 / Canada Atlas Lambert\",GEOGCRS[\"NAD83\","
 				+ "DATUM[\"North_American_Datum_1983\","
@@ -1459,7 +1507,7 @@ public class ProjectionFactoryCodeTest {
 				+ "ID[\"EPSG\",\"3978\"]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition);
+				definition, minX, minY, maxX, maxY);
 
 	}
 
@@ -1529,7 +1577,11 @@ public class ProjectionFactoryCodeTest {
 	public void test4005() {
 
 		final String code = "4005";
-		double delta = 0.0000000000000001;
+		double delta = 0.000000000000001;
+		double minX = -180.0;
+		double minY = -90.0;
+		double maxX = 180.0;
+		double maxY = 90.0;
 
 		String definition = "GEOGCRS[\"Unknown datum based upon the Bessel Modified ellipsoid\","
 				+ "DATUM[\"Not specified (based on Bessel Modified ellipsoid)\","
@@ -1540,7 +1592,7 @@ public class ProjectionFactoryCodeTest {
 				+ "ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]],ID[\"EPSG\",4005]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition, delta);
+				definition, delta, minX, minY, maxX, maxY);
 
 		definition = "GEOGCS[\"Unknown datum based upon the Bessel Modified ellipsoid\","
 				+ "DATUM[\"Not_specified_based_on_Bessel_Modified_ellipsoid\","
@@ -1553,7 +1605,7 @@ public class ProjectionFactoryCodeTest {
 				+ "AUTHORITY[\"EPSG\",\"4005\"]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition, delta);
+				definition, delta, minX, minY, maxX, maxY);
 
 	}
 
@@ -1596,6 +1648,10 @@ public class ProjectionFactoryCodeTest {
 	public void test4035() {
 
 		final String code = "4035";
+		double minX = -180.0;
+		double minY = -90.0;
+		double maxX = 180.0;
+		double maxY = 90.0;
 
 		String definition = "GEOGCRS[\"Unknown datum based upon the Authalic Sphere\","
 				+ "DATUM[\"Not specified (based on Authalic Sphere)\","
@@ -1606,7 +1662,7 @@ public class ProjectionFactoryCodeTest {
 				+ "ANGLEUNIT[\"degree minute second hemisphere\",1,ID[\"EPSG\",9108]],ID[\"EPSG\",4035]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition);
+				definition, minX, minY, maxX, maxY);
 
 		definition = "GEOGCS[\"Unknown datum based upon the Authalic Sphere\","
 				+ "DATUM[\"Not_specified_based_on_Authalic_Sphere\","
@@ -1619,7 +1675,7 @@ public class ProjectionFactoryCodeTest {
 				+ "AUTHORITY[\"EPSG\",\"4035\"]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition);
+				definition, minX, minY, maxX, maxY);
 
 	}
 
@@ -1630,6 +1686,10 @@ public class ProjectionFactoryCodeTest {
 	public void test4047() {
 
 		final String code = "4047";
+		double minX = -180.0;
+		double minY = -90.0;
+		double maxX = 180.0;
+		double maxY = 90.0;
 
 		String definition = "GEOGCRS[\"Unspecified datum based upon the GRS 1980 Authalic Sphere\","
 				+ "DATUM[\"Not specified (based on GRS 1980 Authalic Sphere)\","
@@ -1640,7 +1700,7 @@ public class ProjectionFactoryCodeTest {
 				+ "ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]],ID[\"EPSG\",4047]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition);
+				definition, minX, minY, maxX, maxY);
 
 		definition = "GEOGCS[\"Unspecified datum based upon the GRS 1980 Authalic Sphere\","
 				+ "DATUM[\"Not_specified_based_on_GRS_1980_Authalic_Sphere\","
@@ -1653,7 +1713,7 @@ public class ProjectionFactoryCodeTest {
 				+ "AUTHORITY[\"EPSG\",\"4047\"]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition);
+				definition, minX, minY, maxX, maxY);
 
 	}
 
@@ -1664,6 +1724,10 @@ public class ProjectionFactoryCodeTest {
 	public void test4055() {
 
 		final String code = "4055";
+		double minX = -180.0;
+		double minY = -90.0;
+		double maxX = 180.0;
+		double maxY = 90.0;
 
 		String definition = "GEOGCRS[\"Popular Visualisation CRS\","
 				+ "DATUM[\"Popular Visualisation Datum\","
@@ -1674,7 +1738,7 @@ public class ProjectionFactoryCodeTest {
 				+ "ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]],ID[\"EPSG\",4055]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition);
+				definition, minX, minY, maxX, maxY);
 
 		definition = "PROJCRS[\"Popular Visualisation CRS\",BASEGEOGCRS[\"Popular Visualisation CRS\","
 				+ "DATUM[\"Popular Visualisation Datum\","
@@ -1689,7 +1753,7 @@ public class ProjectionFactoryCodeTest {
 				+ "ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]],ID[\"EPSG\",4055]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition);
+				definition, minX, minY, maxX, maxY);
 
 		definition = "GEOGCS[\"Popular Visualisation CRS\","
 				+ "DATUM[\"Popular_Visualisation_Datum\","
@@ -1702,7 +1766,7 @@ public class ProjectionFactoryCodeTest {
 				+ "AUTHORITY[\"EPSG\",\"4055\"]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition);
+				definition, minX, minY, maxX, maxY);
 
 	}
 
@@ -1771,6 +1835,10 @@ public class ProjectionFactoryCodeTest {
 	public void test4326() {
 
 		final String code = "4326";
+		double minX = -180.0;
+		double minY = -90.0;
+		double maxX = 180.0;
+		double maxY = 90.0;
 
 		String definition = "GEOGCRS[\"WGS 84\",ENSEMBLE[\"World Geodetic System 1984 ensemble\","
 				+ "MEMBER[\"World Geodetic System 1984 (Transit)\",ID[\"EPSG\",1166]],"
@@ -1787,7 +1855,7 @@ public class ProjectionFactoryCodeTest {
 				+ "ID[\"EPSG\",4326]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition);
+				definition, minX, minY, maxX, maxY);
 
 		definition = "GEOGCS[\"WGS 84\",DATUM[\"WGS_1984\","
 				+ "SPHEROID[\"WGS 84\",6378137,298.257223563,"
@@ -1799,7 +1867,7 @@ public class ProjectionFactoryCodeTest {
 				+ "AUTHORITY[\"EPSG\",\"4326\"]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition);
+				definition, minX, minY, maxX, maxY);
 
 		definition = "GEOGCS[\"WGS 84\",DATUM[\"WGS_1984\","
 				+ "SPHEROID[\"WGS84\",6378137,298.257223563]],"
@@ -1807,7 +1875,7 @@ public class ProjectionFactoryCodeTest {
 				+ "UNIT[\"degree\",0.0174532925199433]]";
 
 		projectionTestSpecified(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition);
+				definition, minX, minY, maxX, maxY);
 
 	}
 
@@ -1873,7 +1941,11 @@ public class ProjectionFactoryCodeTest {
 	public void test5041() {
 
 		final String code = "5041";
-		double delta = 0.0000000000001;
+		double delta = 0.000000000001;
+		double minX = -180.0;
+		double minY = 60.0;
+		double maxX = 180.0;
+		double maxY = 90.0;
 
 		String definition = "PROJCRS[\"WGS 84 / UPS North (E,N)\",BASEGEOGCRS[\"WGS 84\","
 				+ "ENSEMBLE[\"World Geodetic System 1984 ensemble\","
@@ -1898,7 +1970,7 @@ public class ProjectionFactoryCodeTest {
 				+ "LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],ID[\"EPSG\",5041]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition, delta);
+				definition, delta, minX, minY, maxX, maxY);
 
 		definition = "PROJCS[\"WGS 84 / UPS North (E,N)\","
 				+ "GEOGCS[\"WGS 84\",DATUM[\"WGS_1984\","
@@ -1920,7 +1992,7 @@ public class ProjectionFactoryCodeTest {
 				+ "AUTHORITY[\"EPSG\",\"5041\"]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition);
+				definition, minX, minY, maxX, maxY);
 
 		definition = "PROJCRS[\"WGS 84 / UPS North (E,N)\","
 				+ "BASEGEODCRS[\"WGS 84\","
@@ -1947,7 +2019,7 @@ public class ProjectionFactoryCodeTest {
 				+ "ID[\"EPSG\",\"5041\"]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition, delta);
+				definition, delta, minX, minY, maxX, maxY);
 
 	}
 
@@ -1958,7 +2030,11 @@ public class ProjectionFactoryCodeTest {
 	public void test5042() {
 
 		final String code = "5042";
-		double delta = 0.0000000000001;
+		double delta = 0.000000000001;
+		double minX = -180.0;
+		double minY = -90.0;
+		double maxX = 180.0;
+		double maxY = -60.0;
 
 		String definition = "PROJCRS[\"WGS 84 / UPS South (E,N)\",BASEGEOGCRS[\"WGS 84\","
 				+ "ENSEMBLE[\"World Geodetic System 1984 ensemble\","
@@ -1983,7 +2059,7 @@ public class ProjectionFactoryCodeTest {
 				+ "LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],ID[\"EPSG\",5042]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition, delta);
+				definition, delta, minX, minY, maxX, maxY);
 
 		definition = "PROJCS[\"WGS 84 / UPS South (E,N)\","
 				+ "GEOGCS[\"WGS 84\",DATUM[\"WGS_1984\","
@@ -2005,7 +2081,7 @@ public class ProjectionFactoryCodeTest {
 				+ "AUTHORITY[\"EPSG\",\"5042\"]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition);
+				definition, minX, minY, maxX, maxY);
 
 		definition = "PROJCRS[\"WGS 84 / UPS South (E,N)\","
 				+ "BASEGEODCRS[\"WGS 84\","
@@ -2032,7 +2108,7 @@ public class ProjectionFactoryCodeTest {
 				+ "ID[\"EPSG\",\"5042\"]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition, delta);
+				definition, delta, minX, minY, maxX, maxY);
 
 	}
 
@@ -2043,7 +2119,7 @@ public class ProjectionFactoryCodeTest {
 	public void test5472() {
 
 		final String code = "5472";
-		double delta = 0.0001;
+		double delta = 0.0000001;
 		double minX = -83.04;
 		double minY = 7.15;
 		double maxX = -77.19;
@@ -2085,7 +2161,7 @@ public class ProjectionFactoryCodeTest {
 				+ "AXIS[\"Northing\",NORTH]," + "AUTHORITY[\"EPSG\",\"5472\"]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition, delta, minX, minY, maxX, maxY);
+				definition, minX, minY, maxX, maxY);
 
 	}
 
@@ -2801,7 +2877,11 @@ public class ProjectionFactoryCodeTest {
 	public void test32660() {
 
 		final String code = "32660";
-		double delta = 0.00001;
+		double delta = 0.0000001;
+		double minX = 174.0;
+		double minY = 0.0;
+		double maxX = 180.0;
+		double maxY = 84.0;
 
 		String definition = "PROJCRS[\"WGS 84 / UTM zone 60N\",BASEGEOGCRS[\"WGS 84\","
 				+ "ENSEMBLE[\"World Geodetic System 1984 ensemble\","
@@ -2823,7 +2903,7 @@ public class ProjectionFactoryCodeTest {
 				+ "LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],ID[\"EPSG\",32660]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition, delta);
+				definition, delta, minX, minY, maxX, maxY);
 
 		definition = "PROJCS[\"WGS 84 / UTM zone 60N\",GEOGCS[\"WGS 84\","
 				+ "DATUM[\"WGS_1984\","
@@ -2845,7 +2925,7 @@ public class ProjectionFactoryCodeTest {
 				+ "AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition, delta);
+				definition, delta, minX, minY, maxX, maxY);
 
 		definition = "PROJCS[\"WGS 84 / UTM zone 60N\",GEOGCRS[\"WGS 84\","
 				+ "DATUM[\"WGS_1984\","
@@ -2865,7 +2945,7 @@ public class ProjectionFactoryCodeTest {
 				+ "ID[\"EPSG\",\"32660\"]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition, delta);
+				definition, delta, minX, minY, maxX, maxY);
 
 	}
 
@@ -2899,6 +2979,32 @@ public class ProjectionFactoryCodeTest {
 	private void projectionTestSpecified(String authority, String code,
 			String definition) {
 		projectionTestSpecified(authority, code, definition, 0);
+	}
+
+	/**
+	 * Test projection creation and transformations with specified authority and
+	 * epsg
+	 * 
+	 * @param authority
+	 *            authority
+	 * @param code
+	 *            code
+	 * @param definition
+	 *            WKT definition
+	 * @param minX
+	 *            min x in degrees
+	 * @param minY
+	 *            min y in degrees
+	 * @param maxX
+	 *            max x in degrees
+	 * @param maxY
+	 *            max y in degrees
+	 */
+	private void projectionTestSpecified(String authority, String code,
+			String definition, double minX, double minY, double maxX,
+			double maxY) {
+		projectionTestSpecified(authority, code, definition, 0, minX, minY,
+				maxX, maxY);
 	}
 
 	/**
@@ -3009,6 +3115,34 @@ public class ProjectionFactoryCodeTest {
 			String definition, double delta) {
 		projectionTestSpecified(authority, code, authority, code, definition,
 				delta);
+	}
+
+	/**
+	 * Test projection creation and transformations with specified authority and
+	 * epsg
+	 * 
+	 * @param authority
+	 *            authority
+	 * @param code
+	 *            code
+	 * @param definition
+	 *            WKT definition
+	 * @param delta
+	 *            delta comparison
+	 * @param minX
+	 *            min x in degrees
+	 * @param minY
+	 *            min y in degrees
+	 * @param maxX
+	 *            max x in degrees
+	 * @param maxY
+	 *            max y in degrees
+	 */
+	private void projectionTestSpecified(String authority, String code,
+			String definition, double delta, double minX, double minY,
+			double maxX, double maxY) {
+		projectionTestSpecified(authority, code, authority, code, definition,
+				delta, minX, minY, maxX, maxY);
 	}
 
 	/**
@@ -3152,6 +3286,40 @@ public class ProjectionFactoryCodeTest {
 	}
 
 	/**
+	 * Test projection creation and transformations with specified authority and
+	 * epsg
+	 * 
+	 * @param authority
+	 *            authority
+	 * @param code
+	 *            code
+	 * @param compareAuthority
+	 *            compare authority
+	 * @param compareCode
+	 *            compare code
+	 * @param definition
+	 *            WKT definition
+	 * @param delta
+	 *            delta comparison
+	 * @param minX
+	 *            min x in degrees
+	 * @param minY
+	 *            min y in degrees
+	 * @param maxX
+	 *            max x in degrees
+	 * @param maxY
+	 *            max y in degrees
+	 */
+	private void projectionTestSpecified(String authority, String code,
+			String compareAuthority, String compareCode, String definition,
+			double delta, double minX, double minY, double maxX, double maxY) {
+		Projection projection = ProjectionFactory
+				.getProjectionByDefinition(authority, code, definition);
+		projectionTest(authority, code, compareAuthority, compareCode,
+				definition, projection, delta, minX, minY, maxX, maxY);
+	}
+
+	/**
 	 * Test projection creation and transformations
 	 * 
 	 * @param authority
@@ -3250,9 +3418,15 @@ public class ProjectionFactoryCodeTest {
 				.getTransformation(transformProjection);
 
 		double xRange = maxX - minX;
+		if (xRange < 0) {
+			xRange += 360.0;
+		}
 		double yRange = maxY - minY;
 		double midX = minX + (xRange / 2.0);
 		double midY = minY + (yRange / 2.0);
+		if (midX > 180.0) {
+			midX -= 360.0;
+		}
 
 		coordinateTest(minX, minY, delta, transformTo, transformTo2,
 				transformFrom, transformFrom2);
@@ -3276,6 +3450,9 @@ public class ProjectionFactoryCodeTest {
 		for (int i = 0; i < 10; i++) {
 
 			double x = minX + (Math.random() * xRange);
+			if (x > 180.0) {
+				x -= 360.0;
+			}
 			double y = minY + (Math.random() * yRange);
 			coordinateTest(x, y, delta, transformTo, transformTo2,
 					transformFrom, transformFrom2);
