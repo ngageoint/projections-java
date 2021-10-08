@@ -3410,6 +3410,12 @@ public class ProjectionFactoryCodeTest {
 
 		compare(projection, projection2, compareAuthority, compareCode, delta);
 
+		Projection projection3 = ProjectionFactory.getProjection(
+				ProjectionFactoryType.DEFINITION_PARAMETERS, authority, code,
+				null, definition);
+
+		compare(projection3, projection2, compareAuthority, compareCode, delta);
+
 		long transformCode;
 		boolean meters = projection.isUnit(Units.METRES);
 		if (meters) {
