@@ -23,8 +23,10 @@ import mil.nga.crs.common.CoordinateSystem;
 import mil.nga.crs.common.Unit;
 import mil.nga.crs.common.UnitType;
 import mil.nga.crs.common.Units;
+import mil.nga.crs.geo.Ellipsoids;
 import mil.nga.crs.geo.GeoCoordinateReferenceSystem;
 import mil.nga.crs.geo.GeoDatum;
+import mil.nga.crs.geo.GeoDatums;
 import mil.nga.crs.geo.PrimeMeridian;
 import mil.nga.crs.geo.TriaxialEllipsoid;
 import mil.nga.crs.operation.OperationMethod;
@@ -60,21 +62,12 @@ public class CRSParser {
 	static {
 		for (Datum datum : Registry.datums) {
 			datums.put(datum.getCode().toLowerCase(), datum);
-			datums.put(datum.getName().toLowerCase(), datum);
 		}
+		datums.remove(Datum.WGS84.getCode().toLowerCase());
 		for (Ellipsoid ellipsoid : Ellipsoid.ellipsoids) {
 			ellipsoids.put(ellipsoid.getShortName().toLowerCase(), ellipsoid);
-			String name = ellipsoid.getName().toLowerCase();
-			ellipsoids.put(name, ellipsoid);
-			int index = name.indexOf("(");
-			if (index > -1) {
-				String namePrefix = name.substring(0, index).trim();
-				if (!ellipsoids.containsKey(namePrefix)) {
-					ellipsoids.put(namePrefix, ellipsoid);
-				}
-			}
 		}
-		ellipsoids.remove(Ellipsoid.SPHERE.getShortName());
+		ellipsoids.remove(Ellipsoid.SPHERE.getShortName().toLowerCase());
 	}
 
 	/**
@@ -95,7 +88,12 @@ public class CRSParser {
 	 * @since 1.1.0
 	 */
 	public static Datum getDatum(String name) {
-		return datums.get(name.toLowerCase());
+		Datum datum = null;
+		GeoDatums geoDatums = GeoDatums.fromName(name);
+		if (geoDatums != null) {
+			datum = datums.get(geoDatums.getCode().toLowerCase());
+		}
+		return datum;
 	}
 
 	/**
@@ -106,7 +104,12 @@ public class CRSParser {
 	 * @return ellipsoid or null
 	 */
 	public static Ellipsoid getEllipsoid(String name) {
-		return ellipsoids.get(name.toLowerCase());
+		Ellipsoid ellipsoid = null;
+		Ellipsoids ellips = Ellipsoids.fromName(name);
+		if (ellips != null) {
+			ellipsoid = ellipsoids.get(ellips.getShortName().toLowerCase());
+		}
+		return ellipsoid;
 	}
 
 	/**
@@ -392,68 +395,73 @@ public class CRSParser {
 	 */
 	public static double[] convertDatumTransform(OperationMethod method) {
 
-		double[] transform3 = new double[3];
-		double[] transform7 = new double[7];
-		boolean param3 = false;
-		boolean param7 = false;
+		double[] transform = null;
 
-		for (OperationParameter parameter : method.getParameters()) {
+		if (method.hasParameters()) {
 
-			if (parameter.hasParameter()) {
+			double[] transform3 = new double[3];
+			double[] transform7 = new double[7];
+			boolean param3 = false;
+			boolean param7 = false;
 
-				switch (parameter.getParameter()) {
+			for (OperationParameter parameter : method.getParameters()) {
 
-				case X_AXIS_TRANSLATION:
-					transform3[0] = getValue(parameter, Units.METRE);
-					param3 = true;
-					break;
+				if (parameter.hasParameter()) {
 
-				case Y_AXIS_TRANSLATION:
-					transform3[1] = getValue(parameter, Units.METRE);
-					param3 = true;
-					break;
+					switch (parameter.getParameter()) {
 
-				case Z_AXIS_TRANSLATION:
-					transform3[2] = getValue(parameter, Units.METRE);
-					param3 = true;
-					break;
+					case X_AXIS_TRANSLATION:
+						transform3[0] = getValue(parameter, Units.METRE);
+						param3 = true;
+						break;
 
-				case X_AXIS_ROTATION:
-					transform7[3] = getValue(parameter, Units.ARC_SECOND);
-					param7 = true;
-					break;
+					case Y_AXIS_TRANSLATION:
+						transform3[1] = getValue(parameter, Units.METRE);
+						param3 = true;
+						break;
 
-				case Y_AXIS_ROTATION:
-					transform7[4] = getValue(parameter, Units.ARC_SECOND);
-					param7 = true;
-					break;
+					case Z_AXIS_TRANSLATION:
+						transform3[2] = getValue(parameter, Units.METRE);
+						param3 = true;
+						break;
 
-				case Z_AXIS_ROTATION:
-					transform7[5] = getValue(parameter, Units.ARC_SECOND);
-					param7 = true;
-					break;
+					case X_AXIS_ROTATION:
+						transform7[3] = getValue(parameter, Units.ARC_SECOND);
+						param7 = true;
+						break;
 
-				case SCALE_DIFFERENCE:
-					transform7[6] = getValue(parameter,
-							Units.PARTS_PER_MILLION);
-					param7 = true;
-					break;
+					case Y_AXIS_ROTATION:
+						transform7[4] = getValue(parameter, Units.ARC_SECOND);
+						param7 = true;
+						break;
 
-				default:
-					break;
+					case Z_AXIS_ROTATION:
+						transform7[5] = getValue(parameter, Units.ARC_SECOND);
+						param7 = true;
+						break;
 
+					case SCALE_DIFFERENCE:
+						transform7[6] = getValue(parameter,
+								Units.PARTS_PER_MILLION);
+						param7 = true;
+						break;
+
+					default:
+						break;
+
+					}
 				}
 			}
-		}
 
-		double[] transform = null;
-		if (param7) {
-			transform7[0] = transform3[0];
-			transform7[1] = transform3[1];
-			transform7[2] = transform3[2];
-			transform = transform7;
-		} else if (param3) {
-			transform = transform3;
+			if (param7) {
+				transform7[0] = transform3[0];
+				transform7[1] = transform3[1];
+				transform7[2] = transform3[2];
+				transform = transform7;
+			} else if (param3) {
+				transform = transform3;
+			}
+
 		}
 
 		return transform;
