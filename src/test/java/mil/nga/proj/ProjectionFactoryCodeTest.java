@@ -3418,6 +3418,10 @@ public class ProjectionFactoryCodeTest {
 			transformCode = 3857;
 			ProjectionTransform boundsTransform = ProjectionTransform
 					.create(4326, 3857);
+			minY = Math.max(minY,
+					ProjectionConstants.WEB_MERCATOR_MIN_LAT_RANGE);
+			maxY = Math.min(maxY,
+					ProjectionConstants.WEB_MERCATOR_MAX_LAT_RANGE);
 			double[] projectedBounds = boundsTransform.transform(minX, minY,
 					maxX, maxY);
 			minX = projectedBounds[0];
