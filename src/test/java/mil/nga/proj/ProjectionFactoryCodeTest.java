@@ -1728,6 +1728,7 @@ public class ProjectionFactoryCodeTest {
 	public void test4055() {
 
 		final String code = "4055";
+		double delta = 0.0000001;
 		double minX = -180.0;
 		double minY = -90.0;
 		double maxX = 180.0;
@@ -1736,13 +1737,13 @@ public class ProjectionFactoryCodeTest {
 		String definition = "GEOGCRS[\"Popular Visualisation CRS\","
 				+ "DATUM[\"Popular Visualisation Datum\","
 				+ "ELLIPSOID[\"Popular Visualisation Sphere\",6378137,0,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],"
-				+ "ID[\"EPSG\",7059]]," 
-				+ "ID[\"EPSG\",6055]]," + "CS[ellipsoidal,2,ID[\"EPSG\",6422]],"
+				+ "ID[\"EPSG\",7059]]," + "ID[\"EPSG\",6055]],"
+				+ "CS[ellipsoidal,2,ID[\"EPSG\",6422]],"
 				+ "AXIS[\"latitude (Lat)\",north],AXIS[\"longitude (Lon)\",east],"
 				+ "ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]],ID[\"EPSG\",4055]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition, minX, minY, maxX, maxY);
+				definition, delta, minX, minY, maxX, maxY);
 
 		definition = "PROJCRS[\"Popular Visualisation CRS\",BASEGEOGCRS[\"Popular Visualisation CRS\","
 				+ "DATUM[\"Popular Visualisation Datum\","
@@ -1754,7 +1755,7 @@ public class ProjectionFactoryCodeTest {
 				+ "ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]],ID[\"EPSG\",4055]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition, minX, minY, maxX, maxY);
+				definition, delta, minX, minY, maxX, maxY);
 
 		definition = "GEOGCS[\"Popular Visualisation CRS\","
 				+ "DATUM[\"Popular_Visualisation_Datum\","
@@ -1767,7 +1768,7 @@ public class ProjectionFactoryCodeTest {
 				+ "AUTHORITY[\"EPSG\",\"4055\"]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition, minX, minY, maxX, maxY);
+				definition, delta, minX, minY, maxX, maxY);
 
 	}
 
@@ -2789,6 +2790,61 @@ public class ProjectionFactoryCodeTest {
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
 				definition, delta, minX, minY, maxX, maxY);
+
+	}
+
+	/**
+	 * Test EPSG 31469
+	 */
+	@Test
+	public void test31469() {
+
+		final String code = "31469";
+		double delta = 0.00000001;
+		double minX = 5.87;
+		double minY = 47.27;
+		double maxX = 13.84;
+		double maxY = 55.09;
+
+		String definition = "PROJCRS[\"DHDN / 3-degree Gauss-Kruger zone 5\","
+				+ "BASEGEOGCRS[\"DHDN\",DATUM[\"Deutsches Hauptdreiecksnetz\","
+				+ "ELLIPSOID[\"Bessel 1841\",6377397.155,299.1528128,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],"
+				+ "ID[\"EPSG\",7004]],ID[\"EPSG\",6314]],ID[\"EPSG\",4314]],"
+				+ "CONVERSION[\"3-degree Gauss-Kruger zone 5\","
+				+ "METHOD[\"Transverse Mercator\",ID[\"EPSG\",9807]],"
+				+ "PARAMETER[\"Latitude of natural origin\",0,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]]],"
+				+ "PARAMETER[\"Longitude of natural origin\",15,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]]],"
+				+ "PARAMETER[\"Scale factor at natural origin\",1,SCALEUNIT[\"unity\",1,ID[\"EPSG\",9201]]],"
+				+ "PARAMETER[\"False easting\",5500000,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],"
+				+ "PARAMETER[\"False northing\",0,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],"
+				+ "ID[\"EPSG\",16265]],"
+				+ "CS[Cartesian,2,ID[\"EPSG\",4530]],AXIS[\"Northing (X)\",north],AXIS[\"Easting (Y)\",east],"
+				+ "LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],ID[\"EPSG\",31469]]";
+
+		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
+				definition, delta, minX, minY, maxX, maxY);
+
+		definition = "PROJCS[\"DHDN / 3-degree Gauss-Kruger zone 5\","
+				+ "GEOGCS[\"DHDN\"," + "DATUM[\"Deutsches_Hauptdreiecksnetz\","
+				+ "SPHEROID[\"Bessel 1841\",6377397.155,299.1528128,"
+				+ "AUTHORITY[\"EPSG\",\"7004\"]],"
+				+ "TOWGS84[598.1,73.7,418.2,0.202,0.045,-2.455,6.7],"
+				+ "AUTHORITY[\"EPSG\",\"6314\"]]," + "PRIMEM[\"Greenwich\",0,"
+				+ "AUTHORITY[\"EPSG\",\"8901\"]],"
+				+ "UNIT[\"degree\",0.0174532925199433,"
+				+ "AUTHORITY[\"EPSG\",\"9122\"]],"
+				+ "AUTHORITY[\"EPSG\",\"4314\"]],"
+				+ "PROJECTION[\"Transverse_Mercator\"],"
+				+ "PARAMETER[\"latitude_of_origin\",0],"
+				+ "PARAMETER[\"central_meridian\",15],"
+				+ "PARAMETER[\"scale_factor\",1],"
+				+ "PARAMETER[\"false_easting\",5500000],"
+				+ "PARAMETER[\"false_northing\",0]," + "UNIT[\"metre\",1,"
+				+ "AUTHORITY[\"EPSG\",\"9001\"]],"
+				+ "AUTHORITY[\"EPSG\",\"31469\"]]";
+
+		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
+				definition, minX, minY, maxX, maxY);
 
 	}
 
