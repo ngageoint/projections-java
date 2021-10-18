@@ -1728,7 +1728,6 @@ public class ProjectionFactoryCodeTest {
 	public void test4055() {
 
 		final String code = "4055";
-		double delta = 0.0000001;
 		double minX = -180.0;
 		double minY = -90.0;
 		double maxX = 180.0;
@@ -1737,25 +1736,28 @@ public class ProjectionFactoryCodeTest {
 		String definition = "GEOGCRS[\"Popular Visualisation CRS\","
 				+ "DATUM[\"Popular Visualisation Datum\","
 				+ "ELLIPSOID[\"Popular Visualisation Sphere\",6378137,0,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],"
-				+ "ID[\"EPSG\",7059]]," + "ID[\"EPSG\",6055]],"
-				+ "CS[ellipsoidal,2,ID[\"EPSG\",6422]],"
+				+ "ID[\"EPSG\",7059]]," + "TOWGS84[0,0,0,0,0,0,0],"
+				+ "ID[\"EPSG\",6055]]," + "CS[ellipsoidal,2,ID[\"EPSG\",6422]],"
 				+ "AXIS[\"latitude (Lat)\",north],AXIS[\"longitude (Lon)\",east],"
 				+ "ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]],ID[\"EPSG\",4055]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition, delta, minX, minY, maxX, maxY);
+				definition, minX, minY, maxX, maxY);
 
 		definition = "PROJCRS[\"Popular Visualisation CRS\",BASEGEOGCRS[\"Popular Visualisation CRS\","
 				+ "DATUM[\"Popular Visualisation Datum\","
 				+ "ELLIPSOID[\"Popular Visualisation Sphere\",6378137,0,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],ID[\"EPSG\",7059]],"
 				+ "ID[\"EPSG\",6055]]],"
-				+ "CONVERSION[\"Coordinate Frame rotation\",METHOD[\"Coordinate Frame rotation (geocentric domain)\",ID[\"EPSG\",1032]]],"
-				+ "CS[Cartesian,2,ID[\"EPSG\",6422]],"
+				+ "CONVERSION[\"Coordinate Frame rotation\",METHOD[\"Coordinate Frame rotation (geocentric domain)\",ID[\"EPSG\",1032]],"
+				+ "PARAMETER[\"X-axis translation\",0,LENGTHUNIT[\"metre\",1.0]],"
+				+ "PARAMETER[\"Y-axis translation\",0,LENGTHUNIT[\"metre\",1.0]],"
+				+ "PARAMETER[\"Z-axis translation\",0,LENGTHUNIT[\"metre\",1.0]],"
+				+ "],CS[Cartesian,2,ID[\"EPSG\",6422]],"
 				+ "AXIS[\"latitude (Lat)\",north],AXIS[\"longitude (Lon)\",east],"
 				+ "ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]],ID[\"EPSG\",4055]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition, delta, minX, minY, maxX, maxY);
+				definition, minX, minY, maxX, maxY);
 
 		definition = "GEOGCS[\"Popular Visualisation CRS\","
 				+ "DATUM[\"Popular_Visualisation_Datum\","
@@ -1768,7 +1770,7 @@ public class ProjectionFactoryCodeTest {
 				+ "AUTHORITY[\"EPSG\",\"4055\"]]";
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
-				definition, delta, minX, minY, maxX, maxY);
+				definition, minX, minY, maxX, maxY);
 
 	}
 
@@ -3640,9 +3642,20 @@ public class ProjectionFactoryCodeTest {
 
 		if (transform != null || transform2 != null) {
 			if (transform != null && transform2 != null) {
-				assertEquals(transform.length, transform2.length);
-				for (int i = 0; i < transform.length; i++) {
-					assertEquals(transform[i], transform2[i], 0);
+				int transformLength = transform.length;
+				int transform2Length = transform2.length;
+				assertTrue(transformLength == transform2Length
+						|| (transformLength == 3 && transform2Length == 7)
+						|| (transformLength == 7 && transform2Length == 3));
+				for (int i = 0; i < Math.max(transformLength,
+						transform2Length); i++) {
+					if (i < transformLength && i < transform2Length) {
+						assertEquals(transform[i], transform2[i], 0);
+					} else if (i < transformLength) {
+						assertEquals(i < 6 ? 0.0 : 1.0, transform[i], 0);
+					} else {
+						assertEquals(i < 6 ? 0.0 : 1.0, transform2[i], 0);
+					}
 				}
 			} else {
 				double[] transformTest = transform != null ? transform

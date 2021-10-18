@@ -35,6 +35,7 @@ import mil.nga.crs.projected.MapProjection;
 import mil.nga.crs.projected.ProjectedCoordinateReferenceSystem;
 import mil.nga.crs.util.proj.ProjConstants;
 import mil.nga.crs.util.proj.ProjParser;
+import mil.nga.crs.wkt.CRSKeyword;
 import mil.nga.crs.wkt.CRSReader;
 
 /**
@@ -228,11 +229,10 @@ public class CRSParser {
 	public static CoordinateReferenceSystem convert(
 			GeoCoordinateReferenceSystem geo) {
 
-		GeoDatum geoDatum = geo.getGeoDatum();
-		Datum datum = convert(geoDatum);
+		Datum datum = convertDatum(geo);
 
 		Projection projection = createProjection(geo.getCoordinateSystem());
-		updateProjection(projection, datum.getEllipsoid(), geoDatum);
+		updateProjection(projection, datum.getEllipsoid(), geo.getGeoDatum());
 		projection.initialize();
 
 		return new CoordinateReferenceSystem(geo.getName(), null, datum,
@@ -318,11 +318,38 @@ public class CRSParser {
 	/**
 	 * Convert a Datum
 	 * 
+	 * @param geo
+	 *            geo CRS
+	 * @return proj4j datum
+	 * @since 1.1.0
+	 */
+	public static Datum convertDatum(GeoCoordinateReferenceSystem geo) {
+		double[] transform = convertDatumTransform(geo);
+		return convert(geo.getGeoDatum(), transform);
+	}
+
+	/**
+	 * Convert a Datum
+	 * 
 	 * @param geoDatum
 	 *            crs wkt geo datum
 	 * @return proj4j datum
 	 */
 	public static Datum convert(GeoDatum geoDatum) {
+		return convert(geoDatum, null);
+	}
+
+	/**
+	 * Convert a Datum
+	 * 
+	 * @param geoDatum
+	 *            crs wkt geo datum
+	 * @param transform
+	 *            transform
+	 * @return proj4j datum
+	 * @since 1.1.0
+	 */
+	public static Datum convert(GeoDatum geoDatum, double[] transform) {
 
 		String name = geoDatum.getName();
 		Ellipsoid ellipsoid = convert(geoDatum.getEllipsoid());
@@ -332,7 +359,7 @@ public class CRSParser {
 			code = geoDatum.getIdentifier(0).getNameAndUniqueIdentifier();
 		}
 
-		return new Datum(code, null, null, ellipsoid, name);
+		return new Datum(code, transform, null, ellipsoid, name);
 	}
 
 	/**
@@ -384,6 +411,30 @@ public class CRSParser {
 		}
 
 		return converted;
+	}
+
+	/**
+	 * Retrieve and convert CRS object TOWGS84 arrays
+	 * 
+	 * @param crs
+	 *            CRS object
+	 * @return transform
+	 * @since 1.1.0
+	 */
+	public static double[] convertDatumTransform(CRS crs) {
+
+		double[] transform = null;
+
+		Object toWGS84Object = crs.getExtra(CRSKeyword.TOWGS84.name());
+		if (toWGS84Object != null) {
+			String[] toWGS84 = (String[]) toWGS84Object;
+			transform = new double[toWGS84.length];
+			for (int i = 0; i < toWGS84.length; i++) {
+				transform[i] = Double.valueOf(toWGS84[i]);
+			}
+		}
+
+		return transform;
 	}
 
 	/**
