@@ -197,6 +197,11 @@ public class ProjectionFactoryCodeTest {
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
 				definition, minX, minY, maxX, maxY);
 
+		checkTransform(ProjectionConstants.AUTHORITY_EPSG, code, definition,
+				2600670.52, 1199667.32, ProjectionConstants.AUTHORITY_EPSG,
+				ProjectionConstants.EPSG_WEB_MERCATOR, 829045.23, 5933605.15,
+				0.01);
+
 	}
 
 	/**
@@ -267,6 +272,12 @@ public class ProjectionFactoryCodeTest {
 				projection2);
 		ProjCoordinate projectedCoordinate2 = transform2.transform(coordinate);
 		assertEquals(expectedCoordinate, projectedCoordinate2);
+
+		checkTransform(ProjectionConstants.AUTHORITY_EPSG, code, definition,
+				-1.160832226E7, 1.828261223E7,
+				ProjectionConstants.AUTHORITY_EPSG,
+				ProjectionConstants.EPSG_WORLD_GEODETIC_SYSTEM, -53.0, 5.0,
+				0.01);
 
 	}
 
@@ -853,6 +864,10 @@ public class ProjectionFactoryCodeTest {
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
 				definition, minX, minY, maxX, maxY);
 
+		checkTransform(ProjectionConstants.AUTHORITY_EPSG, code, definition,
+				4388138.60, 3321736.46, ProjectionConstants.AUTHORITY_EPSG,
+				"4258", 11.0, 53.0, 0.01);
+
 	}
 
 	/**
@@ -1435,6 +1450,12 @@ public class ProjectionFactoryCodeTest {
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
 				definition, delta);
 
+		checkTransform(ProjectionConstants.AUTHORITY_EPSG, code, definition,
+				-352695.04030562507, 7578309.225014557,
+				ProjectionConstants.AUTHORITY_EPSG,
+				ProjectionConstants.EPSG_WORLD_GEODETIC_SYSTEM,
+				-3.1683134533969364, 56.0998025292667, 0.00000000000001);
+
 	}
 
 	/**
@@ -1772,6 +1793,11 @@ public class ProjectionFactoryCodeTest {
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
 				definition, minX, minY, maxX, maxY);
 
+		checkTransform(ProjectionConstants.AUTHORITY_EPSG, code, definition,
+				-180.0, -85.01794318500549, ProjectionConstants.AUTHORITY_EPSG,
+				ProjectionConstants.EPSG_WEB_MERCATOR, -20037508.342789244,
+				-20037366.780895382, 0.001);
+
 	}
 
 	/**
@@ -1880,6 +1906,44 @@ public class ProjectionFactoryCodeTest {
 
 		projectionTestSpecified(ProjectionConstants.AUTHORITY_EPSG, code,
 				definition, minX, minY, maxX, maxY);
+
+		checkTransform(ProjectionConstants.AUTHORITY_EPSG, code, definition,
+				3.8142776, 51.285914, ProjectionConstants.AUTHORITY_EPSG,
+				"23031", 556878.9016076007, 5682145.166264554, 0.00001);
+		checkTransform(ProjectionConstants.AUTHORITY_EPSG, code, definition,
+				6.685, 51.425, ProjectionConstants.AUTHORITY_EPSG, "31466",
+				2547685.01212, 5699155.7345, 10.0);
+		checkTransform(ProjectionConstants.AUTHORITY_EPSG, code, definition,
+				5.387638889, 52.156160556, ProjectionConstants.AUTHORITY_EPSG,
+				"28992", 155029.789189814, 463109.954032542, 0.01);
+		checkTransform(ProjectionConstants.AUTHORITY_EPSG, code, definition,
+				-126.54, 54.15, ProjectionConstants.AUTHORITY_EPSG, "3005",
+				964813.103719, 1016486.305862, 0.000001);
+		checkTransform(ProjectionConstants.AUTHORITY_EPSG, code, definition,
+				-127.0, 52.11, ProjectionConstants.AUTHORITY_EPSG, "3153",
+				931625.9111828626, 789252.646454557, 0.0000000000001);
+		checkTransform(ProjectionConstants.AUTHORITY_EPSG, code, definition,
+				-76.640625, 49.921875, ProjectionConstants.AUTHORITY_EPSG,
+				"3785", -8531595.34908, 6432756.94421, 0.00001);
+		checkTransform(ProjectionConstants.AUTHORITY_EPSG, code, definition,
+				-93, 42, ProjectionConstants.AUTHORITY_EPSG, "32615", 500000,
+				4649776.22482, 0.000001);
+		checkTransform(ProjectionConstants.AUTHORITY_EPSG, code, definition,
+				-113.109375, 60.28125, ProjectionConstants.AUTHORITY_EPSG,
+				"32612", 383357.429537, 6684599.06392, 0.000001);
+		checkTransform(ProjectionConstants.AUTHORITY_EPSG, code, definition,
+				9.735465995870696, 64.68347938261206,
+				ProjectionConstants.AUTHORITY_EPSG, "32633", 249032.839239894,
+				7183612.30572229, 0.000000001);
+		checkTransform(ProjectionConstants.AUTHORITY_EPSG, code, definition, 33,
+				42, ProjectionConstants.AUTHORITY_EPSG, "32636", 500000,
+				4649776.224819178, 0.000000001);
+		checkTransform(ProjectionConstants.AUTHORITY_EPSG, code, definition, 0,
+				-75, ProjectionConstants.AUTHORITY_EPSG, "3031", 0,
+				1638783.238407, 0.000001);
+		checkTransform(ProjectionConstants.AUTHORITY_EPSG, code, definition,
+				-57.65625, -79.21875, ProjectionConstants.AUTHORITY_EPSG,
+				"3031", -992481.633786, 628482.06328, 0.000001);
 
 	}
 
@@ -2619,6 +2683,34 @@ public class ProjectionFactoryCodeTest {
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
 				definition, minX, minY, maxX, maxY);
 
+		checkTransform(ProjectionConstants.AUTHORITY_EPSG, code, definition,
+				327420.988668, 690284.547110,
+				ProjectionConstants.AUTHORITY_EPSG,
+				ProjectionConstants.EPSG_WEB_MERCATOR, -352695.04030562507,
+				7578309.225014557, 0.01);
+		checkTransform(ProjectionConstants.AUTHORITY_EPSG, code, definition,
+				-90619.28789678006, 10097.131147458786,
+				ProjectionConstants.AUTHORITY_EPSG,
+				ProjectionConstants.EPSG_WORLD_GEODETIC_SYSTEM, -8.82, 49.79,
+				0.01);
+		checkTransform(ProjectionConstants.AUTHORITY_EPSG, code, definition,
+				612435.55, 1234954.16, ProjectionConstants.AUTHORITY_EPSG,
+				ProjectionConstants.EPSG_WORLD_GEODETIC_SYSTEM,
+				1.9200000236235546, 60.93999999543101, 0.01);
+		checkTransform(ProjectionConstants.AUTHORITY_EPSG, code, definition,
+				327420.988668, 690284.547110,
+				ProjectionConstants.AUTHORITY_EPSG,
+				ProjectionConstants.EPSG_WORLD_GEODETIC_SYSTEM,
+				-3.1683134533969364, 56.0998025292667, 0.01);
+		checkTransform(ProjectionConstants.AUTHORITY_EPSG, code, definition,
+				343733.1404, 612144.530677, ProjectionConstants.AUTHORITY_EPSG,
+				ProjectionConstants.EPSG_WORLD_GEODETIC_SYSTEM, -2.89, 55.4,
+				0.1);
+		checkTransform(ProjectionConstants.AUTHORITY_EPSG, code, definition,
+				398089, 383867, ProjectionConstants.AUTHORITY_EPSG,
+				ProjectionConstants.EPSG_WORLD_GEODETIC_SYSTEM,
+				-2.0301713578021983, 53.35168607080468, 0.01);
+
 	}
 
 	/**
@@ -2847,6 +2939,11 @@ public class ProjectionFactoryCodeTest {
 
 		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
 				definition, minX, minY, maxX, maxY);
+
+		checkTransform(ProjectionConstants.AUTHORITY_EPSG, code, definition,
+				5439627.33, 5661628.09, ProjectionConstants.AUTHORITY_EPSG,
+				ProjectionConstants.EPSG_WEB_MERCATOR, 1573657.37, 6636624.41,
+				0.01);
 
 	}
 
@@ -3423,7 +3520,7 @@ public class ProjectionFactoryCodeTest {
 		TestCase.assertEquals(definition, projection.getDefinition());
 
 		Projection projection2 = ProjectionFactory
-				.getCachelessProjection(compareCode);
+				.getCachelessProjection(compareAuthority, compareCode);
 
 		compare(projection, projection2, compareAuthority, compareCode, delta);
 
@@ -3713,6 +3810,167 @@ public class ProjectionFactoryCodeTest {
 		assertEquals(proj.getTrueScaleLatitudeDegrees(),
 				proj2.getTrueScaleLatitudeDegrees(), delta);
 		assertEquals(proj.getUnits(), proj2.getUnits());
+
+	}
+
+	/**
+	 * Check a transformation to and from one projection to another
+	 * 
+	 * @param authority1
+	 *            projection 1 authority
+	 * @param code1
+	 *            projection 1 code
+	 * @param definition
+	 *            definition
+	 * @param x1
+	 *            projection 1 x
+	 * @param y1
+	 *            projection 1 y
+	 * @param authority2
+	 *            projection 2 authority
+	 * @param code2
+	 *            projection 2 int code
+	 * @param x2
+	 *            projection 2 x
+	 * @param y2
+	 *            projection 2 y
+	 * @param delta
+	 *            allowable delta
+	 */
+	private void checkTransform(String authority1, String code1,
+			String definition, double x1, double y1, String authority2,
+			int code2, double x2, double y2, double delta) {
+		checkTransform(authority1, code1, definition, x1, y1, authority2,
+				Integer.toString(code2), x2, y2, delta);
+	}
+
+	/**
+	 * Check a transformation to and from one projection to another
+	 * 
+	 * @param authority1
+	 *            projection 1 authority
+	 * @param code1
+	 *            projection 1 code
+	 * @param definition
+	 *            definition
+	 * @param x1
+	 *            projection 1 x
+	 * @param y1
+	 *            projection 1 y
+	 * @param authority2
+	 *            projection 2 authority
+	 * @param code2
+	 *            projection 2 code
+	 * @param x2
+	 *            projection 2 x
+	 * @param y2
+	 *            projection 2 y
+	 * @param delta
+	 *            allowable delta
+	 */
+	private void checkTransform(String authority1, String code1,
+			String definition, double x1, double y1, String authority2,
+			String code2, double x2, double y2, double delta) {
+		checkTransform(authority1, code1, x1, y1, authority2, code2, x2, y2,
+				delta);
+		checkTransform(definition, x1, y1, authority2, code2, x2, y2, delta);
+		checkTransform(authority2, code2, x2, y2, authority1, code1, x1, y1,
+				delta);
+	}
+
+	/**
+	 * Check a transformation from one projection to another
+	 * 
+	 * @param definition
+	 *            definition
+	 * @param x1
+	 *            projection 1 x
+	 * @param y1
+	 *            projection 1 y
+	 * @param authority2
+	 *            projection 2 authority
+	 * @param code2
+	 *            projection 2 code
+	 * @param x2
+	 *            projection 2 x
+	 * @param y2
+	 *            projection 2 y
+	 * @param delta
+	 *            allowable delta
+	 */
+	private void checkTransform(String definition, double x1, double y1,
+			String authority2, String code2, double x2, double y2,
+			double delta) {
+
+		Projection projection = ProjectionFactory
+				.getProjectionByDefinition(definition);
+		checkTransform(projection, x1, y1, authority2, code2, x2, y2, delta);
+
+	}
+
+	/**
+	 * Check a transformation from one projection to another
+	 * 
+	 * @param authority1
+	 *            projection 1 authority
+	 * @param code1
+	 *            projection 1 code
+	 * @param x1
+	 *            projection 1 x
+	 * @param y1
+	 *            projection 1 y
+	 * @param authority2
+	 *            projection 2 authority
+	 * @param code2
+	 *            projection 2 code
+	 * @param x2
+	 *            projection 2 x
+	 * @param y2
+	 *            projection 2 y
+	 * @param delta
+	 *            allowable delta
+	 */
+	private void checkTransform(String authority1, String code1, double x1,
+			double y1, String authority2, String code2, double x2, double y2,
+			double delta) {
+
+		Projection projection = ProjectionFactory
+				.getCachelessProjection(authority1, code1);
+		checkTransform(projection, x1, y1, authority2, code2, x2, y2, delta);
+
+	}
+
+	/**
+	 * Check a transformation from one projection to another
+	 * 
+	 * @param projection
+	 *            projection 1
+	 * @param x1
+	 *            projection 1 x
+	 * @param y1
+	 *            projection 1 y
+	 * @param authority
+	 *            projection 2 authority
+	 * @param code
+	 *            projection 2 code
+	 * @param x2
+	 *            projection 2 x
+	 * @param y2
+	 *            projection 2 y
+	 * @param delta
+	 *            allowable delta
+	 */
+	private void checkTransform(Projection projection, double x1, double y1,
+			String authority, String code, double x2, double y2, double delta) {
+
+		ProjCoordinate coordinate = new ProjCoordinate(x1, y1);
+		ProjectionTransform transform = ProjectionTransform.create(projection,
+				authority, code);
+
+		ProjCoordinate coordinate2 = transform.transform(coordinate);
+
+		assertEquals(x2, coordinate2.x, delta);
+		assertEquals(y2, coordinate2.y, delta);
 
 	}
 
