@@ -221,7 +221,7 @@ public class ProjectionFactory {
 	 * @return projection
 	 */
 	public static Projection getProjection(String authority, String code) {
-		return getProjection(authority, code, null, null);
+		return getProjection(authority, code, new String[] {}, null);
 	}
 
 	/**
@@ -235,7 +235,7 @@ public class ProjectionFactory {
 	 */
 	public static Projection getCachelessProjection(String authority,
 			String code) {
-		return getCachelessProjection(authority, code, null, null);
+		return getCachelessProjection(authority, code, new String[] {}, null);
 	}
 
 	/**
@@ -415,7 +415,7 @@ public class ProjectionFactory {
 	 */
 	public static Projection getProjectionByDefinition(String authority,
 			String code, String definition) {
-		return getProjection(authority, code, null, definition);
+		return getProjection(authority, code, new String[] {}, definition);
 	}
 
 	/**
@@ -431,7 +431,8 @@ public class ProjectionFactory {
 	 */
 	public static Projection getCachelessProjectionByDefinition(
 			String authority, String code, String definition) {
-		return getCachelessProjection(authority, code, null, definition);
+		return getCachelessProjection(authority, code, new String[] {},
+				definition);
 	}
 
 	/**
@@ -472,6 +473,48 @@ public class ProjectionFactory {
 			String[] params, String definition) {
 		return getCachelessProjection(authority, String.valueOf(code), params,
 				definition);
+	}
+
+	/**
+	 * Get the projection for the authority, code, definition, and parameter
+	 * string
+	 * 
+	 * @param authority
+	 *            coordinate authority
+	 * @param code
+	 *            authority coordinate code
+	 * @param paramStr
+	 *            proj4 string
+	 * @param definition
+	 *            definition
+	 * @return projection
+	 * @since 1.1.0
+	 */
+	public static Projection getProjection(String authority, String code,
+			String paramStr, String definition) {
+		return getProjection(order, authority, code, buildParameters(paramStr),
+				definition);
+	}
+
+	/**
+	 * Get the cacheless projection for the authority, code, definition, and
+	 * parameter string
+	 * 
+	 * @param authority
+	 *            coordinate authority
+	 * @param code
+	 *            authority coordinate code
+	 * @param paramStr
+	 *            proj4 string
+	 * @param definition
+	 *            definition
+	 * @return projection
+	 * @since 1.1.0
+	 */
+	public static Projection getCachelessProjection(String authority,
+			String code, String paramStr, String definition) {
+		return getProjection(getCachelessOrder(), authority, code,
+				buildParameters(paramStr), definition);
 	}
 
 	/**
@@ -746,6 +789,56 @@ public class ProjectionFactory {
 			throw new ProjectionException(
 					"Failed to create projection for definition: "
 							+ definition);
+		}
+
+		return projection;
+	}
+
+	/**
+	 * Get the projection for the params
+	 * 
+	 * @param paramStr
+	 *            proj4 string
+	 * @return projection
+	 * @since 1.1.0
+	 */
+	public static Projection getProjectionByParams(String paramStr) {
+		return getProjectionByParams(buildParameters(paramStr));
+	}
+
+	/**
+	 * Get the projection for the params
+	 * 
+	 * @param params
+	 *            proj4 params array
+	 * @return projection
+	 * @since 1.1.0
+	 */
+	public static Projection getProjectionByParams(String[] params) {
+
+		Projection projection = null;
+
+		if (params != null && params.length > 0) {
+
+			if (projection == null) {
+
+				String authority = "";
+				String code = "";
+
+				CoordinateReferenceSystem crs = CRSParser.getCRSFactory()
+						.createFromParameters(coordinateName(authority, code),
+								params);
+				if (crs != null) {
+					projection = new Projection(authority, code, crs);
+				}
+
+			}
+
+		}
+
+		if (projection == null) {
+			throw new ProjectionException(
+					"Failed to create projection for params: " + params);
 		}
 
 		return projection;
