@@ -333,6 +333,10 @@ public class Project {
 	private static void commandPrompt(Scanner scanner) {
 
 		System.out.println();
+		System.out.println(
+				"Enter '" + INVERSE_COMMAND + "' to invert transformation");
+
+		System.out.println();
 		System.out.print(COORDINATES_PROMPT);
 
 		while (scanner.hasNextLine()) {
@@ -423,13 +427,22 @@ public class Project {
 		System.out.println("\tTransform coordinates between projections");
 		System.out.println();
 		System.out.println("\tfrom_projection");
-		System.out.println("\t\tTODO");
+		System.out.println(
+				"\t\tProjection to transform from (EPSG_CODE, AUTHORITY:CODE, PROJ_PARAMS, or OGC_WKT)");
+		System.out.println(
+				"\t\t\tExamples: 4326, EPSG:4326, \"+proj=longlat ...\", \"GEOGCRS[...\"");
 		System.out.println();
 		System.out.println("\tto_projection");
-		System.out.println("\t\tTODO");
+		System.out.println(
+				"\t\tProjection to transform to (EPSG_CODE, AUTHORITY:CODE, PROJ_PARAMS, or OGC_WKT)");
+		System.out.println(
+				"\t\t\tExamples: 3857, EPSG:3857, \"+proj=merc ...\", \"PROJCRS[...\"");
 		System.out.println();
 		System.out.println("\tcoordinates");
-		System.out.println("\t\tTODO");
+		System.out.println(
+				"\t\tCoordinate(s) to transform between projections ([x, y], [x, y, z])");
+		System.out
+				.println("\t\t\tExamples: [-110.0, 75.0], [95.0, -20.0, 0.0]");
 		System.out.println();
 	}
 
