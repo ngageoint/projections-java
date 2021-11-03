@@ -7,6 +7,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 ## 1.1.0 (TBD)
 
 * coordinate-reference-systems-java version 1.1.0
+* proj4j 1.1.4
 * CRS Parser fixes and improvements
   * Swiss Oblique Mercator projections
   * Bessel vs Bessel Namibia Ellipsoid parsing
