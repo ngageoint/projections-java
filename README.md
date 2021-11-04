@@ -80,6 +80,20 @@ Build this repository using Eclipse and/or Maven:
 
     mvn clean install
 
+### Standalone Projections ###
+
+The jar can be built as standalone (or combined with required dependency jars) to run utilities from the command line.
+
+To build the jar into a standalone jar that includes all dependencies:
+
+    mvn clean install -Pstandalone
+
+Performs coordinate transformations from a source projection to a target projection. Download [project.zip](https://github.com/ngageoint/projections-java/releases/latest/download/project.zip) and follow the [instructions](script/project/).
+
+Or run against the jar:
+
+    java -jar proj-*standalone.jar [from_projection to_projection [coordinates]]
+
 ### Remote Dependencies ###
 
 * [Proj4J](https://github.com/locationtech/proj4j) (Apache License, Version 2.0) - Projection Library
