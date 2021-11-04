@@ -34,9 +34,11 @@ Run using the script, Jar, or alias.
 
     proj 4326 3857 [-110.0, 75.0], [95.0, -20.0, 0.0]
 
+    proj 4326 3857 -110.0,75.0 95.0,-20.0,0.0
+
     proj
 
-    proj 4326 3857
+    proj EPSG:4326 EPSG:3857
 
 ## Help
 
