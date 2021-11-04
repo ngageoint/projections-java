@@ -23,10 +23,21 @@ jobs:
       run: mvn clean package
     - name: Copy Release Artifacts
       run: |
-        mkdir target/release
-        cp pom.xml target/*.jar target/release/
+        mkdir release
+        cp pom.xml target/*.jar release/
+    - name: Build Standalone
+      run: mvn clean package -Pstandalone -DskipTests
+    - name: Copy Standalone Release Artifact
+      run: cp target/proj-*-standalone.jar release/
+    - name: Create Project
+      run: |
+        mkdir project
+        cp script/project/* project/
+        cp target/proj-*-standalone.jar project/project.jar
+        zip -r project.zip project
+        cp project.zip release/
     - name: Upload Artifacts
       uses: actions/upload-artifact@v1
       with:
         name: projections
-        path: target/release
+        path: release
