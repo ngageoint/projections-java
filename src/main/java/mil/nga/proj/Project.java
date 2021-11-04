@@ -98,7 +98,7 @@ public class Project {
 		}
 
 		List<ProjCoordinate> coordinates = null;
-		if (builder != null) {
+		if (valid && builder != null) {
 			coordinates = createCoordinates(builder.toString());
 			valid = !coordinates.isEmpty();
 		}
