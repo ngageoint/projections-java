@@ -25,6 +25,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
   * Length non meter units parsing
   * Operation parameters compatibility unit support
 * CRS Definition to PROJ parameters conversion and projection creation
+* Standalone build and project command line utility
 
 ## [1.0.0](https://github.com/ngageoint/projections-java/releases/tag/1.0.0) (06-24-2021)
 
