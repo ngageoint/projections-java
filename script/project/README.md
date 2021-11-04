@@ -2,7 +2,11 @@
 
 [project.zip](https://github.com/ngageoint/projections-java/releases/latest/download/project.zip)
 
-TODO
+Performs coordinate transformations from a source projection to a target projection.  Projection coordinate reference systems may be defined by:
+ * EPSG Code
+ * Authority and Code
+ * PROJ / PROJ4 Parameters
+ * OGC Coordinate Reference System Well-Known Text (1|2)
 
 ## Run
 
