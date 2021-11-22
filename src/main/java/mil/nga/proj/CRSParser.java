@@ -722,7 +722,8 @@ public class CRSParser {
 
 		String axisOrder = convert(coordinateSystem.getAxes());
 		// Only known proj4 axis specification is wsu
-		if (axisOrder.equals(ProjConstants.AXIS_WEST_SOUTH_UP)) {
+		if (axisOrder != null
+				&& axisOrder.equals(ProjConstants.AXIS_WEST_SOUTH_UP)) {
 			projection.setAxisOrder(axisOrder);
 		}
 

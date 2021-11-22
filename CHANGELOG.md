@@ -7,6 +7,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 ## 1.1.1 (TBD)
 
 * Java 11
+* CRS Parser fix for null converted coordinate system axes
 
 ## [1.1.0](https://github.com/ngageoint/projections-java/releases/tag/1.1.0) (11-04-2021)
 
