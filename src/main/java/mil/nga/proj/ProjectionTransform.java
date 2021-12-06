@@ -297,6 +297,16 @@ public class ProjectionTransform {
 		bounds[2] = Math.max(projectedLowerRight.x, projectedUpperRight.x);
 		bounds[3] = Math.max(projectedUpperLeft.y, projectedUpperRight.y);
 
+		if (bounds[0] > bounds[2]) {
+			bounds[0] = Math.max(projectedLowerLeft.x, projectedUpperLeft.x);
+			bounds[2] = Math.min(projectedLowerRight.x, projectedUpperRight.x);
+		}
+
+		if (bounds[1] > bounds[3]) {
+			bounds[1] = Math.max(projectedLowerLeft.y, projectedLowerRight.y);
+			bounds[3] = Math.min(projectedUpperLeft.y, projectedUpperRight.y);
+		}
+
 		return bounds;
 	}
 
