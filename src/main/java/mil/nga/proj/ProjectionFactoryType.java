@@ -39,6 +39,6 @@ public enum ProjectionFactoryType {
 	 * Creation from project and custom properties of configured proj4j
 	 * projection parameters
 	 */
-	PROPERTIES,
+	PROPERTIES;
 
 }
