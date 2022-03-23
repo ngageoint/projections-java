@@ -331,7 +331,7 @@ public class Projection {
 
 	/**
 	 * {@inheritDoc}
-	 * 
+	 * <p>
 	 * Based upon {@link #getAuthority()} and {@link #getCode()}
 	 */
 	@Override

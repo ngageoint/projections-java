@@ -175,7 +175,7 @@ public class ProjectionRetriever {
 
 	/**
 	 * Get the property file name for the authority
-	 * 
+	 * <p>
 	 * Resulting File Name Format: {@value #PROJECTIONS_PROPERTY_FILE_PREFIX}
 	 * .lower_case_authority.{@value #PROJECTIONS_PROPERTY_FILE_SUFFIX}
 	 * 
