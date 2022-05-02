@@ -1859,6 +1859,72 @@ public class ProjectionFactoryCodeTest {
 	}
 
 	/**
+	 * Test EPSG 4258
+	 */
+	@Test
+	public void test4258() {
+
+		final String code = "4258";
+		double minX = -16.11;
+		double minY = 32.88;
+		double maxX = 40.18;
+		double maxY = 84.73;
+
+		String definition = "GEOGCRS[\"ETRS89\",ENSEMBLE[\"European Terrestrial Reference System 1989 ensemble\","
+				+ "MEMBER[\"European Terrestrial Reference Frame 1989\", ID[\"EPSG\",1178]],"
+				+ "MEMBER[\"European Terrestrial Reference Frame 1990\", ID[\"EPSG\",1179]],"
+				+ "MEMBER[\"European Terrestrial Reference Frame 1991\", ID[\"EPSG\",1180]],"
+				+ "MEMBER[\"European Terrestrial Reference Frame 1992\", ID[\"EPSG\",1181]],"
+				+ "MEMBER[\"European Terrestrial Reference Frame 1993\", ID[\"EPSG\",1182]],"
+				+ "MEMBER[\"European Terrestrial Reference Frame 1994\", ID[\"EPSG\",1183]],"
+				+ "MEMBER[\"European Terrestrial Reference Frame 1996\", ID[\"EPSG\",1184]],"
+				+ "MEMBER[\"European Terrestrial Reference Frame 1997\", ID[\"EPSG\",1185]],"
+				+ "MEMBER[\"European Terrestrial Reference Frame 2000\", ID[\"EPSG\",1186]],"
+				+ "MEMBER[\"European Terrestrial Reference Frame 2005\", ID[\"EPSG\",1204]],"
+				+ "MEMBER[\"European Terrestrial Reference Frame 2014\", ID[\"EPSG\",1206]],"
+				+ "ELLIPSOID[\"GRS 1980\",6378137,298.257222101,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]],ID[\"EPSG\",7019]],"
+				+ "ENSEMBLEACCURACY[0.1],ID[\"EPSG\",6258]],"
+				+ "CS[ellipsoidal,2,ID[\"EPSG\",6422]],"
+				+ "AXIS[\"latitude (Lat)\",north],AXIS[\"longitude (Lon)\",east],"
+				+ "ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9102]],"
+				+ "ID[\"EPSG\",4258]]";
+
+		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
+				definition, minX, minY, maxX, maxY);
+
+		definition = "GEOGCS[\"ETRS89\","
+				+ "DATUM[\"European_Terrestrial_Reference_System_1989\","
+				+ "SPHEROID[\"GRS 1980\",6378137,298.257222101,"
+				+ "AUTHORITY[\"EPSG\",\"7019\"]]," + "TOWGS84[0,0,0,0,0,0,0],"
+				+ "AUTHORITY[\"EPSG\",\"6258\"]]," + "PRIMEM[\"Greenwich\",0,"
+				+ "AUTHORITY[\"EPSG\",\"8901\"]],"
+				+ "UNIT[\"degree\",0.0174532925199433,"
+				+ "AUTHORITY[\"EPSG\",\"9122\"]],"
+				+ "AUTHORITY[\"EPSG\",\"4258\"]]";
+
+		projectionTestDerived(ProjectionConstants.AUTHORITY_EPSG, code,
+				definition, minX, minY, maxX, maxY);
+
+		checkTransform(ProjectionConstants.AUTHORITY_EPSG, code, definition,
+				3.8142776, 51.285914, ProjectionConstants.AUTHORITY_EPSG,
+				"23031", 556878.9016076007, 5682145.166264554, 0.001);
+		checkTransform(ProjectionConstants.AUTHORITY_EPSG, code, definition,
+				6.685, 51.425, ProjectionConstants.AUTHORITY_EPSG, "31466",
+				2547685.01212, 5699155.7345, 10.0);
+		checkTransform(ProjectionConstants.AUTHORITY_EPSG, code, definition,
+				5.387638889, 52.156160556, ProjectionConstants.AUTHORITY_EPSG,
+				"28992", 155029.789189814, 463109.954032542, 0.01);
+		checkTransform(ProjectionConstants.AUTHORITY_EPSG, code, definition,
+				9.735465995870696, 64.68347938261206,
+				ProjectionConstants.AUTHORITY_EPSG, "32633", 249032.839239894,
+				7183612.30572229, 0.000000001);
+		checkTransform(ProjectionConstants.AUTHORITY_EPSG, code, definition, 33,
+				42, ProjectionConstants.AUTHORITY_EPSG, "32636", 500000,
+				4649776.224819178, 0.000000001);
+
+	}
+
+	/**
 	 * Test EPSG 4326
 	 */
 	@Test
