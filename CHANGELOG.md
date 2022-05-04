@@ -4,9 +4,10 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
-## 1.1.2 (TBD)
+## [1.1.2](https://github.com/ngageoint/projections-java/releases/tag/1.1.2) (05-04-2022)
 
 * crs version 1.1.4
+* proj4j 1.1.5
 * Non projected ETRS89 GeoDatum fix (EPSG:4258)
 
 ## [1.1.1](https://github.com/ngageoint/projections-java/releases/tag/1.1.1) (02-03-2022)
