@@ -6,7 +6,7 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ## 1.1.4 (TBD)
 
-* proj4j and proj4j-epsg 1.3.0
+* proj4j 1.3.0
 
 ## [1.1.3](https://github.com/ngageoint/projections-java/releases/tag/1.1.3) (01-19-2023)
 
