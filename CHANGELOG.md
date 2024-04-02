@@ -4,6 +4,10 @@ Adheres to [Semantic Versioning](http://semver.org/).
 
 ---
 
+## 1.1.5 (TBD)
+
+* TBD
+
 ## [1.1.4](https://github.com/ngageoint/projections-java/releases/tag/1.1.4) (04-02-2024)
 
 * proj4j 1.3.0
